@@ -4,16 +4,26 @@ class RomanNumeralsConverter
     'V' => 5
   }
   def convert(number)
-    roman_numeral_for(number)
+    if number < 0
+      '-' + roman_numeral_for(number*-1)
+    else
+      roman_numeral_for(number)
+    end
   end
 
   private
 
   def roman_numeral_for(number)
     result = ''
+
     while number >= 1000
       result << 'M'
       number -= 1000
+    end
+
+    while number >= 900
+      result << 'CM'
+      number -= 900
     end
 
     while number >= 500
@@ -21,9 +31,19 @@ class RomanNumeralsConverter
       number -= 500
     end
 
+    while number >= 400
+      result << 'CD'
+      number -= 400
+    end
+
     while number >= 100
       result << 'C'
       number -= 100
+    end
+
+    while number >= 90
+      result << 'XC'
+      number -= 90
     end
 
     while number >= 50
@@ -31,25 +51,36 @@ class RomanNumeralsConverter
       number -= 50
     end
 
+    while number >= 40
+      result << 'XL'
+      number -= 40
+    end
+
     while number >= 10
       result << 'X'
       number -= 10
     end
 
-    while number >= 5
-      result << 'V'
-      number -= 5
+    while number >= 9
+      result << 'IX'
+      number -= 9
     end
 
     while number >= 5
       result << 'V'
       number -= 5
+    end
+
+    while number >= 4
+      result << 'IV'
+      number -= 4
     end
 
     while number > 0
       result << 'I'
       number -= 1
     end
+
     result
 
     # if number <=8
