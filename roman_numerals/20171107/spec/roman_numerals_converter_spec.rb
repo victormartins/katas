@@ -28,24 +28,24 @@ RSpec.describe RomanNumeralsConverter do
   context 'converting arabic to roman' do
     it { expect(subject.convert('I')).to eq(1) }
     it { expect(subject.convert('III')).to eq(3) }
-    xit { expect(subject.convert('IV')).to eq(4) }
+    it { expect(subject.convert('IV')).to eq(4) }
     it { expect(subject.convert('V')).to eq(5) }
     it { expect(subject.convert('VI')).to eq(6) }
     it { expect(subject.convert('VIII')).to eq(8) }
-    xit { expect(subject.convert('IX')).to eq(9) }
+    it { expect(subject.convert('IX')).to eq(9) }
     it { expect(subject.convert('X')).to eq(10) }
     it { expect(subject.convert('XX')).to eq(20) }
-    xit { expect(subject.convert('XL')).to eq(40) }
+    it { expect(subject.convert('XL')).to eq(40) }
     it { expect(subject.convert('L')).to eq(50) }
-    xit { expect(subject.convert('XC')).to eq(90) }
+    it { expect(subject.convert('XC')).to eq(90) }
     it { expect(subject.convert('C')).to eq(100) }
-    xit { expect(subject.convert('CD')).to eq(400) }
+    it { expect(subject.convert('CD')).to eq(400) }
     it { expect(subject.convert('D')).to eq(500) }
-    xit { expect(subject.convert('CM')).to eq(900) }
+    it { expect(subject.convert('CM')).to eq(900) }
     it { expect(subject.convert('M')).to eq(1000) }
     it { expect(subject.convert('MMXIII')).to eq(2013) }
-    xit { expect(subject.convert('MMMCMXCIX')).to eq(3999) }
+    it { expect(subject.convert('MMMCMXCIX')).to eq(3999) }
     it { expect(subject.convert('')).to eq(0) }
-    xit { expect(subject.convert('-I')).to eq(-1) }
+    it { expect(subject.convert('-I')).to eq(-1) }
   end
 end

@@ -18,11 +18,11 @@ class RomanNumeralsConverter
         roman_numeral_for(number)
       end
     else
-      result = 0
-      number.chars.each do |char|
-        result += ROMAN_NUMERALS[char] || 0
+      if number =~ /^-/
+        - convert_roman_to_arabic(number.sub('-',''))
+      else
+        convert_roman_to_arabic(number)
       end
-      result
     end
   end
 
@@ -96,6 +96,26 @@ class RomanNumeralsConverter
       number -= 1
     end
 
+    result
+  end
+
+  def arabic_number_for(char)
+    ROMAN_NUMERALS[char] || 0
+  end
+
+  def convert_roman_to_arabic(number)
+    result = 0
+    number.chars.each_with_index do |char, i|
+      current_n = arabic_number_for(char)
+      next_n = arabic_number_for(number.chars[i+1])
+
+      if current_n >= next_n
+        result += current_n
+      else
+        # special cases IV, IX, etc.
+        result -= current_n
+      end
+    end
     result
   end
 end
