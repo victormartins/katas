@@ -11,10 +11,21 @@ class RomanNumeralsConverter
 
   def roman_numeral_for(number)
     result = ''
+    while number >= 10
+      result << 'X'
+      number -= 10
+    end
+
     while number >= 5
       result << 'V'
       number -= 5
     end
+
+    while number >= 5
+      result << 'V'
+      number -= 5
+    end
+
     while number > 0
       result << 'I'
       number -= 1
