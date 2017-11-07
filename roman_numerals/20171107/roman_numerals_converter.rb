@@ -1,7 +1,10 @@
 class RomanNumeralsConverter
   ROMAN_NUMERALS = {
-    'I' => 1,
-    'V' => 5
+    'I'  => 1,
+    'IV' => 4,
+    'V'  => 5,
+    'M'  => 1000
+
   }
   def convert(number)
     if number < 0
@@ -82,11 +85,5 @@ class RomanNumeralsConverter
     end
 
     result
-
-    # if number <=8
-    #   return 'V' + 'I'*number
-    # end
-
-    # ROMAN_NUMERALS.detect { |k, v| v == number }.first
   end
 end
