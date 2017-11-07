@@ -11,6 +11,26 @@ class RomanNumeralsConverter
 
   def roman_numeral_for(number)
     result = ''
+    while number >= 1000
+      result << 'M'
+      number -= 1000
+    end
+
+    while number >= 500
+      result << 'D'
+      number -= 500
+    end
+
+    while number >= 100
+      result << 'C'
+      number -= 100
+    end
+
+    while number >= 50
+      result << 'L'
+      number -= 50
+    end
+
     while number >= 10
       result << 'X'
       number -= 10

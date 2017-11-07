@@ -10,16 +10,16 @@ RSpec.describe RomanNumeralsConverter do
     it { expect(subject.convert(8)).to eq('VIII') }
     xit { expect(subject.convert(9)).to eq('IX') }
     it { expect(subject.convert(10)).to eq('X') }
-    xit { expect(subject.convert(20)).to eq('XX') }
+    it { expect(subject.convert(20)).to eq('XX') }
     xit { expect(subject.convert(40)).to eq('XL') }
-    xit { expect(subject.convert(50)).to eq('L') }
+    it { expect(subject.convert(50)).to eq('L') }
     xit { expect(subject.convert(90)).to eq('XC') }
-    xit { expect(subject.convert(100)).to eq('C') }
+    it { expect(subject.convert(100)).to eq('C') }
     xit { expect(subject.convert(400)).to eq('CD') }
-    xit { expect(subject.convert(500)).to eq('D') }
+    it { expect(subject.convert(500)).to eq('D') }
     xit { expect(subject.convert(900)).to eq('CM') }
-    xit { expect(subject.convert(1000)).to eq('M') }
-    xit { expect(subject.convert(2013)).to eq('MMXIII') }
+    it { expect(subject.convert(1000)).to eq('M') }
+    it { expect(subject.convert(2013)).to eq('MMXIII') }
     xit { expect(subject.convert(3999)).to eq('MMMCMXCIX') }
     xit { expect(subject.convert(0)).to eq('') }
     xit { expect(subject.convert(-1)).to eq('-I') }
