@@ -3,14 +3,26 @@ class RomanNumeralsConverter
     'I'  => 1,
     'IV' => 4,
     'V'  => 5,
+    'X'  => 10,
+    'L'  => 50,
+    'C'  => 100,
+    'D'  => 500,
     'M'  => 1000
 
   }
   def convert(number)
-    if number < 0
-      '-' + roman_numeral_for(number*-1)
+    if number.is_a?(Integer)
+      if number < 0
+        '-' + roman_numeral_for(number*-1)
+      else
+        roman_numeral_for(number)
+      end
     else
-      roman_numeral_for(number)
+      result = 0
+      number.chars.each do |char|
+        result += ROMAN_NUMERALS[char] || 0
+      end
+      result
     end
   end
 
