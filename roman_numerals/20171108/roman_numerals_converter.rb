@@ -16,13 +16,22 @@ class RomanNumeralsConverter
   }
 
   def convert(number)
-    result = ''
-    ROMAN_NUMERALS.each_pair do |roman,arabic|
+    return convert_arabic_to_roman(number) if number > 0
+    return "-#{convert_arabic_to_roman(-number)}" if number < 0
+    ''
+  end
+
+  private
+
+  def convert_arabic_to_roman(number)
+    ROMAN_NUMERALS.each_with_object('') do |roman_arabic, result|
+      roman  = roman_arabic[0]
+      arabic = roman_arabic[1]
+
       while number >= arabic
         result << roman
         number -= arabic
       end
     end
-    result
   end
 end
