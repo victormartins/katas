@@ -1,7 +1,8 @@
+require 'spec_helper'
 require 'rspec/given'
 require 'gilded_rose'
 
-describe "#update_quality" do
+RSpec.describe "#update_quality" do
 
   context "with a single" do
     Given(:initial_sell_in) { 5 }
