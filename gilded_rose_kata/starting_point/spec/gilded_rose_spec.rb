@@ -1,7 +1,8 @@
+require 'spec_helper'
 require 'rspec/given'
 require 'gilded_rose'
 
-describe "#update_quality" do
+RSpec.describe "#update_quality" do
 
   context "with a single" do
     Given(:initial_sell_in) { 5 }
@@ -161,7 +162,7 @@ describe "#update_quality" do
       end
     end
 
-    context "conjured item" do
+    xcontext "conjured item" do
       before { pending }
       Given(:name) { "Conjured Mana Cake" }
 
