@@ -6,7 +6,10 @@ class QualityUpdater
   def call
     items.each do |item|
       return aging_product(item) if item.name.downcase =~ /aged/
+      return sulfuras_product(item) if item.name.downcase =~ /sulfuras/
+      return backstage_pass_product(item) if item.name.downcase =~ /backstage/
 
+      # increment or decrement with time
       if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
         if item.quality > 0
           if item.name != 'Sulfuras, Hand of Ragnaros'
@@ -16,23 +19,15 @@ class QualityUpdater
       else
         if item.quality < 50
           item.quality += 1
-          if item.name == 'Backstage passes to a TAFKAL80ETC concert'
-            if item.sell_in < 11
-              if item.quality < 50
-                item.quality += 1
-              end
-            end
-            if item.sell_in < 6
-              if item.quality < 50
-                item.quality += 1
-              end
-            end
-          end
         end
       end
+
+      # decrement selling days
       if item.name != 'Sulfuras, Hand of Ragnaros'
         item.sell_in -= 1
       end
+
+
       if item.sell_in < 0
         if item.name != "Aged Brie"
           if item.name != 'Backstage passes to a TAFKAL80ETC concert'
@@ -42,12 +37,9 @@ class QualityUpdater
               end
             end
           else
-            item.quality = item.quality - item.quality
+            item.quality -= item.quality
           end
         else
-          if item.quality < 50
-            item.quality += 1
-          end
         end
       end
     end
@@ -55,6 +47,30 @@ class QualityUpdater
 
   private
   attr_reader :items
+
+  def sulfuras_product(item)
+    # Nothing to do
+  end
+
+  def backstage_pass_product(item)
+    if item.quality < 50
+      item.quality += 1
+
+      if item.sell_in < 11
+        item.quality += 1
+      end
+
+      if item.sell_in < 6
+        item.quality += 1
+      end
+    end
+
+    item.sell_in -= 1
+
+    if item.sell_in < 0
+      item.quality = 0
+    end
+  end
 
   def aging_product(item)
     if item.quality < 50
