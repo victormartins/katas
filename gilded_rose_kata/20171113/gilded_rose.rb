@@ -5,6 +5,8 @@ class QualityUpdater
 
   def call
     items.each do |item|
+      return aging_product(item) if item.name.downcase =~ /aged/
+
       if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
         if item.quality > 0
           if item.name != 'Sulfuras, Hand of Ragnaros'
@@ -53,6 +55,18 @@ class QualityUpdater
 
   private
   attr_reader :items
+
+  def aging_product(item)
+    if item.quality < 50
+      item.quality += 1
+
+      if item.sell_in <= 0
+        item.quality += 1 if item.quality < 50
+      end
+    end
+
+    item.sell_in -= 1
+  end
 end
 
 def update_quality(items)
