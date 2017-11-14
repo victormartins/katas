@@ -1,3 +1,102 @@
+class Item
+  attr_accessor :name, :sell_in, :quality
+
+  def initialize(name, sell_in, quality)
+    @name    = name
+    @sell_in = sell_in
+    @quality = quality
+  end
+
+  def update
+    return aged_product      if aged?
+    return backstage_product if backstage?
+    return sulfuras_product  if sulfuras?
+    return conjured_product  if conjured?
+    normal_item
+  end
+
+  private
+
+  def aged?
+    name.downcase =~ /aged/
+  end
+
+  def backstage?
+    name.downcase =~ /backstage/
+  end
+
+  def sulfuras?
+    name.downcase =~ /sulfuras/
+  end
+
+  def conjured?
+    name.downcase =~ /conjured/
+  end
+
+
+  def aged_product
+    if @quality < 50
+      @quality += 1
+    end
+
+    @sell_in -= 1
+
+    if @sell_in < 0
+      @quality += 1 unless @quality >= 50
+    end
+  end
+
+  def backstage_product
+    if @quality < 50
+      @quality += 1
+
+      if @sell_in < 11
+        @quality += 1
+      end
+      if @sell_in < 6
+        @quality += 1
+      end
+    end
+
+    @sell_in -= 1
+
+    if @sell_in < 0
+      @quality = 0
+    end
+  end
+
+  def sulfuras_product
+    # nothing to do
+  end
+
+  def normal_item
+    if @quality > 0
+      @quality -= 1
+    end
+
+    @sell_in -= 1
+
+    if @sell_in < 0
+      if @quality > 0
+        @quality -= 1
+      end
+    end
+  end
+
+  def conjured_product
+    if @quality < 50
+      @quality -= 2 unless @quality <= 0
+    end
+
+    @sell_in -= 1
+
+    if @sell_in <= 0
+      @quality -= 2 unless @quality <= 0
+    end
+  end
+end
+
+
 class QualityUpdater
   def initialize(items)
     @items = items
@@ -5,83 +104,13 @@ class QualityUpdater
 
   def call
     items.each do |item|
-      puts ''
-      puts '-' * 50
-      puts "#{items}".center(50)
-      puts '-' * 50
-      puts ''
-
-      return aged_product(item)      if item.name.downcase =~ /aged/
-      return backstage_product(item) if item.name.downcase =~ /backstage/
-      return sulfuras_product(item) if item.name.downcase =~ /sulfuras/
-      return conjured_product(item) if item.name.downcase =~ /conjured/
-      normal_item(item)
+      item.update
     end
   end
 
   private
 
   attr_reader :items
-
-  def aged_product(item)
-    if item.quality < 50
-      item.quality += 1
-    end
-
-    item.sell_in -= 1
-
-    if item.sell_in < 0
-      item.quality += 1 unless item.quality >= 50
-    end
-  end
-
-  def backstage_product(item)
-    if item.quality < 50
-      item.quality += 1
-
-      if item.sell_in < 11
-        item.quality += 1
-      end
-      if item.sell_in < 6
-        item.quality += 1
-      end
-    end
-
-    item.sell_in -= 1
-
-    if item.sell_in < 0
-      item.quality = 0
-    end
-  end
-
-  def sulfuras_product(item)
-    # nothing to do
-  end
-
-  def normal_item(item)
-    if item.quality > 0
-      item.quality -= 1
-    end
-
-    item.sell_in -= 1
-
-    if item.sell_in < 0
-      if item.quality > 0
-        item.quality -= 1
-      end
-    end
-  end
-
-  def conjured_product(item)
-    if item.quality < 50
-      item.quality -= 2 unless item.quality <= 0
-    end
-    item.sell_in -= 1
-
-    if item.sell_in <= 0
-      item.quality -= 2 unless item.quality <= 0
-    end
-  end
 end
 
 def update_quality(items)
@@ -90,7 +119,7 @@ end
 
 # DO NOT CHANGE THINGS BELOW -----------------------------------------
 
-Item = Struct.new(:name, :sell_in, :quality)
+# Item.new(:name, :sell_in, :@quality)
 
 # We use the setup in the spec rather than the following for testing.
 #
