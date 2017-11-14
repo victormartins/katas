@@ -5,53 +5,83 @@ class QualityUpdater
 
   def call
     items.each do |item|
-      if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
-        if item.quality > 0
-          if item.name != 'Sulfuras, Hand of Ragnaros'
-            item.quality -= 1
-          end
-        end
-      else
-        if item.quality < 50
-          item.quality += 1
-          if item.name == 'Backstage passes to a TAFKAL80ETC concert'
-            if item.sell_in < 11
-              if item.quality < 50
-                item.quality += 1
-              end
-            end
-            if item.sell_in < 6
-              if item.quality < 50
-                item.quality += 1
-              end
-            end
-          end
-        end
+      puts ''
+      puts '-' * 50
+      puts "#{items}".center(50)
+      puts '-' * 50
+      puts ''
+
+      return aged_product(item)      if item.name.downcase =~ /aged/
+      return backstage_product(item) if item.name.downcase =~ /backstage/
+      return sulfuras_product(item) if item.name.downcase =~ /sulfuras/
+      return conjured_product(item) if item.name.downcase =~ /conjured/
+      normal_item(item)
+    end
+  end
+
+  private
+
+  attr_reader :items
+
+  def aged_product(item)
+    if item.quality < 50
+      item.quality += 1
+    end
+
+    item.sell_in -= 1
+
+    if item.sell_in < 0
+      item.quality += 1 unless item.quality >= 50
+    end
+  end
+
+  def backstage_product(item)
+    if item.quality < 50
+      item.quality += 1
+
+      if item.sell_in < 11
+        item.quality += 1
       end
-      if item.name != 'Sulfuras, Hand of Ragnaros'
-        item.sell_in -= 1
+      if item.sell_in < 6
+        item.quality += 1
       end
-      if item.sell_in < 0
-        if item.name != "Aged Brie"
-          if item.name != 'Backstage passes to a TAFKAL80ETC concert'
-            if item.quality > 0
-              if item.name != 'Sulfuras, Hand of Ragnaros'
-                item.quality -= 1
-              end
-            end
-          else
-            item.quality = item.quality - item.quality
-          end
-        else
-          if item.quality < 50
-            item.quality += 1
-          end
-        end
+    end
+
+    item.sell_in -= 1
+
+    if item.sell_in < 0
+      item.quality = 0
+    end
+  end
+
+  def sulfuras_product(item)
+    # nothing to do
+  end
+
+  def normal_item(item)
+    if item.quality > 0
+      item.quality -= 1
+    end
+
+    item.sell_in -= 1
+
+    if item.sell_in < 0
+      if item.quality > 0
+        item.quality -= 1
       end
     end
   end
 
-  attr_reader :items
+  def conjured_product(item)
+    if item.quality < 50
+      item.quality -= 2 unless item.quality <= 0
+    end
+    item.sell_in -= 1
+
+    if item.sell_in <= 0
+      item.quality -= 2 unless item.quality <= 0
+    end
+  end
 end
 
 def update_quality(items)
