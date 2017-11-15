@@ -4,82 +4,41 @@ class Item
   end
 
   def update
-    puts ''
-    puts '-' * 50
-    puts "#{item}".center(50)
-    puts '-' * 50
-    puts ''
-
     return update_aged_item if item[:name].downcase =~ /aged/
     return update_sulfuras_item if item[:name].downcase =~ /sulfuras/
     return update_backstage_item if item[:name].downcase =~ /backstage/
-    if item[:name] != 'Aged Brie' && item[:name] != 'Backstage passes to a TAFKAL80ETC concert'
-      if item[:quality] > 0
-        if item[:name] != 'Sulfuras, Hand of Ragnaros'
-          item[:quality] -= 1
-        end
-      end
-    else
-      if item[:quality] < 50
-        item[:quality] += 1
-        if item[:name] == 'Backstage passes to a TAFKAL80ETC concert'
-          if item[:sell_in] < 11
-            if item[:quality] < 50
-              item[:quality] += 1
-            end
-          end
-          if item[:sell_in] < 6
-            if item[:quality] < 50
-              item[:quality] += 1
-            end
-          end
-        end
-      end
-    end
-
-    if item[:name] != 'Sulfuras, Hand of Ragnaros'
-      item[:sell_in] -= 1
-    end
-
-
-    if item[:sell_in] < 0
-      if item[:name] != "Aged Brie"
-        if item[:name] != 'Backstage passes to a TAFKAL80ETC concert'
-          if item[:quality] > 0
-            if item[:name] != 'Sulfuras, Hand of Ragnaros'
-              item[:quality] -= 1
-            end
-          end
-        else
-          item[:quality] = item[:quality] - item[:quality]
-        end
-      else
-        if item[:quality] < 50
-          item[:quality] += 1
-        end
-      end
-    end
+    return update_conjured_item if item[:name].downcase =~ /conjured/
+    update_normal_item
   end
 
   private
 
   attr_reader :item
 
-  def update_aged_item
+  def update_conjured_item
+    update_quality(-2)
+    update_quality(-2) if item[:sell_in] <= 0
     item[:sell_in] -= 1
+  end
+
+  def update_normal_item
+    update_quality(-1)
+    update_quality(-1) if item[:sell_in] <= 0
+    item[:sell_in] -= 1
+  end
+
+  def update_aged_item
     update_quality
-    update_quality if item[:sell_in] < 0
+    update_quality if item[:sell_in] <= 0
+    item[:sell_in] -= 1
   end
 
   def update_backstage_item
     update_quality
-
     update_quality if item[:sell_in] < 11
     update_quality if item[:sell_in] < 6
-
+    update_quality(0) if item[:sell_in] <= 0
     item[:sell_in] -= 1
-
-    update_quality(0) if item[:sell_in] == 0
   end
 
   def update_sulfuras_item
@@ -87,7 +46,8 @@ class Item
   end
 
   def update_quality(val=1)
-    item[:quality] += val if item[:quality] < 50
+    item[:quality] += val if item[:quality] < 50 && item[:quality] > 0
+    item[:quality] = 0 if val == 0
   end
 end
 
