@@ -16,5 +16,47 @@ class RomanNumeralsConverter
   }
 
   def convert(number)
+    return arabic_to_roman(number) if number.is_a?(Integer)
+    roman_to_arabic(number)
+  end
+
+  def roman_to_arabic(number)
+    return -convert_roman_to_arabic(number.sub('-','')) if number =~ /^-/
+    convert_roman_to_arabic(number)
+  end
+
+  def convert_roman_to_arabic(number)
+    result = 0
+    number.chars.each.with_index do |char, i|
+      current_n = char_to_number(char)
+      next_n = char_to_number(number[i+1])
+
+      if next_n > current_n
+        result -= current_n
+      else
+        result += current_n
+      end
+    end
+    result
+  end
+
+  def char_to_number(char)
+    ROMAN_NUMERALS[char] || 0
+  end
+
+  def arabic_to_roman(number)
+    return convert_arabic_to_roman(number) if number >= 0
+    "-#{convert_arabic_to_roman(-number)}"
+  end
+
+  def convert_arabic_to_roman(number)
+    result = ''
+    ROMAN_NUMERALS.each_pair do |roman, arabic|
+      while number >= arabic
+        result << roman
+        number -= arabic
+      end
+    end
+    result
   end
 end
