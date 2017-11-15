@@ -17,27 +17,27 @@ class Item
 
   def update_conjured_item
     update_quality(-2)
-    update_quality(-2) if item[:sell_in] <= 0
+    update_quality(-2) { |sell_in| sell_in <= 0 }
     item[:sell_in] -= 1
   end
 
   def update_normal_item
     update_quality(-1)
-    update_quality(-1) if item[:sell_in] <= 0
+    update_quality(-1) { |sell_in| sell_in <= 0 }
     item[:sell_in] -= 1
   end
 
   def update_aged_item
     update_quality
-    update_quality if item[:sell_in] <= 0
+    update_quality { |sell_in| sell_in <= 0 }
     item[:sell_in] -= 1
   end
 
   def update_backstage_item
     update_quality
-    update_quality if item[:sell_in] < 11
-    update_quality if item[:sell_in] < 6
-    update_quality(0) if item[:sell_in] <= 0
+    update_quality { |sell_in| sell_in < 11 }
+    update_quality { |sell_in| sell_in < 6 }
+    item[:quality] = 0 if item[:sell_in] <= 0 # TODO: fix this case
     item[:sell_in] -= 1
   end
 
@@ -46,10 +46,13 @@ class Item
   end
 
   def update_quality(val=1)
-    return item[:quality] = 0 if val == 0
     return unless item[:quality] < 50 && item[:quality] > 0
-    item[:quality] += val
 
+    if block_given?
+      item[:quality] += val if yield(item[:sell_in])
+    else
+      item[:quality] += val
+    end
   end
 end
 
