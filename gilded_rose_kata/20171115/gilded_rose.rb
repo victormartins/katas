@@ -4,10 +4,10 @@ class Item
   end
 
   def update
-    return update_aged_item if item[:name].downcase =~ /aged/
-    return update_sulfuras_item if item[:name].downcase =~ /sulfuras/
+    return update_aged_item      if item[:name].downcase =~ /aged/
+    return update_sulfuras_item  if item[:name].downcase =~ /sulfuras/
     return update_backstage_item if item[:name].downcase =~ /backstage/
-    return update_conjured_item if item[:name].downcase =~ /conjured/
+    return update_conjured_item  if item[:name].downcase =~ /conjured/
     update_normal_item
   end
 
@@ -46,8 +46,10 @@ class Item
   end
 
   def update_quality(val=1)
-    item[:quality] += val if item[:quality] < 50 && item[:quality] > 0
-    item[:quality] = 0 if val == 0
+    return item[:quality] = 0 if val == 0
+    return unless item[:quality] < 50 && item[:quality] > 0
+    item[:quality] += val
+
   end
 end
 
