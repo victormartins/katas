@@ -1,56 +1,79 @@
 class Item
   def initialize(item)
     @item = item
+
+    puts ''
+    puts '-' * 50
+    puts "#{item}".center(50)
+    puts '-' * 50
+    puts ''
   end
 
   def update
-    if item[:name] != 'Aged Brie' && item[:name] != 'Backstage passes to a TAFKAL80ETC concert'
-      if item[:quality] > 0
-        if item[:name] != 'Sulfuras, Hand of Ragnaros'
-          item[:quality] -= 1
-        end
-      end
-    else
-      if item[:quality] < 50
-        item[:quality] += 1
-        if item[:name] == 'Backstage passes to a TAFKAL80ETC concert'
-          if item[:sell_in] < 11
-            if item[:quality] < 50
-              item[:quality] += 1
-            end
-          end
-          if item[:sell_in] < 6
-            if item[:quality] < 50
-              item[:quality] += 1
-            end
-          end
-        end
-      end
-    end
-    if item[:name] != 'Sulfuras, Hand of Ragnaros'
-      item[:sell_in] -= 1
-    end
-    if item[:sell_in] < 0
-      if item[:name] != "Aged Brie"
-        if item[:name] != 'Backstage passes to a TAFKAL80ETC concert'
-          if item[:quality] > 0
-            if item[:name] != 'Sulfuras, Hand of Ragnaros'
-              item[:quality] -= 1
-            end
-          end
-        else
-          item[:quality] = item[:quality] - item[:quality]
-        end
-      else
-        if item[:quality] < 50
-          item[:quality] += 1
-        end
-      end
-    end
+    return aged_product if item[:name].downcase =~ /aged/
+    return backstage_product if item[:name].downcase =~ /backstage/
+    return sulfuras_product if item[:name].downcase =~ /sulfuras/
+    default_product
   end
 
   private
   attr_reader :item
+
+  def aged_product
+    if item[:quality] < 50
+      item[:quality] += 1
+    end
+
+    item[:sell_in] -= 1
+
+    if item[:sell_in] < 0
+      if item[:quality] < 50
+        item[:quality] += 1
+      end
+    end
+  end
+
+  def backstage_product
+    if item[:quality] < 50
+      item[:quality] += 1
+    end
+
+    if item[:sell_in] < 11
+      if item[:quality] < 50
+        item[:quality] += 1
+      end
+    end
+
+    if item[:sell_in] < 6
+      if item[:quality] < 50
+        item[:quality] += 1
+      end
+    end
+
+    item[:sell_in] -= 1
+
+    if item[:sell_in] < 0
+      item[:quality] = 0
+    end
+  end
+
+  def sulfuras_product
+    # do nothing
+  end
+
+  def default_product
+    if item[:quality] > 0
+      item[:quality] -= 1
+    end
+
+    item[:sell_in] -= 1
+
+    if item[:sell_in] < 0
+      if item[:quality] > 0
+        item[:quality] -= 1
+      end
+    end
+  end
 end
 
 def update_quality(items)
