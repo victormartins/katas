@@ -1,11 +1,12 @@
 module ProductHandlers
   class Base
+    QUALITY_RANGE = (1...50)
     def initialize(item)
       @item = item
     end
 
     def update_quality(val=1)
-      return if item.quality >= 50 || item.quality <= 0 # TODO: Range
+      return unless QUALITY_RANGE.cover?(item.quality)
       item.quality += val
     end
 
