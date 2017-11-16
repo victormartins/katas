@@ -31,25 +31,24 @@ class RomanNumeralsConverter
   end
 
   def convert_arabic_to_roman(number)
-    result = ''
-    ROMAN_NUMERALS.each_pair do |roman, arabic|
-      while number >= arabic
-        result << roman
-        number -= arabic
+    ROMAN_NUMERALS.each_pair.with_object('') do |roman_arabic, result|
+      while number >= roman_arabic[1]
+        result << roman_arabic[0]
+        number -= roman_arabic[1]
       end
     end
-    result
   end
 
   def convert_roman_to_arabic(number)
-    result = 0
-    number.chars.each.with_index do |char, i|
-      result += calculate_arabic(char, number[i+1])
+    number.chars.each.with_index.inject(0) do |result, char_i|
+      result += calculate_arabic(
+        char:      char_i[0],
+        next_char: number[char_i[1]+1]
+      )
     end
-    result
   end
 
-  def calculate_arabic(char, next_char)
+  def calculate_arabic(char:, next_char:)
     current_n = char_to_number(char)
     next_n    = char_to_number(next_char)
 
