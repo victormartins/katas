@@ -10,9 +10,10 @@ class Item
   end
 
   def update
-    return aged_product if item[:name].downcase =~ /aged/
-    return backstage_product if item[:name].downcase =~ /backstage/
-    return sulfuras_product if item[:name].downcase =~ /sulfuras/
+    return aged_product       if item[:name].downcase =~ /aged/
+    return backstage_product  if item[:name].downcase =~ /backstage/
+    return sulfuras_product   if item[:name].downcase =~ /sulfuras/
+    return conjured_product   if item[:name].downcase =~ /conjured/
     default_product
   end
 
@@ -41,6 +42,12 @@ class Item
 
   def sulfuras_product
     # do nothing
+  end
+
+  def conjured_product
+    update_quality(-2)
+    item[:sell_in] -= 1
+    update_quality(-2) if item[:sell_in] < 0
   end
 
   def default_product
