@@ -5,8 +5,8 @@ module ProductHandlers
     end
 
     def update_quality(val=1)
-      return if item[:quality] >= 50 || item[:quality] <= 0 # TODO: Range
-      item[:quality] += val
+      return if item.quality >= 50 || item.quality <= 0 # TODO: Range
+      item.quality += val
     end
 
     private
@@ -16,19 +16,19 @@ module ProductHandlers
   class Aged < Base
     def call
       update_quality
-      item[:sell_in] -= 1
-      update_quality if item[:sell_in] < 0
+      item.sell_in -= 1
+      update_quality if item.sell_in < 0
     end
   end
 
   class Backstage < Base
     def call
       update_quality
-      update_quality if item[:sell_in] < 11
-      update_quality if item[:sell_in] < 6
+      update_quality if item.sell_in < 11
+      update_quality if item.sell_in < 6
 
-      item[:sell_in] -= 1
-      item[:quality] = 0 if item[:sell_in] < 0
+      item.sell_in -= 1
+      item.quality = 0 if item.sell_in < 0
     end
   end
 
@@ -40,23 +40,23 @@ module ProductHandlers
   class Conjured < Base
     def call
       update_quality(-2)
-      item[:sell_in] -= 1
-      update_quality(-2) if item[:sell_in] < 0
+      item.sell_in -= 1
+      update_quality(-2) if item.sell_in < 0
     end
   end
 
   class Default < Base
     def call
       update_quality(-1)
-      item[:sell_in] -= 1
-      update_quality(-1) if item[:sell_in] < 0
+      item.sell_in -= 1
+      update_quality(-1) if item.sell_in < 0
     end
   end
 end
 
 class ProductHandler
   def self.for(item)
-    case item[:name].downcase
+    case item.name.downcase
     when /aged/
       ProductHandlers::Aged.new(item)
     when /backstage/
@@ -72,15 +72,41 @@ class ProductHandler
 end
 
 class Item
-  def initialize(item)
-    @item = item
+  attr_reader :name
+  attr_accessor :quality#, :sell_in
+
+  def initialize(item_data)
+    @name    = item_data[:name]
+    @quality = item_data[:quality]
+    @sell_in = item_data[:sell_in]
+  end
+
+  def sell_in
+    @sell_in
+  end
+
+  def sell_in=(value)
+    @sell_in=(value)
+  end
+
+  def to_hash
+    {
+      name:    name,
+      sell_in: sell_in,
+      quality: quality
+    }
+  end
+
+  def to_s
+    to_hash.inspect
   end
 
   def update
-    ProductHandler.for(@item).call
+    ProductHandler.for(self).call
+    self
   end
 end
 
 def update_quality(items)
-  items.each { |item| Item.new(item).update }
+  items.map { |item| Item.new(item).update.to_hash }
 end
