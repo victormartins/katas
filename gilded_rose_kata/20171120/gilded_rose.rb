@@ -6,6 +6,8 @@ class Item
   end
 
   def update
+    return aged_product if @name.downcase =~ /aged/
+
     if @name != 'Aged Brie' && @name != 'Backstage passes to a TAFKAL80ETC concert'
       if @quality > 0
         if @name != 'Sulfuras, Hand of Ragnaros'
@@ -60,10 +62,34 @@ class Item
       sell_in: @sell_in
     }
   end
+
+  private
+
+  def aged_product
+    update_quality
+    update_sell_in
+    update_quality if @sell_in < 0
+    self
+  end
+
+  def update_quality
+    if @quality < 50
+      @quality += 1
+    end
+  end
+
+  def update_sell_in
+    @sell_in -= 1
+  end
 end
 
 def update_quality(items)
   items.map do |item|
+    puts ''
+    puts '-' * 50
+    puts "#{item}".center(50)
+    puts '-' * 50
+    puts ''
     Item.new(item).update.to_hash
   end
 end
