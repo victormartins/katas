@@ -6,7 +6,8 @@ class Item
   end
 
   def update
-    return aged_product if @name.downcase =~ /aged/
+    return aged_product      if @name.downcase =~ /aged/
+    return backstage_product if @name.downcase =~ /backstage/
 
     if @name != 'Aged Brie' && @name != 'Backstage passes to a TAFKAL80ETC concert'
       if @quality > 0
@@ -69,6 +70,16 @@ class Item
     update_quality
     update_sell_in
     update_quality if @sell_in < 0
+    self
+  end
+
+  def backstage_product
+    update_quality
+    update_quality if @sell_in < 11
+    update_quality if @sell_in < 6
+    @quality = 0   if @sell_in <= 0
+
+    update_sell_in
     self
   end
 
