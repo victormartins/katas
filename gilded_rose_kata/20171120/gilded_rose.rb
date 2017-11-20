@@ -60,7 +60,7 @@ class Item
     self
   end
 
-  def update_quality(val=1)
+  def update_quality(val = 1)
     return unless QUALITY_RANGE.cover?(@quality)
     @quality += val
   end
@@ -72,11 +72,6 @@ end
 
 def update_quality(items)
   items.map do |item|
-    puts ''
-    puts '-' * 50
-    puts "#{item}".center(50)
-    puts '-' * 50
-    puts ''
     Item.new(item).update.to_hash
   end
 end
