@@ -1,4 +1,6 @@
 class Item
+  QUALITY_RANGE = (1...50)
+
   def initialize(item_data)
     @name    = item_data[:name]
     @quality = item_data[:quality]
@@ -59,9 +61,8 @@ class Item
   end
 
   def update_quality(val=1)
-    if @quality < 50 && @quality > 0
-      @quality += val
-    end
+    return unless QUALITY_RANGE.cover?(@quality)
+    @quality += val
   end
 
   def update_sell_in
