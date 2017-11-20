@@ -9,6 +9,7 @@ class Item
     return aged_product      if @name.downcase =~ /aged/
     return backstage_product if @name.downcase =~ /backstage/
     return sulfuras_product if @name.downcase =~ /sulfuras/
+    return conjured_product if @name.downcase =~ /conjured/
     normal_product
   end
 
@@ -47,6 +48,13 @@ class Item
   end
 
   def sulfuras_product
+    self
+  end
+
+  def conjured_product
+    update_quality(-2)
+    update_sell_in
+    update_quality(-2) if @sell_in <= 0
     self
   end
 
