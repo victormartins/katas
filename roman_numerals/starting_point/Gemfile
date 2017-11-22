@@ -7,3 +7,5 @@ gem 'rspec'
 gem 'pry'
 gem 'pry-nav'
 gem 'reek'
+gem 'guard-rspec', require: false
+gem 'rb-readline' # for guard

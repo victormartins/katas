@@ -1,4 +1,4 @@
-require_relative './../roman_numerals_converter'
+require_relative './../lib/roman_numerals_converter'
 
 RSpec.describe RomanNumeralsConverter do
   context 'converting arabic to roman' do
