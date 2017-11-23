@@ -1,4 +1,6 @@
 class Item
+  QUALITY_RANGE = (1...50)
+
   def initialize(item_data)
     @name    = item_data[:name]
     @sell_in = item_data[:sell_in]
@@ -6,49 +8,45 @@ class Item
   end
 
   def update
-    if @name != 'Aged Brie' && @name != 'Backstage passes to a TAFKAL80ETC concert'
-      if @quality > 0
-        if @name != 'Sulfuras, Hand of Ragnaros'
-          @quality -= 1
-        end
-      end
-    else
-      if @quality < 50
-        @quality += 1
-        if @name == 'Backstage passes to a TAFKAL80ETC concert'
-          if @sell_in < 11
-            if @quality < 50
-              @quality += 1
-            end
-          end
-          if @sell_in < 6
-            if @quality < 50
-              @quality += 1
-            end
-          end
-        end
-      end
-    end
-    if @name != 'Sulfuras, Hand of Ragnaros'
-      @sell_in -= 1
-    end
-    if @sell_in < 0
-      if @name != "Aged Brie"
-        if @name != 'Backstage passes to a TAFKAL80ETC concert'
-          if @quality > 0
-            if @name != 'Sulfuras, Hand of Ragnaros'
-              @quality -= 1
-            end
-          end
-        else
-          @quality = @quality - @quality
-        end
-      else
-        if @quality < 50
-          @quality += 1
-        end
-      end
-    end
+    return aged_product if @name.downcase =~ /aged/
+    return backstage_product if @name.downcase =~ /backstage/
+    return sulfuras_product if @name.downcase =~ /sulfuras/
+    return conjured_product if @name.downcase =~ /conjured/
+    normal_item
+  end
+
+  def normal_item
+    update_quality(-1)
+    update_sell_in
+    update_quality(-1) if @sell_in < 0
+    self
+  end
+
+  def aged_product
+    update_quality
+    update_sell_in
+    update_quality if on_sell_date?
+    self
+  end
+
+  def backstage_product
+    update_quality
+    update_quality if @sell_in < 11
+    update_quality if @sell_in < 6
+    @quality = 0   if on_sell_date?
+    update_sell_in
+
+    self
+  end
+
+  def sulfuras_product
+    self
+  end
+
+  def conjured_product
+    update_quality(-2)
+    update_sell_in
+    update_quality(-2) if on_sell_date?
     self
   end
 
@@ -58,6 +56,21 @@ class Item
       quality: @quality,
       sell_in: @sell_in
     }
+  end
+
+  private
+
+  def on_sell_date?
+    @sell_in <= 0
+  end
+
+  def update_quality(val = 1)
+    return unless QUALITY_RANGE.cover?(@quality)
+    @quality += val
+  end
+
+  def update_sell_in
+    @sell_in -= 1
   end
 end
 
