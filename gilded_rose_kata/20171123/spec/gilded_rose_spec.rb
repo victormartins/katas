@@ -170,7 +170,7 @@ RSpec.describe "#update_quality" do
       end
     end
 
-    context "conjured item" do
+    xcontext "conjured item" do
       let(:name) { "Conjured Mana Cake" }
 
       it { expect(subject[:sell_in]).to eq(initial_sell_in-1) }

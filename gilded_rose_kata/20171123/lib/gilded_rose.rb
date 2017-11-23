@@ -1,47 +1,68 @@
-def update_quality(items)
-  items.each do |item|
-    if item[:name] != 'Aged Brie' && item[:name] != 'Backstage passes to a TAFKAL80ETC concert'
-      if item[:quality] > 0
-        if item[:name] != 'Sulfuras, Hand of Ragnaros'
-          item[:quality] -= 1
+class Item
+  def initialize(item_data)
+    @name    = item_data[:name]
+    @sell_in = item_data[:sell_in]
+    @quality = item_data[:quality]
+  end
+
+  def update
+    if @name != 'Aged Brie' && @name != 'Backstage passes to a TAFKAL80ETC concert'
+      if @quality > 0
+        if @name != 'Sulfuras, Hand of Ragnaros'
+          @quality -= 1
         end
       end
     else
-      if item[:quality] < 50
-        item[:quality] += 1
-        if item[:name] == 'Backstage passes to a TAFKAL80ETC concert'
-          if item[:sell_in] < 11
-            if item[:quality] < 50
-              item[:quality] += 1
+      if @quality < 50
+        @quality += 1
+        if @name == 'Backstage passes to a TAFKAL80ETC concert'
+          if @sell_in < 11
+            if @quality < 50
+              @quality += 1
             end
           end
-          if item[:sell_in] < 6
-            if item[:quality] < 50
-              item[:quality] += 1
+          if @sell_in < 6
+            if @quality < 50
+              @quality += 1
             end
           end
         end
       end
     end
-    if item[:name] != 'Sulfuras, Hand of Ragnaros'
-      item[:sell_in] -= 1
+    if @name != 'Sulfuras, Hand of Ragnaros'
+      @sell_in -= 1
     end
-    if item[:sell_in] < 0
-      if item[:name] != "Aged Brie"
-        if item[:name] != 'Backstage passes to a TAFKAL80ETC concert'
-          if item[:quality] > 0
-            if item[:name] != 'Sulfuras, Hand of Ragnaros'
-              item[:quality] -= 1
+    if @sell_in < 0
+      if @name != "Aged Brie"
+        if @name != 'Backstage passes to a TAFKAL80ETC concert'
+          if @quality > 0
+            if @name != 'Sulfuras, Hand of Ragnaros'
+              @quality -= 1
             end
           end
         else
-          item[:quality] = item[:quality] - item[:quality]
+          @quality = @quality - @quality
         end
       else
-        if item[:quality] < 50
-          item[:quality] += 1
+        if @quality < 50
+          @quality += 1
         end
       end
     end
+    self
+  end
+
+  def to_hash
+    {
+      name:    @name,
+      quality: @quality,
+      sell_in: @sell_in
+    }
+  end
+end
+
+def update_quality(items)
+  items.map do |item|
+    Item.new(item).update.to_hash
   end
 end
