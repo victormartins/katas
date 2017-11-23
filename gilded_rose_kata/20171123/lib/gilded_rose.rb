@@ -1,4 +1,13 @@
+module Helpers
+  def with_audit(obj)
+    warn("AUDIT:\t#{obj.to_hash.map { |d| d.join(' =>') }.join("\t")}")
+    yield
+  end
+end
+
 class Item
+  include Helpers
+
   QUALITY_RANGE = (1...50)
 
   def initialize(item_data)
@@ -8,11 +17,13 @@ class Item
   end
 
   def update
-    return aged_product if @name.downcase =~ /aged/
-    return backstage_product if @name.downcase =~ /backstage/
-    return sulfuras_product if @name.downcase =~ /sulfuras/
-    return conjured_product if @name.downcase =~ /conjured/
-    normal_item
+    with_audit(self) do
+      return aged_product if @name.downcase =~ /aged/
+      return backstage_product if @name.downcase =~ /backstage/
+      return sulfuras_product if @name.downcase =~ /sulfuras/
+      return conjured_product if @name.downcase =~ /conjured/
+      normal_item
+    end
   end
 
   def normal_item
