@@ -29,7 +29,7 @@ class RomanNumeralsConverter
   def convert(number)
     return arabic_to_roman(number) if number.is_a?(Integer)
     roman_to_arabic(number)
-  rescue ReturnContractError => e
+  rescue ContractError => e
     # Handle contract errors!
     raise(DataError, "[ CONTRACT ERROR! ] #{e.message}")
   end
