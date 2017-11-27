@@ -20,6 +20,53 @@ class RomanNumeralsConverter
     'I'  => 1
   }
 
+  Contract Or[String, Num] => Or[String, Num]
   def convert(number)
+    return arabic_to_roman(number) if number.is_a?(Integer)
+    roman_to_arabic(number)
+  end
+
+  Contract String => Num
+  def roman_to_arabic(number)
+    return -convert_roman_to_arabic(number.sub('-', '')) if number =~ /^-/
+    convert_roman_to_arabic(number)
+  end
+
+  Contract String => Num
+  def convert_roman_to_arabic(number)
+    result = 0
+    number.chars.each.with_index do |char, index|
+      current_n = char_to_number(char)
+      next_n = char_to_number(number[index+1])
+
+      if next_n > current_n
+        result -= char_to_number(char)
+      else
+        result += char_to_number(char)
+      end
+    end
+    result
+  end
+
+  def char_to_number(char)
+    ROMAN_NUMERALS[char] || 0
+  end
+
+  Contract Num => String
+  def arabic_to_roman(number)
+    return convert_arabic_to_roman(number) if number >= 0
+    "-#{convert_arabic_to_roman(-number)}"
+  end
+
+  Contract Num => String
+  def convert_arabic_to_roman(number)
+    result = ''
+    ROMAN_NUMERALS.each_pair do |roman, arabic|
+      while number >= arabic do
+        result << roman
+        number -= arabic
+      end
+    end
+    result
   end
 end
