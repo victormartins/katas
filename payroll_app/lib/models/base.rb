@@ -2,9 +2,7 @@
 
 module PayrollApp
   module Models
-    class Transaction
-      def call
-      end
+    class Base
     end
   end
 end
