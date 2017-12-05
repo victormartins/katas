@@ -1,11 +1,6 @@
 require_relative './../lib/fizz_buzz'
 
 RSpec.describe FizzBuzz do
-  # let(:input) { (1..100) }
-  # let(:output) do
-
-  # end
-
   it 'returns "fizz" if number is dividable by 3' do
     expect(subject.call(3)).to eq('Fizz')
   end
@@ -29,6 +24,6 @@ RSpec.describe FizzBuzz do
       7,  8,  'Fizz',     'Buzz',  11,    'Fizz',
       13, 14, 'FizzBuzz', 16, 17, 'Fizz',  19, 'Buzz'
     ]
-    expect(subject.call(input)).to eq(ouput)
+    expect(subject.call(input)).to eq(output)
   end
 end
