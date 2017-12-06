@@ -7,7 +7,8 @@ class NukeDeployer
   end
 
   def call
-    @stats = ignite! if @enemy_of_the_state
+    return empty_report unless @enemy_of_the_state
+    @stats = ignite!
 
     {
       casualties: @stats.casualties,
@@ -19,5 +20,13 @@ class NukeDeployer
 
   def ignite!
     Nuke.new(@location).call
+  end
+
+  def empty_report
+    {
+      no_fire: true,
+      casualties: 0,
+      photos: []
+    }
   end
 end

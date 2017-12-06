@@ -1,6 +1,8 @@
 class Nuke
-  def initialize(args)
+  def initialize(location)
+    raise 'FRIENDLY FIRE!' if location[:x] == 2
   end
+
   def call
 
   end

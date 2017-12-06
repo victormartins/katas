@@ -4,7 +4,14 @@ class GreatLeaderReporter
   end
 
   def call
-    return "The Leader is Happy!" if @report[:casualties] >= 100_000
+    return happy_leader if @report[:no_fire]
+    return happy_leader if @report[:casualties] >= 100_000
     raise "THE LEADER IS ANGRYYYY!!!!!"
+  end
+
+  private
+
+  def happy_leader
+    "The Leader is Happy!"
   end
 end
