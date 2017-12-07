@@ -80,23 +80,18 @@ RSpec.describe Main do
       end
     end
 
-    xdescribe 'Error Handling' do
+    describe 'Error Handling' do
       before { allow_any_instance_of(Nuke).to receive(:call).and_return(nuke_response) }
       let(:nuke_response) { double(deployed: deployed, casualties: casualties, photos: photos) }
 
       context 'few casualties' do
         let(:deployed) { true }
+        let(:enemy_of_the_state) {true }
+        let(:location) { enemy_location }
         let(:casualties) { 10 }
         let(:photos) { ['photo_1', 'photo_2'] }
 
-        let(:data) do
-          {
-            enemy_of_the_state: true,
-            location: { x: 1, y: 1 }
-          }
-        end
-
-        it 'retries to calibrate the satelite a few times and then calls tech support!' do
+        xit 'retries to calibrate the satelite a few times and then calls tech support!' do
           expect(TargetingSatellite).to receive(:calibrate)
             .exactly(TargetingSatellite::MAX_CALIBRATION_RETRIES)
             .times
