@@ -69,7 +69,7 @@ RSpec.describe Main do
       context 'if Nuke sends the wrong response object' do
         before { allow_any_instance_of(Nuke).to receive(:call).and_return(nuke_response) }
 
-        let(:nuke_response) { :broken_report_reponse }
+        let(:nuke_response) { :broken_report_response }
         let(:location) { enemy_location }
         let(:enemy_of_the_state) { true }
 
