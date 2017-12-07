@@ -1,16 +1,16 @@
 
 class NukeDeployer
-  NoFireResponse = Struct.new(:deployed, :casualties, :photos)
+  NoFireResponse = Struct.new(:deployed, :casualties, :photos, :location)
 
   def initialize(data)
     @location           = data[:location]
     @enemy_of_the_state = data[:enemy_of_the_state]
   end
 
-  # TODO: CHECK NUKE CONTRACT
   def call
-    return empty_report unless @enemy_of_the_state
-    Nuke.new(@location).call
+    nuke = Nuke.new(@location)
+    report = nuke.call if @enemy_of_the_state
+    report || empty_report
   end
 
   private
@@ -20,6 +20,7 @@ class NukeDeployer
       r.deployed   = false
       r.casualties = 0
       r.photos     = []
+      r.location   = @location
     end
   end
 end
