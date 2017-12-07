@@ -8,14 +8,18 @@ class NukeDeployer
   end
 
   def call
-    nuke = Nuke.new(@location)
-    report = nuke.call if @enemy_of_the_state
-    report || empty_report
+    report = nil
+    report = launch_nuke! if @enemy_of_the_state
+    report || no_fire_report
   end
 
   private
 
-  def empty_report
+  def launch_nuke!
+    Nuke.new(@location).call
+  end
+
+  def no_fire_report
     NoFireResponse.new.tap do |r|
       r.deployed   = false
       r.casualties = 0
