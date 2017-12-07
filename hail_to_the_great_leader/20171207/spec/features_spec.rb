@@ -48,7 +48,7 @@ RSpec.describe Main do
         let(:photos) { [] }
         let(:enemy_of_the_state) { 'false' }
 
-        xit 'should call tech support to fix the error before great leader finds out!' do
+        it 'should call tech support to fix the error before great leader finds out!' do
           expect(EmergecyTechSupport).to receive(:call).and_call_original
           Main.new.call(data)
         end
@@ -60,7 +60,7 @@ RSpec.describe Main do
         let(:photos) { [] }
         let(:enemy_of_the_state) { nil }
 
-        xit 'should call tech support and fix the error before great leader finds out!' do
+        it 'should call tech support and fix the error before great leader finds out!' do
           expect(EmergecyTechSupport).to receive(:call).and_call_original
           Main.new.call(data)
         end
@@ -69,11 +69,11 @@ RSpec.describe Main do
       context 'if Nuke sends the wrong response object' do
         before { allow_any_instance_of(Nuke).to receive(:call).and_return(nuke_response) }
 
-        let(:nuke_response) { :broken_report_reponse }
+        let(:nuke_response) { :broken_report_response }
         let(:location) { enemy_location }
         let(:enemy_of_the_state) { true }
 
-        xit 'should call tech support and fix the error before great leader finds out!' do
+        it 'should call tech support and fix the error before great leader finds out!' do
           expect(EmergecyTechSupport).to receive(:call).and_call_original
           Main.new.call(data)
         end
@@ -83,14 +83,14 @@ RSpec.describe Main do
     describe 'Error Handling' do
       before { allow_any_instance_of(Nuke).to receive(:call).and_return(nuke_response) }
 
-      context 'few casualties' do
+      context 'fewer casualties' do
         let(:deployed) { true }
         let(:enemy_of_the_state) {true }
         let(:location) { enemy_location }
         let(:casualties) { 10 }
         let(:photos) { ['photo_1', 'photo_2'] }
 
-        xit 'retries to calibrate the satelite a few times and then calls tech support and raises error!' do
+        it 'retries to calibrate the satelite a few times and then calls tech support and raises error!' do
           expect(TargetingSatellite).to receive(:calibrate)
             .exactly(TargetingSatellite::MAX_CALIBRATION_RETRIES)
             .times
