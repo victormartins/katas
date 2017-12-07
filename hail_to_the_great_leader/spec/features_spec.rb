@@ -49,7 +49,7 @@ RSpec.describe Main do
         let(:enemy_of_the_state) { 'false' }
 
         xit 'should call tech support to fix the error before great leader finds out!' do
-          # expect(EmergecyTechSupport).to receive(:call).and_call_original
+          expect(EmergecyTechSupport).to receive(:call).and_call_original
           Main.new.call(data)
         end
       end
@@ -61,7 +61,7 @@ RSpec.describe Main do
         let(:enemy_of_the_state) { nil }
 
         xit 'should call tech support and fix the error before great leader finds out!' do
-          # expect(EmergecyTechSupport).to receive(:call).and_call_original
+          expect(EmergecyTechSupport).to receive(:call).and_call_original
           Main.new.call(data)
         end
       end
@@ -74,7 +74,7 @@ RSpec.describe Main do
         let(:enemy_of_the_state) { true }
 
         xit 'should call tech support and fix the error before great leader finds out!' do
-          # expect(EmergecyTechSupport).to receive(:call).and_call_original
+          expect(EmergecyTechSupport).to receive(:call).and_call_original
           Main.new.call(data)
         end
       end
