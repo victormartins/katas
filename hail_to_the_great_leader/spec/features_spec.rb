@@ -90,14 +90,14 @@ RSpec.describe Main do
         let(:casualties) { 10 }
         let(:photos) { ['photo_1', 'photo_2'] }
 
-        xit 'retries to calibrate the satelite a few times and then calls tech support!' do
-          # expect(TargetingSatellite).to receive(:calibrate)
-          #   .exactly(TargetingSatellite::MAX_CALIBRATION_RETRIES)
-          #   .times
-          #   .and_call_original
-          # expect(EmergecyTechSupport).to receive(:call).and_call_original
+        xit 'retries to calibrate the satelite a few times and then calls tech support and raises error!' do
+          expect(TargetingSatellite).to receive(:calibrate)
+            .exactly(TargetingSatellite::MAX_CALIBRATION_RETRIES)
+            .times
+            .and_call_original
+          expect(EmergecyTechSupport).to receive(:call).and_call_original
 
-          Main.new.call(data)
+          expect { Main.new.call(data) }.to raise_error(LowKillCountError)
         end
       end
     end
