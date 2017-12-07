@@ -2,6 +2,7 @@ require_relative './../lib/main.rb'
 require 'spec_helper'
 
 RSpec.describe Main do
+  let(:nuke_response) { double(deployed: deployed, casualties: casualties, photos: photos, location: location) }
   let(:happy_leader) { 'The Leader is Happy!' }
   let(:enemy_location) { { x: 1, y: 1 } }
   let(:friend_location) { { x: 2, y: 1 } }
@@ -15,7 +16,6 @@ RSpec.describe Main do
   describe 'Happy Path: ' do
     describe 'When enemy' do
       before { allow_any_instance_of(Nuke).to receive(:call).and_return(nuke_response) }
-      let(:nuke_response) { double(deployed: deployed, casualties: casualties, photos: photos, location: location) }
 
       let(:deployed) { true }
       let(:casualties) { 100_000 }
@@ -82,7 +82,6 @@ RSpec.describe Main do
 
     describe 'Error Handling' do
       before { allow_any_instance_of(Nuke).to receive(:call).and_return(nuke_response) }
-      let(:nuke_response) { double(deployed: deployed, casualties: casualties, photos: photos) }
 
       context 'few casualties' do
         let(:deployed) { true }
@@ -92,11 +91,11 @@ RSpec.describe Main do
         let(:photos) { ['photo_1', 'photo_2'] }
 
         xit 'retries to calibrate the satelite a few times and then calls tech support!' do
-          expect(TargetingSatellite).to receive(:calibrate)
-            .exactly(TargetingSatellite::MAX_CALIBRATION_RETRIES)
-            .times
-            .and_call_original
-          expect(EmergecyTechSupport).to receive(:call).and_call_original
+          # expect(TargetingSatellite).to receive(:calibrate)
+          #   .exactly(TargetingSatellite::MAX_CALIBRATION_RETRIES)
+          #   .times
+          #   .and_call_original
+          # expect(EmergecyTechSupport).to receive(:call).and_call_original
 
           Main.new.call(data)
         end
