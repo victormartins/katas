@@ -87,7 +87,7 @@ RSpec.describe Main do
         let(:deployed) { true }
         let(:enemy_of_the_state) {true }
         let(:location) { enemy_location }
-        let(:casualties) { 10 }
+        let(:casualties) { MIN_CASUALTIES - 1 }
         let(:photos) { ['photo_1', 'photo_2'] }
 
         it 'retries to calibrate the satelite a few times and then calls tech support and raises error!' do
