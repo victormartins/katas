@@ -1,4 +1,4 @@
 class FizzBuzz
-  def call(numbers)
+  def call(input)
   end
 end
