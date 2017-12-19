@@ -27,8 +27,8 @@ RSpec.describe FizzBuzz do
     expect(subject.call(input)).to eq(output)
   end
 
-  context 'with :extra flag on' do
-    subject { described_class.new(extra: true) }
+  context 'with :check_digit flag on' do
+    subject { described_class.new(check_digit: true) }
 
     it 'returns "Fizz" if a number is divisable by 3 or has 3 on it' do
       expect(subject.call(13)).to eq('Fizz')
