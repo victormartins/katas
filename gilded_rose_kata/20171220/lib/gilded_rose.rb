@@ -1,47 +1,83 @@
+class Item
+  QUALITY_RANGE = (1...50)
+
+  def initialize(item_data)
+    @name    = item_data.fetch(:name)
+    @quality = item_data.fetch(:quality)
+    @sell_in = item_data.fetch(:sell_in)
+  end
+
+  def to_hash
+    {
+      name:    @name,
+      sell_in: @sell_in,
+      quality: @quality
+    }
+  end
+
+  def update
+    return aged_product if @name.downcase =~ /aged/
+    return backstage_product if @name.downcase =~ /backstage/
+    return sulfuras_product if @name.downcase =~ /sulfuras/
+    return conjured_product if @name.downcase =~ /conjured/
+    normal_product
+    self
+  end
+
+  private
+
+  def aged_product
+    update_quality
+    update_sell_in
+    update_quality if sell_in_day?
+    self
+  end
+
+  def backstage_product
+    update_quality
+    update_quality if @sell_in < 11
+    update_quality if @sell_in < 6
+    @quality = 0 if sell_in_day?
+    update_sell_in
+    self
+  end
+
+  def sulfuras_product
+    self
+  end
+
+  def conjured_product
+    update_quality(-2)
+    update_sell_in
+    update_quality(-2) if sell_in_day?
+    self
+  end
+
+  def normal_product
+    update_quality(-1)
+    update_sell_in
+    update_quality(-1) if sell_in_day?
+    self
+  end
+
+  def update_sell_in
+    @sell_in -= 1
+  end
+
+  def update_quality(val=1)
+    return unless QUALITY_RANGE.cover?(@quality)
+    @quality += val
+  end
+
+  def sell_in_day?
+    @sell_in <= 0
+  end
+end
+
+
+
 def update_quality(items)
-  items.each do |item|
-    if item[:name] != 'Aged Brie' && item[:name] != 'Backstage passes to a TAFKAL80ETC concert'
-      if item[:quality] > 0
-        if item[:name] != 'Sulfuras, Hand of Ragnaros'
-          item[:quality] -= 1
-        end
-      end
-    else
-      if item[:quality] < 50
-        item[:quality] += 1
-        if item[:name] == 'Backstage passes to a TAFKAL80ETC concert'
-          if item[:sell_in] < 11
-            if item[:quality] < 50
-              item[:quality] += 1
-            end
-          end
-          if item[:sell_in] < 6
-            if item[:quality] < 50
-              item[:quality] += 1
-            end
-          end
-        end
-      end
-    end
-    if item[:name] != 'Sulfuras, Hand of Ragnaros'
-      item[:sell_in] -= 1
-    end
-    if item[:sell_in] < 0
-      if item[:name] != "Aged Brie"
-        if item[:name] != 'Backstage passes to a TAFKAL80ETC concert'
-          if item[:quality] > 0
-            if item[:name] != 'Sulfuras, Hand of Ragnaros'
-              item[:quality] -= 1
-            end
-          end
-        else
-          item[:quality] = item[:quality] - item[:quality]
-        end
-      else
-        if item[:quality] < 50
-          item[:quality] += 1
-        end
-      end
-    end
+  items.map do |item_data|
+    Item.new(item_data).update.to_hash
   end
 end
