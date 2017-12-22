@@ -18,7 +18,7 @@ RSpec.describe FizzBuzz do
   end
 
   it 'returns an array if it receives an array' do
-    input = (1..20)
+    input = (1..20).to_a
     output = [
       1,  2,  'Fizz',     4,      'Buzz', 'Fizz',
       7,  8,  'Fizz',     'Buzz',  11,    'Fizz',
