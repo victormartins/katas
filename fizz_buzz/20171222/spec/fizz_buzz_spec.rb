@@ -1,7 +1,7 @@
 require_relative './../lib/fizz_buzz'
 
 RSpec.describe FizzBuzz do
-  it 'returns "fizz" if number is divisible by 3' do
+  it 'returns "Fizz" if number is divisible by 3' do
     expect(subject.call(3)).to eq('Fizz')
   end
 
