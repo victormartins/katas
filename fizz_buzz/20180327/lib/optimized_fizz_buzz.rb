@@ -1,24 +1,17 @@
 class OptimizedFizzBuzzRules
-  def initialize(input)
-    @input = input
-  end
-
-  def div_by?(*divs)
+  def self.div_by?(input, *divs)
     divs.map { |div| input % div == 0 }.all?
   end
 
-  def has_digit?(digit)
+  def self.has_digit?(input, digit)
     input.to_s.include?(digit.to_s)
   end
-
-  private
-
-  attr_reader :input
 end
 
 class OptimizedFizzBuzz
   FIZZ = 'Fizz'.freeze
   BUZZ = 'Buzz'.freeze
+  FIZZBUZZ = (FIZZ + BUZZ).freeze
   FIZZ_DIG = 3
   BUZZ_DIG = 5
 
@@ -36,15 +29,18 @@ class OptimizedFizzBuzz
   attr_reader :check_digit, :rules
 
   def process(input)
-    return FIZZ + BUZZ if rules(input).div_by?(FIZZ_DIG, BUZZ_DIG)
-    return FIZZ if rules(input).div_by?(FIZZ_DIG)
-    return BUZZ if rules(input).div_by?(BUZZ_DIG)
-    return FIZZ if rules(input).has_digit?(FIZZ_DIG) if check_digit
-    return BUZZ if rules(input).has_digit?(BUZZ_DIG) if check_digit
+    return FIZZBUZZ if rules.div_by?(input, FIZZ_DIG, BUZZ_DIG)
+    return FIZZ if rules.div_by?(input, FIZZ_DIG)
+    return BUZZ if rules.div_by?(input, BUZZ_DIG)
+
+    if check_digit
+      return FIZZ if rules.has_digit?(input, FIZZ_DIG)
+      return BUZZ if rules.has_digit?(input, BUZZ_DIG)
+    end
     input
   end
 
-  def rules(input)
-    @rules ||= FizzBuzzRules.new(input)
+  def rules
+    OptimizedFizzBuzzRules
   end
 end
