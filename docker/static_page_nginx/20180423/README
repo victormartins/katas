@@ -1,0 +1,4 @@
+docker build -t kata_static_file_nginx_image .
+docker run --name kata_static_file_nginx_container -d -p 80:80 kata_static_file_nginx_image
+docker container rm -f kata_static_file_nginx_container
+docker image rm kata_static_file_nginx_image
