@@ -6,17 +6,21 @@ Use docker to contain both Web Application and Web Server. Have docker-compose c
 
 ------------------------------------------
 
-Pull in the images I need to work with by creating the docker-compose file:
+1 - Pull in the images needed by creating the docker-compose file.
+2 - Create the hello world Sinatra App in a local folder
+3 - Crete a docker image with the app
+  - create a Dockerfile
+  - Specifiy the work directory
+  - Copy the gem files to the work directory
+  - Run bundler
+  - copy the app files
+  - change the docker-compose file to build the image
 
-version: "3"
-services:
-  my_nginx_kata:
-    image: nginx:alpine
-    ports:
-      - "80:80"
+4 - configure nginx to proxy the web_app
+  - create a folder and a Dockerfile for it
+  - Delete the default configuration file inside the nginx image
+  - Create an nginx config file based from here: http://ruby-journal.com/how-to-setup-rails-app-with-puma-and-nginx/
+  - copy the new configuration to the nginx engine
 
-
-  my_web_app_kata:
-    image: ruby:2.5.1-alpine3.7
-
-Create the hello world Sinatra App in a local folder
+5 - test in the browser
+  - http://localhost/hello_world
