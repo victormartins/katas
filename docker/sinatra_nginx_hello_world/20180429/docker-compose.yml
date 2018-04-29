@@ -1,0 +1,10 @@
+version: "3"
+services:
+  my_nginx_kata:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+
+
+  my_web_app_kata:
+    image: ruby:2.5.1-alpine3.7
