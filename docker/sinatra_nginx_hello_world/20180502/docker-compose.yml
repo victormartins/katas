@@ -1,0 +1,12 @@
+version: '3'
+services:
+  hello_world_app:
+    build: ./web_app
+    image: web_app_kata_image
+    container_name: web_app_kata_container
+  proxy:
+    build: ./proxy
+    image: nginx_kata_image
+    container_name: nginx_kata_container
+    ports:
+      - "2000:2000"
