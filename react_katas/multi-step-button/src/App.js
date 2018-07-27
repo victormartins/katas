@@ -3,6 +3,7 @@ import logo from './logo.svg'
 import './App.css'
 
 import MultiStepButton from './MultiStepButton'
+import HelloButton from './HelloButton'
 
 class App extends Component {
     render() {
@@ -17,6 +18,8 @@ class App extends Component {
                     messages={['Hello', 'Is it me?', 'You\'re looking for?', '!WOW!']}
                     action={() => console.log('Action!')}
                 />
+                <br />
+                <HelloButton />
             </div>
         )
     }
