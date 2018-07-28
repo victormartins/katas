@@ -1,5 +1,6 @@
 import React from 'react'
 import Cell from './Cell'
+import styled from 'styled-components'
 
 export default class Board extends React.Component {
     randomColor = () => {
@@ -10,14 +11,14 @@ export default class Board extends React.Component {
         const coloredBoard = []
         const { boardWidth, boardHeight } = this.props
 
-        for (let h = 0; h < boardHeight; h++) {
+        for (let w = 0; w < boardWidth; w++) {
             const row = []
-            for (let w = 0; w < boardWidth; w++) {
+            for (let h = 0; h < boardHeight; h++) {
                 row.push(<Cell key={`${w}_${h}`} color={this.randomColor()} />)
             }
-            coloredBoard.push(row)
+            coloredBoard.push(<div className="row">{row}</div>)
         }
 
-        return coloredBoard
+        return <div className="board">{coloredBoard}</div>
     }
 }
