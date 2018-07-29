@@ -3,7 +3,28 @@ import Cell from './Cell'
 import styled from 'styled-components'
 
 export default class Board extends React.Component {
-    coloredBoard = []
+    state = {
+        coloredBoard: []
+    }
+
+    generateBoard = () => {
+        const { boardWidth, boardHeight } = this.props
+        const result = []
+        for (let x = 0; x < boardWidth; x++) {
+            const row = []
+            for (let y = 0; y < boardHeight; y++) {
+                row.push(<Cell key={`${x}_${y}`} color={this.randomColor()} position={{ x, y }} />)
+            }
+
+            result.push(
+                <div key={x} className="row">
+                    {row}
+                </div>
+            )
+        }
+        this.setState({ coloredBoard: result })
+    }
+
     randomColor = () => {
         const { colorScheme } = this.props
         const maxLength = colorScheme.length
@@ -11,7 +32,7 @@ export default class Board extends React.Component {
         return colorScheme[index]
     }
     findMaxNeighbours = () => {
-        const board = this.coloredBoard
+        const board = this.state.coloredBoard
 
         const cells = board
             .map((row) => {
@@ -102,25 +123,15 @@ export default class Board extends React.Component {
         // console.log('splitColorsByNeighbourGroups: ', splitColorsByNeighbourGroups)
         console.log('colorWithMoreNeighbours: ', colorWithMoreNeighbours)
     }
+    componentWillMount() {
+        this.generateBoard()
+    }
     render() {
-        const { boardWidth, boardHeight } = this.props
-
-        for (let x = 0; x < boardWidth; x++) {
-            const row = []
-            for (let y = 0; y < boardHeight; y++) {
-                row.push(<Cell key={`${x}_${y}`} color={this.randomColor()} position={{ x, y }} />)
-            }
-            this.coloredBoard.push(
-                <div key={x} className="row">
-                    {row}
-                </div>
-            )
-        }
-
         return (
             <React.Fragment>
-                <div className="board">{this.coloredBoard}</div>
+                <div className="board">{this.state.coloredBoard}</div>
                 <br />
+                <button onClick={this.generateBoard}>New</button>
                 <button onClick={this.findMaxNeighbours}>Neighbours</button>
             </React.Fragment>
         )
