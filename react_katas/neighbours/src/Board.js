@@ -4,7 +4,8 @@ import styled from 'styled-components'
 
 export default class Board extends React.Component {
     state = {
-        coloredBoard: []
+        coloredBoard: [],
+        cells: []
     }
 
     generateBoard = () => {
@@ -13,7 +14,7 @@ export default class Board extends React.Component {
         for (let x = 0; x < boardWidth; x++) {
             const row = []
             for (let y = 0; y < boardHeight; y++) {
-                row.push(<Cell key={`${x}_${y}`} color={this.randomColor()} position={{ x, y }} />)
+                row.push(<Cell key={`${x}_${y}`} color={this.randomColor()} position={{ x, y }} highLighted={false} />)
             }
 
             result.push(
@@ -22,7 +23,14 @@ export default class Board extends React.Component {
                 </div>
             )
         }
-        this.setState({ coloredBoard: result })
+
+        const cells = result
+            .map((row) => {
+                return row.props.children
+            })
+            .reduce((result, array_of_cells) => [...result, ...array_of_cells], [])
+
+        this.setState({ coloredBoard: result, cells: cells })
     }
 
     randomColor = () => {
@@ -32,15 +40,7 @@ export default class Board extends React.Component {
         return colorScheme[index]
     }
     findMaxNeighbours = () => {
-        const board = this.state.coloredBoard
-
-        const cells = board
-            .map((row) => {
-                return row.props.children
-            })
-            .reduce((result, array_of_cells) => [...result, ...array_of_cells], [])
-
-        const groupPositionsByColor = cells.reduce((result, cell) => {
+        const groupPositionsByColor = this.state.cells.reduce((result, cell) => {
             const { color, position } = cell.props
 
             result[color] = result[color] || []
@@ -91,7 +91,7 @@ export default class Board extends React.Component {
             {}
         )
 
-        const colorWithMoreNeighbours = Object.entries(splitColorsByNeighbourGroups).reduce((result, data) => {
+        const colorWithMostNeighbours = Object.entries(splitColorsByNeighbourGroups).reduce((result, data) => {
             const color = data[0]
             const neighboursGroups = data[1]
 
@@ -121,10 +121,16 @@ export default class Board extends React.Component {
         }, {})
 
         // console.log('splitColorsByNeighbourGroups: ', splitColorsByNeighbourGroups)
-        console.log('colorWithMoreNeighbours: ', colorWithMoreNeighbours)
+        // console.log('colorWithMostNeighbours: ', colorWithMostNeighbours)
+        return colorWithMostNeighbours
     }
     componentWillMount() {
         this.generateBoard()
+    }
+
+    showMaxNeighbours = () => {
+        const colorWithMostNeighbours = this.findMaxNeighbours()
+        console.log('colorWithMostNeighbours: ', colorWithMostNeighbours)
     }
     render() {
         return (
@@ -132,7 +138,7 @@ export default class Board extends React.Component {
                 <div className="board">{this.state.coloredBoard}</div>
                 <br />
                 <button onClick={this.generateBoard}>New</button>
-                <button onClick={this.findMaxNeighbours}>Neighbours</button>
+                <button onClick={this.showMaxNeighbours}>Neighbours</button>
             </React.Fragment>
         )
     }
