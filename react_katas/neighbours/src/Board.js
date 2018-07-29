@@ -3,12 +3,22 @@ import Cell from './Cell'
 import styled from 'styled-components'
 
 export default class Board extends React.Component {
+    coloredBoard = []
     randomColor = () => {
-        // TODO: Make index random integer betwen 0 and max colorScheme.length
-        return this.props.colorScheme[2]
+        const { colorScheme } = this.props
+        const maxLength = colorScheme.length
+        let index = Math.floor(Math.random() * maxLength)
+        return colorScheme[index]
+    }
+    findMaxNeighbours = () => {
+        for (const row of this.coloredBoard) {
+            console.log('Row', row)
+            for (const cell of row.children) {
+                console.log('CELL', cell)
+            }
+        }
     }
     render() {
-        const coloredBoard = []
         const { boardWidth, boardHeight } = this.props
 
         for (let w = 0; w < boardWidth; w++) {

@@ -3,7 +3,7 @@ import './App.css'
 import Board from './Board'
 class App extends Component {
     render() {
-        const colorScheme = ['red', 'blue', 'green', 'white']
+        const colorScheme = ['red', 'blue', 'green', 'purple']
         const boardWidth = 4
         const boardHeight = 3
         return (
