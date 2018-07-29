@@ -5,18 +5,26 @@ import styled from 'styled-components'
 export default class Board extends React.Component {
     state = {
         coloredBoard: [],
+        boardData: [],
         cells: []
     }
 
     generateBoard = () => {
         const { boardWidth, boardHeight } = this.props
         const result = []
+        const data = []
         for (let x = 0; x < boardWidth; x++) {
             const row = []
+            const dataRow = []
             for (let y = 0; y < boardHeight; y++) {
-                row.push(<Cell key={`${x}_${y}`} color={this.randomColor()} position={{ x, y }} highLighted={false} />)
+                const color = this.randomColor()
+                const position = { x, y }
+                const highLighted = false
+                dataRow.push({ color: color, position: position, highLighted: highLighted })
+                row.push(<Cell key={`${x}_${y}`} color={color} position={position} highLighted={highLighted} />)
             }
 
+            data.push(dataRow)
             result.push(
                 <div key={x} className="row">
                     {row}
@@ -24,13 +32,15 @@ export default class Board extends React.Component {
             )
         }
 
+        // console.log('GENERATED_BOARD:', result)
+
         const cells = result
             .map((row) => {
                 return row.props.children
             })
             .reduce((result, array_of_cells) => [...result, ...array_of_cells], [])
 
-        this.setState({ coloredBoard: result, cells: cells })
+        this.setState({ coloredBoard: result, cells: cells, boardData: data })
     }
 
     randomColor = () => {
@@ -129,8 +139,34 @@ export default class Board extends React.Component {
     }
 
     showMaxNeighbours = () => {
+        const updatedBoard = []
         const colorWithMostNeighbours = this.findMaxNeighbours()
         console.log('colorWithMostNeighbours: ', colorWithMostNeighbours)
+        // console.log('boardData:', this.state.boardData)
+        let index = 0
+        for (const column of this.state.boardData) {
+            // console.log('Column:', column)
+            index = index + 1
+            const rowCells = []
+            for (const cell of column) {
+                // console.log('Cell:', cell)
+                rowCells.push(
+                    <Cell
+                        key={`${cell.position['x']}_${cell.position['y']}`}
+                        color={cell.color}
+                        position={cell.position}
+                        highLighted={
+                            colorWithMostNeighbours.neighbours.find((e) => {
+                                return e.x === cell.position.x && e.y === cell.position.y
+                            }) !== undefined
+                        }
+                    />
+                )
+            }
+            updatedBoard.push(<div key={index}>{rowCells}</div>)
+        }
+
+        this.setState({ coloredBoard: updatedBoard })
     }
     render() {
         return (
