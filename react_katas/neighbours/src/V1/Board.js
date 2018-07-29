@@ -2,7 +2,9 @@ import React from 'react'
 import Cell from './Cell'
 import styled from 'styled-components'
 
-export default class Board extends React.Component {
+// This implementation almost works, but it fails to find some neighbours sometimes.
+// The code is also very messy since it was hacked on the go.
+export default class V1Board extends React.Component {
     state = {
         coloredBoard: [],
         boardData: [],
@@ -61,8 +63,16 @@ export default class Board extends React.Component {
 
         const checkIfNeighbours = (p1, p2) => {
             return (
-                (p1['x'] === p2['x'] || p1['x'] === p2['x'] + 1 || p1['x'] === p2['x'] - 1) &&
-                (p1['y'] === p2['y'] || p1['y'] === p2['y'] + 1 || p1['y'] === p2['y'] - 1)
+                // (p1['x'] === p2['x'] || p1['x'] === p2['x'] + 1 || p1['x'] === p2['x'] - 1) &&
+                // (p1['y'] === p2['y'] || p1['y'] === p2['y'] + 1 || p1['y'] === p2['y'] - 1)
+                (p2['x'] === p1['x'] - 1 && p2['y'] === p1['y'] - 1) || // A
+                (p2['x'] === p1['x'] && p2['y'] === p1['y'] - 1) || // B
+                (p2['x'] === p1['x'] + 1 && p2['y'] === p1['y'] - 1) || // C
+                (p2['x'] === p1['x'] - 1 && p2['y'] === p1['y']) || // D
+                (p2['x'] === p1['x'] + 1 && p2['y'] === p1['y']) || // E
+                (p2['x'] === p1['x'] - 1 && p2['y'] === p1['y'] + 1) || // F
+                (p2['x'] === p1['x'] && p2['y'] === p1['y'] + 1) || // G
+                (p2['x'] === p1['x'] + 1 && p2['y'] === p1['y'] + 1) // H
             )
         }
 

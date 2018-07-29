@@ -13,10 +13,10 @@ const Div = styled.div`
     width: 10px;
     height: 10px;
     background-color: ${(props) => props.color};
-    border: 2px solid white;
+    border: 4px solid white;
     ${(props) =>
         props.highLighted &&
         css`
-            border: 2px solid black;
+            border: 4px solid black;
         `};
 `
