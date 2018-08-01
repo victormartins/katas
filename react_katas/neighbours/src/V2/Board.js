@@ -77,6 +77,22 @@ export default class Board extends React.Component {
     // In this situation we are not moving cells that were not neighbours before
     // but are now!
     findNeighbours = () => {
+        const checkIfPointsAreNeighbours = (pointA, pointB) => {
+            // TOP AND BOTTOM
+            return (
+                (pointA.x === pointB.x && pointA.y === pointB.y - 1) ||
+                (pointA.x === pointB.x && pointA.y === pointB.y + 1) ||
+                // LEFT and RIGHT
+                (pointA.x === pointB.x - 1 && pointA.y === pointB.y) ||
+                (pointA.x === pointB.x + 1 && pointA.y === pointB.y) ||
+                // TOP DIAGONALS (LEFT AND RIGHT)
+                (pointA.x === pointB.x - 1 && pointA.y === pointB.y - 1) ||
+                (pointA.x === pointB.x + 1 && pointA.y === pointB.y - 1) ||
+                // BOTTOM DIAGONALS (LEFT AND RIGHT)
+                (pointA.x === pointB.x - 1 && pointA.y === pointB.y + 1) ||
+                (pointA.x === pointB.x + 1 && pointA.y === pointB.y + 1)
+            )
+        }
         const groupColorsByNeighbours = (result, cell) => {
             result[cell.color] = result[cell.color] || []
             result[cell.color].max = 0
@@ -90,20 +106,7 @@ export default class Board extends React.Component {
                 result[cell.color].some((groupOfNeighbours) => {
                     const areNeighbours = groupOfNeighbours.some((cellInGroupOfNeighbours) => {
                         // console.log('currentCell', cell, 'cellInGroupOfNeighbours', cellInGroupOfNeighbours)
-                        return (
-                            // TOP AND BOTTOM
-                            (cell.x === cellInGroupOfNeighbours.x && cell.y === cellInGroupOfNeighbours.y - 1) ||
-                            (cell.x === cellInGroupOfNeighbours.x && cell.y === cellInGroupOfNeighbours.y + 1) ||
-                            // LEFT and RIGHT
-                            (cell.x === cellInGroupOfNeighbours.x - 1 && cell.y === cellInGroupOfNeighbours.y) ||
-                            (cell.x === cellInGroupOfNeighbours.x + 1 && cell.y === cellInGroupOfNeighbours.y) ||
-                            // TOP DIAGONALS (LEFT AND RIGHT)
-                            (cell.x === cellInGroupOfNeighbours.x - 1 && cell.y === cellInGroupOfNeighbours.y - 1) ||
-                            (cell.x === cellInGroupOfNeighbours.x + 1 && cell.y === cellInGroupOfNeighbours.y - 1) ||
-                            // BOTTOM DIAGONALS (LEFT AND RIGHT)
-                            (cell.x === cellInGroupOfNeighbours.x - 1 && cell.y === cellInGroupOfNeighbours.y + 1) ||
-                            (cell.x === cellInGroupOfNeighbours.x + 1 && cell.y === cellInGroupOfNeighbours.y + 1)
-                        )
+                        return checkIfPointsAreNeighbours(cell, cellInGroupOfNeighbours)
                     })
 
                     if (areNeighbours) {
@@ -111,6 +114,7 @@ export default class Board extends React.Component {
                         groupOfNeighbours.push(cell)
                     }
 
+                    // Update max counter if neighbourhood got bigger than the existing max
                     if (result[cell.color].max < groupOfNeighbours.length) {
                         result[cell.color].max = groupOfNeighbours.length
                     }
