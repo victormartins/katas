@@ -122,17 +122,26 @@ export default class Board extends React.Component {
         }
 
         const colorsAndNeighbours = this.state.boardData.reduce(groupColorsByNeighbours, {})
-        // TODO: VICMAR It seems that these sorts are buggy
         const maxNeighbours = Object.entries(colorsAndNeighbours)
             .sort((allColorsGroupsTuplesA, allColorsGroupsTuplesB) => {
-                // console.log('allColorsGroupsTuplesA', allColorsGroupsTuplesA[0], allColorsGroupsTuplesA[1])
-                // console.log('allColorsGroupsTuplesB', allColorsGroupsTuplesB[0], allColorsGroupsTuplesB[1])
-                return allColorsGroupsTuplesB[1].max - allColorsGroupsTuplesA[1].max
-            })[0]
-            .sort((colorGroupTuple) => {
-                colorGroupTuple[1].length
+                if (allColorsGroupsTuplesB[1].max < allColorsGroupsTuplesA[1].max) {
+                    return -1
+                }
+                if (allColorsGroupsTuplesB[1].max > allColorsGroupsTuplesA[1].max) {
+                    return 1
+                }
+                return 0
+            })[0][1] // 0 is color name, // 1 is the neighbourhood arrays with the neighbour cells inside
+            .sort((colorGroupTupleA, colorGroupTupleB) => {
+                if (colorGroupTupleB.length < colorGroupTupleA.length) {
+                    return -1
+                }
+                if (colorGroupTupleB.length > colorGroupTupleA.length) {
+                    return 1
+                }
+                return 0
             })
-        const neighboursToHighlight = maxNeighbours[1][0]
+        const neighboursToHighlight = maxNeighbours[0]
         console.log('Max NEIGHBOURS:', maxNeighbours)
         console.log('MaxToHighLight:', neighboursToHighlight)
 
@@ -144,13 +153,8 @@ export default class Board extends React.Component {
             })
             cellToHighlight.highLighted = true
         }
-        const highLightedBoardData = boardData.reduce((result, cell) => {
-            console.log('Data', cell)
-            return result
-        }, {})
 
         this.setState({ boardData: boardData })
-        console.log('highLightedBoardData', highLightedBoardData)
     }
 
     render() {

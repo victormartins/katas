@@ -5,6 +5,7 @@ import Board from './V2/Board'
 class App extends Component {
     render() {
         const colorScheme = ['red', 'blue', 'green', 'purple']
+        const lowProfileColorScheme = ['#AAA', '#BBB', '#CCC', '#DDD']
         const boardWidth = 4
         const boardHeight = 3
         return (
