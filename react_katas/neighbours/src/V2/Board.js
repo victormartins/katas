@@ -71,6 +71,11 @@ export default class Board extends React.Component {
     // group neighbour groups by color
     // a color is an array of arrays, each array has grouped cells by proximity
     // we keep track of which neighbourhood has more neighbours so that we can easily find the one we want later
+    //
+    // TODO - This algorythim fails if we check a given cell for neighbours
+    // and it does not find any, but then in the future we add a neighbour.
+    // In this situation we are not moving cells that were not neighbours before
+    // but are now!
     findNeighbours = () => {
         const groupColorsByNeighbours = (result, cell) => {
             result[cell.color] = result[cell.color] || []
