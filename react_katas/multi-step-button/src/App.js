@@ -4,6 +4,7 @@ import './App.css'
 
 import MultiStepButton from './MultiStepButton'
 import HelloButton from './HelloButton'
+import SpawnChildrenButton from './SpawnChildrenButton'
 
 class App extends Component {
     render() {
@@ -20,6 +21,7 @@ class App extends Component {
                 />
                 <br />
                 <HelloButton />
+                <SpawnChildrenButton colorScheme={['#AB47BC', '#2196F3', '#8BC34A', '#FFB300', '#9C27B0', '#ff1744']} />
             </div>
         )
     }
