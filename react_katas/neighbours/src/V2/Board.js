@@ -57,7 +57,127 @@ export default class Board extends React.Component {
             }
         }
         console.log('Generated boardData', result)
-        return result
+        // return result
+
+        // This set forces us to check if cells that did not had neighbours in the past
+        // have in the future. We do this by merging groups of neighbours together after we group them
+        // return [
+        //     { x: 0, y: 0, color: 'blue', highLighted: false },
+        //     { x: 1, y: 0, color: 'blue', highLighted: false },
+        //     { x: 2, y: 0, color: 'blue', highLighted: false },
+        //     { x: 3, y: 0, color: 'purple', highLighted: false },
+        //     { x: 0, y: 1, color: 'green', highLighted: false },
+        //     { x: 1, y: 1, color: 'purple', highLighted: false },
+        //     { x: 2, y: 1, color: 'purple', highLighted: false },
+        //     { x: 3, y: 1, color: 'purple', highLighted: false },
+        //     { x: 0, y: 2, color: 'blue', highLighted: false },
+        //     { x: 1, y: 2, color: 'green', highLighted: false },
+        //     { x: 2, y: 2, color: 'purple', highLighted: false },
+        //     { x: 3, y: 2, color: 'blue', highLighted: false }
+        // ]
+
+        return [
+            { x: 0, y: 0, color: 'red', highLighted: false },
+            { x: 1, y: 0, color: 'blue', highLighted: false },
+            { x: 2, y: 0, color: 'purple', highLighted: false },
+            { x: 3, y: 0, color: 'green', highLighted: false },
+            { x: 4, y: 0, color: 'blue', highLighted: false },
+            { x: 5, y: 0, color: 'blue', highLighted: false },
+            { x: 6, y: 0, color: 'green', highLighted: false },
+            { x: 7, y: 0, color: 'red', highLighted: false },
+            { x: 8, y: 0, color: 'blue', highLighted: false },
+            { x: 9, y: 0, color: 'blue', highLighted: false },
+            { x: 0, y: 1, color: 'blue', highLighted: false },
+            { x: 1, y: 1, color: 'green', highLighted: false },
+            { x: 2, y: 1, color: 'green', highLighted: false },
+            { x: 3, y: 1, color: 'green', highLighted: false },
+            { x: 4, y: 1, color: 'red', highLighted: false },
+            { x: 5, y: 1, color: 'green', highLighted: false },
+            { x: 6, y: 1, color: 'purple', highLighted: false },
+            { x: 7, y: 1, color: 'green', highLighted: false },
+            { x: 8, y: 1, color: 'green', highLighted: false },
+            { x: 9, y: 1, color: 'green', highLighted: false },
+            { x: 0, y: 2, color: 'blue', highLighted: false },
+            { x: 1, y: 2, color: 'purple', highLighted: false },
+            { x: 2, y: 2, color: 'purple', highLighted: false },
+            { x: 3, y: 2, color: 'purple', highLighted: false },
+            { x: 4, y: 2, color: 'red', highLighted: false },
+            { x: 5, y: 2, color: 'purple', highLighted: false },
+            { x: 6, y: 2, color: 'purple', highLighted: false },
+            { x: 7, y: 2, color: 'blue', highLighted: false },
+            { x: 8, y: 2, color: 'purple', highLighted: false },
+            { x: 9, y: 2, color: 'blue', highLighted: false },
+            { x: 0, y: 3, color: 'green', highLighted: false },
+            { x: 1, y: 3, color: 'purple', highLighted: false },
+            { x: 2, y: 3, color: 'green', highLighted: false },
+            { x: 3, y: 3, color: 'purple', highLighted: false },
+            { x: 4, y: 3, color: 'green', highLighted: false },
+            { x: 5, y: 3, color: 'green', highLighted: false },
+            { x: 6, y: 3, color: 'red', highLighted: false },
+            { x: 7, y: 3, color: 'green', highLighted: false },
+            { x: 8, y: 3, color: 'red', highLighted: false },
+            { x: 9, y: 3, color: 'red', highLighted: false },
+            { x: 0, y: 4, color: 'purple', highLighted: false },
+            { x: 1, y: 4, color: 'blue', highLighted: false },
+            { x: 2, y: 4, color: 'red', highLighted: false },
+            { x: 3, y: 4, color: 'blue', highLighted: false },
+            { x: 4, y: 4, color: 'blue', highLighted: false },
+            { x: 5, y: 4, color: 'purple', highLighted: false },
+            { x: 6, y: 4, color: 'green', highLighted: false },
+            { x: 7, y: 4, color: 'green', highLighted: false },
+            { x: 8, y: 4, color: 'green', highLighted: false },
+            { x: 9, y: 4, color: 'purple', highLighted: false },
+            { x: 0, y: 5, color: 'blue', highLighted: false },
+            { x: 1, y: 5, color: 'green', highLighted: false },
+            { x: 2, y: 5, color: 'red', highLighted: false },
+            { x: 3, y: 5, color: 'green', highLighted: false },
+            { x: 4, y: 5, color: 'purple', highLighted: false },
+            { x: 5, y: 5, color: 'green', highLighted: false },
+            { x: 6, y: 5, color: 'red', highLighted: false },
+            { x: 7, y: 5, color: 'red', highLighted: false },
+            { x: 8, y: 5, color: 'green', highLighted: false },
+            { x: 9, y: 5, color: 'red', highLighted: false },
+            { x: 0, y: 6, color: 'purple', highLighted: false },
+            { x: 1, y: 6, color: 'purple', highLighted: false },
+            { x: 2, y: 6, color: 'purple', highLighted: false },
+            { x: 3, y: 6, color: 'green', highLighted: false },
+            { x: 4, y: 6, color: 'blue', highLighted: false },
+            { x: 5, y: 6, color: 'red', highLighted: false },
+            { x: 6, y: 6, color: 'blue', highLighted: false },
+            { x: 7, y: 6, color: 'purple', highLighted: false },
+            { x: 8, y: 6, color: 'purple', highLighted: false },
+            { x: 9, y: 6, color: 'red', highLighted: false },
+            { x: 0, y: 7, color: 'red', highLighted: false },
+            { x: 1, y: 7, color: 'purple', highLighted: false },
+            { x: 2, y: 7, color: 'purple', highLighted: false },
+            { x: 3, y: 7, color: 'red', highLighted: false },
+            { x: 4, y: 7, color: 'blue', highLighted: false },
+            { x: 5, y: 7, color: 'green', highLighted: false },
+            { x: 6, y: 7, color: 'red', highLighted: false },
+            { x: 7, y: 7, color: 'green', highLighted: false },
+            { x: 8, y: 7, color: 'blue', highLighted: false },
+            { x: 9, y: 7, color: 'blue', highLighted: false },
+            { x: 0, y: 8, color: 'red', highLighted: false },
+            { x: 1, y: 8, color: 'purple', highLighted: false },
+            { x: 2, y: 8, color: 'purple', highLighted: false },
+            { x: 3, y: 8, color: 'purple', highLighted: false },
+            { x: 4, y: 8, color: 'red', highLighted: false },
+            { x: 5, y: 8, color: 'red', highLighted: false },
+            { x: 6, y: 8, color: 'red', highLighted: false },
+            { x: 7, y: 8, color: 'red', highLighted: false },
+            { x: 8, y: 8, color: 'blue', highLighted: false },
+            { x: 9, y: 8, color: 'red', highLighted: false },
+            { x: 0, y: 9, color: 'purple', highLighted: false },
+            { x: 1, y: 9, color: 'purple', highLighted: false },
+            { x: 2, y: 9, color: 'red', highLighted: false },
+            { x: 3, y: 9, color: 'red', highLighted: false },
+            { x: 4, y: 9, color: 'blue', highLighted: false },
+            { x: 5, y: 9, color: 'blue', highLighted: false },
+            { x: 6, y: 9, color: 'green', highLighted: false },
+            { x: 7, y: 9, color: 'red', highLighted: false },
+            { x: 8, y: 9, color: 'red', highLighted: false },
+            { x: 9, y: 9, color: 'purple', highLighted: false }
+        ]
     }
 
     componentWillMount() {
@@ -71,11 +191,6 @@ export default class Board extends React.Component {
     // group neighbour groups by color
     // a color is an array of arrays, each array has grouped cells by proximity
     // we keep track of which neighbourhood has more neighbours so that we can easily find the one we want later
-    //
-    // TODO - This algorythim fails if we check a given cell for neighbours
-    // and it does not find any, but then in the future we add a neighbour.
-    // In this situation we are not moving cells that were not neighbours before
-    // but are now!
     findNeighbours = () => {
         const checkIfPointsAreNeighbours = (pointA, pointB) => {
             // TOP AND BOTTOM
@@ -131,6 +246,7 @@ export default class Board extends React.Component {
         }
 
         const colorsAndNeighbours = this.state.boardData.reduce(groupColorsByNeighbours, {})
+        console.log('NEIGHBOURHOODS_BY_COLOR:', colorsAndNeighbours)
         const maxNeighbours = Object.entries(colorsAndNeighbours)
             .sort((allColorsGroupsTuplesA, allColorsGroupsTuplesB) => {
                 if (allColorsGroupsTuplesB[1].max < allColorsGroupsTuplesA[1].max) {
@@ -141,7 +257,39 @@ export default class Board extends React.Component {
                 }
                 return 0
             })[0][1] // 0 is color name, // 1 is the neighbourhood arrays with the neighbour cells inside
+            .reduce((joined_neighbourhoods, color_neighbourhood) => {
+                let foundTouchingNeighbours = false
+
+                // check if joined_neigh has any points that are neighbours of any points in color_neighbourhood
+                const chechIfJoinedNeighTouchesColorNeigh = (point_in_joined_neigh) => {
+                    const points_touch = color_neighbourhood.some((point_in_color_neigh) =>
+                        checkIfPointsAreNeighbours(point_in_joined_neigh, point_in_color_neigh)
+                    )
+                    // the two neighbours touch each other if any of the points inside them
+                    // touch each other
+                    // console.log('POINTS_TOUCH?', points_touch)
+                    return points_touch
+                }
+
+                // check if we find any touching neighbourhoods and if we do join them together
+                joined_neighbourhoods.some((joined_neigh, index) => {
+                    // console.log('color_neighbourhood', color_neighbourhood, 'is touching?', joined_neigh)
+                    const areTheseNeighbourhoodsConnected = joined_neigh.some(chechIfJoinedNeighTouchesColorNeigh)
+
+                    // if they are, join them together
+                    if (areTheseNeighbourhoodsConnected) {
+                        joined_neighbourhoods[index] = [...joined_neigh, ...color_neighbourhood]
+                    }
+                    return areTheseNeighbourhoodsConnected
+                })
+
+                if (!foundTouchingNeighbours) {
+                    joined_neighbourhoods.push(color_neighbourhood)
+                }
+                return joined_neighbourhoods
+            }, [])
             .sort((colorGroupTupleA, colorGroupTupleB) => {
+                // sort the neighbour groups of a given color so that we can pick the first one
                 if (colorGroupTupleB.length < colorGroupTupleA.length) {
                     return -1
                 }
@@ -150,6 +298,7 @@ export default class Board extends React.Component {
                 }
                 return 0
             })
+
         const neighboursToHighlight = maxNeighbours[0]
         console.log('Max NEIGHBOURS:', maxNeighbours)
         console.log('MaxToHighLight:', neighboursToHighlight)

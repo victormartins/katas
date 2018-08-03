@@ -6,8 +6,8 @@ class App extends Component {
     render() {
         const colorScheme = ['red', 'blue', 'green', 'purple']
         const lowProfileColorScheme = ['#AAA', '#BBB', '#CCC', '#DDD']
-        const boardWidth = 4
-        const boardHeight = 3
+        const boardWidth = 10
+        const boardHeight = 10
         return (
             <div className="app">
                 <Board colorScheme={colorScheme} boardWidth={boardWidth} boardHeight={boardHeight} />
