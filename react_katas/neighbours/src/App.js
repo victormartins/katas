@@ -4,7 +4,8 @@ import './App.css'
 import Board from './V2/Board'
 class App extends Component {
     render() {
-        const colorScheme = ['red', 'blue', 'green', 'purple']
+        const colorScheme = ['#AB47BC', '#42A5F5', '#26A69A', '#FF7043']
+        const trioColorScheme = ['#666', '#CCC', '#AAEEFF']
         const lowProfileColorScheme = ['#AAA', '#BBB', '#CCC', '#DDD']
         const boardWidth = 10
         const boardHeight = 10

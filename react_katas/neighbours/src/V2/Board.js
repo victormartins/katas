@@ -32,7 +32,7 @@ export default class Board extends React.Component {
         }
 
         const result = boardData.reduce(groupCellsIntoLines, []).map(insertIntoDivs)
-        console.log('RENDERED_BOARD:', result)
+        // console.log('RENDERED_BOARD:', result)
         return result
     }
 
@@ -43,12 +43,12 @@ export default class Board extends React.Component {
     }
 
     generateBoardData = () => {
-        const result = []
+        const generatedData = []
         const { boardWidth, boardHeight } = this.props
 
         for (let h = 0; h < boardHeight; h++) {
             for (let w = 0; w < boardWidth; w++) {
-                result.push({
+                generatedData.push({
                     x: w,
                     y: h,
                     color: this.randomColor(),
@@ -56,128 +56,264 @@ export default class Board extends React.Component {
                 })
             }
         }
-        console.log('Generated boardData', result)
-        // return result
+        console.log('GENERATED_BOARD_DATA:', generatedData)
+        return generatedData
 
-        // This set forces us to check if cells that did not had neighbours in the past
-        // have in the future. We do this by merging groups of neighbours together after we group them
+        // Test Board. Must Highlight the following:
+        // [
+        //     { x: 6, y: 5, color: 'red', highLighted: true },
+        //     { x: 7, y: 5, color: 'red', highLighted: true },
+        //     { x: 5, y: 6, color: 'red', highLighted: true },
+        //     { x: 6, y: 7, color: 'red', highLighted: true },
+        //     { x: 5, y: 8, color: 'red', highLighted: true },
+        //     { x: 6, y: 8, color: 'red', highLighted: true },
+        //     { x: 7, y: 8, color: 'red', highLighted: true },
+        //     { x: 7, y: 9, color: 'red', highLighted: true },
+        //     { x: 8, y: 9, color: 'red', highLighted: true },
+        //     { x: 3, y: 7, color: 'red', highLighted: true },
+        //     { x: 4, y: 8, color: 'red', highLighted: true },
+        //     { x: 3, y: 9, color: 'red', highLighted: true },
+        //     { x: 9, y: 8, color: 'red', highLighted: true },
+        //     { x: 2, y: 9, color: 'red', highLighted: true }
+        // ]
+        //
         // return [
-        //     { x: 0, y: 0, color: 'blue', highLighted: false },
+        //     { x: 0, y: 0, color: 'red', highLighted: false },
         //     { x: 1, y: 0, color: 'blue', highLighted: false },
-        //     { x: 2, y: 0, color: 'blue', highLighted: false },
-        //     { x: 3, y: 0, color: 'purple', highLighted: false },
-        //     { x: 0, y: 1, color: 'green', highLighted: false },
-        //     { x: 1, y: 1, color: 'purple', highLighted: false },
-        //     { x: 2, y: 1, color: 'purple', highLighted: false },
-        //     { x: 3, y: 1, color: 'purple', highLighted: false },
+        //     { x: 2, y: 0, color: 'purple', highLighted: false },
+        //     { x: 3, y: 0, color: 'green', highLighted: false },
+        //     { x: 4, y: 0, color: 'blue', highLighted: false },
+        //     { x: 5, y: 0, color: 'blue', highLighted: false },
+        //     { x: 6, y: 0, color: 'green', highLighted: false },
+        //     { x: 7, y: 0, color: 'red', highLighted: false },
+        //     { x: 8, y: 0, color: 'blue', highLighted: false },
+        //     { x: 9, y: 0, color: 'blue', highLighted: false },
+        //     { x: 0, y: 1, color: 'blue', highLighted: false },
+        //     { x: 1, y: 1, color: 'green', highLighted: false },
+        //     { x: 2, y: 1, color: 'green', highLighted: false },
+        //     { x: 3, y: 1, color: 'green', highLighted: false },
+        //     { x: 4, y: 1, color: 'red', highLighted: false },
+        //     { x: 5, y: 1, color: 'green', highLighted: false },
+        //     { x: 6, y: 1, color: 'purple', highLighted: false },
+        //     { x: 7, y: 1, color: 'green', highLighted: false },
+        //     { x: 8, y: 1, color: 'green', highLighted: false },
+        //     { x: 9, y: 1, color: 'green', highLighted: false },
         //     { x: 0, y: 2, color: 'blue', highLighted: false },
-        //     { x: 1, y: 2, color: 'green', highLighted: false },
+        //     { x: 1, y: 2, color: 'purple', highLighted: false },
         //     { x: 2, y: 2, color: 'purple', highLighted: false },
-        //     { x: 3, y: 2, color: 'blue', highLighted: false }
+        //     { x: 3, y: 2, color: 'purple', highLighted: false },
+        //     { x: 4, y: 2, color: 'red', highLighted: false },
+        //     { x: 5, y: 2, color: 'purple', highLighted: false },
+        //     { x: 6, y: 2, color: 'purple', highLighted: false },
+        //     { x: 7, y: 2, color: 'blue', highLighted: false },
+        //     { x: 8, y: 2, color: 'purple', highLighted: false },
+        //     { x: 9, y: 2, color: 'blue', highLighted: false },
+        //     { x: 0, y: 3, color: 'green', highLighted: false },
+        //     { x: 1, y: 3, color: 'purple', highLighted: false },
+        //     { x: 2, y: 3, color: 'green', highLighted: false },
+        //     { x: 3, y: 3, color: 'purple', highLighted: false },
+        //     { x: 4, y: 3, color: 'green', highLighted: false },
+        //     { x: 5, y: 3, color: 'green', highLighted: false },
+        //     { x: 6, y: 3, color: 'red', highLighted: false },
+        //     { x: 7, y: 3, color: 'green', highLighted: false },
+        //     { x: 8, y: 3, color: 'red', highLighted: false },
+        //     { x: 9, y: 3, color: 'red', highLighted: false },
+        //     { x: 0, y: 4, color: 'purple', highLighted: false },
+        //     { x: 1, y: 4, color: 'blue', highLighted: false },
+        //     { x: 2, y: 4, color: 'red', highLighted: false },
+        //     { x: 3, y: 4, color: 'blue', highLighted: false },
+        //     { x: 4, y: 4, color: 'blue', highLighted: false },
+        //     { x: 5, y: 4, color: 'purple', highLighted: false },
+        //     { x: 6, y: 4, color: 'green', highLighted: false },
+        //     { x: 7, y: 4, color: 'green', highLighted: false },
+        //     { x: 8, y: 4, color: 'green', highLighted: false },
+        //     { x: 9, y: 4, color: 'purple', highLighted: false },
+        //     { x: 0, y: 5, color: 'blue', highLighted: false },
+        //     { x: 1, y: 5, color: 'green', highLighted: false },
+        //     { x: 2, y: 5, color: 'red', highLighted: false },
+        //     { x: 3, y: 5, color: 'green', highLighted: false },
+        //     { x: 4, y: 5, color: 'purple', highLighted: false },
+        //     { x: 5, y: 5, color: 'green', highLighted: false },
+        //     { x: 6, y: 5, color: 'red', highLighted: false },
+        //     { x: 7, y: 5, color: 'red', highLighted: false },
+        //     { x: 8, y: 5, color: 'green', highLighted: false },
+        //     { x: 9, y: 5, color: 'red', highLighted: false },
+        //     { x: 0, y: 6, color: 'purple', highLighted: false },
+        //     { x: 1, y: 6, color: 'purple', highLighted: false },
+        //     { x: 2, y: 6, color: 'purple', highLighted: false },
+        //     { x: 3, y: 6, color: 'green', highLighted: false },
+        //     { x: 4, y: 6, color: 'blue', highLighted: false },
+        //     { x: 5, y: 6, color: 'red', highLighted: false },
+        //     { x: 6, y: 6, color: 'blue', highLighted: false },
+        //     { x: 7, y: 6, color: 'purple', highLighted: false },
+        //     { x: 8, y: 6, color: 'purple', highLighted: false },
+        //     { x: 9, y: 6, color: 'red', highLighted: false },
+        //     { x: 0, y: 7, color: 'red', highLighted: false },
+        //     { x: 1, y: 7, color: 'purple', highLighted: false },
+        //     { x: 2, y: 7, color: 'purple', highLighted: false },
+        //     { x: 3, y: 7, color: 'red', highLighted: false },
+        //     { x: 4, y: 7, color: 'blue', highLighted: false },
+        //     { x: 5, y: 7, color: 'green', highLighted: false },
+        //     { x: 6, y: 7, color: 'red', highLighted: false },
+        //     { x: 7, y: 7, color: 'green', highLighted: false },
+        //     { x: 8, y: 7, color: 'blue', highLighted: false },
+        //     { x: 9, y: 7, color: 'blue', highLighted: false },
+        //     { x: 0, y: 8, color: 'red', highLighted: false },
+        //     { x: 1, y: 8, color: 'purple', highLighted: false },
+        //     { x: 2, y: 8, color: 'purple', highLighted: false },
+        //     { x: 3, y: 8, color: 'purple', highLighted: false },
+        //     { x: 4, y: 8, color: 'red', highLighted: false },
+        //     { x: 5, y: 8, color: 'red', highLighted: false },
+        //     { x: 6, y: 8, color: 'red', highLighted: false },
+        //     { x: 7, y: 8, color: 'red', highLighted: false },
+        //     { x: 8, y: 8, color: 'blue', highLighted: false },
+        //     { x: 9, y: 8, color: 'red', highLighted: false },
+        //     { x: 0, y: 9, color: 'purple', highLighted: false },
+        //     { x: 1, y: 9, color: 'purple', highLighted: false },
+        //     { x: 2, y: 9, color: 'red', highLighted: false },
+        //     { x: 3, y: 9, color: 'red', highLighted: false },
+        //     { x: 4, y: 9, color: 'blue', highLighted: false },
+        //     { x: 5, y: 9, color: 'blue', highLighted: false },
+        //     { x: 6, y: 9, color: 'green', highLighted: false },
+        //     { x: 7, y: 9, color: 'red', highLighted: false },
+        //     { x: 8, y: 9, color: 'red', highLighted: false },
+        //     { x: 9, y: 9, color: 'purple', highLighted: false }
         // ]
 
-        return [
-            { x: 0, y: 0, color: 'red', highLighted: false },
-            { x: 1, y: 0, color: 'blue', highLighted: false },
-            { x: 2, y: 0, color: 'purple', highLighted: false },
-            { x: 3, y: 0, color: 'green', highLighted: false },
-            { x: 4, y: 0, color: 'blue', highLighted: false },
-            { x: 5, y: 0, color: 'blue', highLighted: false },
-            { x: 6, y: 0, color: 'green', highLighted: false },
-            { x: 7, y: 0, color: 'red', highLighted: false },
-            { x: 8, y: 0, color: 'blue', highLighted: false },
-            { x: 9, y: 0, color: 'blue', highLighted: false },
-            { x: 0, y: 1, color: 'blue', highLighted: false },
-            { x: 1, y: 1, color: 'green', highLighted: false },
-            { x: 2, y: 1, color: 'green', highLighted: false },
-            { x: 3, y: 1, color: 'green', highLighted: false },
-            { x: 4, y: 1, color: 'red', highLighted: false },
-            { x: 5, y: 1, color: 'green', highLighted: false },
-            { x: 6, y: 1, color: 'purple', highLighted: false },
-            { x: 7, y: 1, color: 'green', highLighted: false },
-            { x: 8, y: 1, color: 'green', highLighted: false },
-            { x: 9, y: 1, color: 'green', highLighted: false },
-            { x: 0, y: 2, color: 'blue', highLighted: false },
-            { x: 1, y: 2, color: 'purple', highLighted: false },
-            { x: 2, y: 2, color: 'purple', highLighted: false },
-            { x: 3, y: 2, color: 'purple', highLighted: false },
-            { x: 4, y: 2, color: 'red', highLighted: false },
-            { x: 5, y: 2, color: 'purple', highLighted: false },
-            { x: 6, y: 2, color: 'purple', highLighted: false },
-            { x: 7, y: 2, color: 'blue', highLighted: false },
-            { x: 8, y: 2, color: 'purple', highLighted: false },
-            { x: 9, y: 2, color: 'blue', highLighted: false },
-            { x: 0, y: 3, color: 'green', highLighted: false },
-            { x: 1, y: 3, color: 'purple', highLighted: false },
-            { x: 2, y: 3, color: 'green', highLighted: false },
-            { x: 3, y: 3, color: 'purple', highLighted: false },
-            { x: 4, y: 3, color: 'green', highLighted: false },
-            { x: 5, y: 3, color: 'green', highLighted: false },
-            { x: 6, y: 3, color: 'red', highLighted: false },
-            { x: 7, y: 3, color: 'green', highLighted: false },
-            { x: 8, y: 3, color: 'red', highLighted: false },
-            { x: 9, y: 3, color: 'red', highLighted: false },
-            { x: 0, y: 4, color: 'purple', highLighted: false },
-            { x: 1, y: 4, color: 'blue', highLighted: false },
-            { x: 2, y: 4, color: 'red', highLighted: false },
-            { x: 3, y: 4, color: 'blue', highLighted: false },
-            { x: 4, y: 4, color: 'blue', highLighted: false },
-            { x: 5, y: 4, color: 'purple', highLighted: false },
-            { x: 6, y: 4, color: 'green', highLighted: false },
-            { x: 7, y: 4, color: 'green', highLighted: false },
-            { x: 8, y: 4, color: 'green', highLighted: false },
-            { x: 9, y: 4, color: 'purple', highLighted: false },
-            { x: 0, y: 5, color: 'blue', highLighted: false },
-            { x: 1, y: 5, color: 'green', highLighted: false },
-            { x: 2, y: 5, color: 'red', highLighted: false },
-            { x: 3, y: 5, color: 'green', highLighted: false },
-            { x: 4, y: 5, color: 'purple', highLighted: false },
-            { x: 5, y: 5, color: 'green', highLighted: false },
-            { x: 6, y: 5, color: 'red', highLighted: false },
-            { x: 7, y: 5, color: 'red', highLighted: false },
-            { x: 8, y: 5, color: 'green', highLighted: false },
-            { x: 9, y: 5, color: 'red', highLighted: false },
-            { x: 0, y: 6, color: 'purple', highLighted: false },
-            { x: 1, y: 6, color: 'purple', highLighted: false },
-            { x: 2, y: 6, color: 'purple', highLighted: false },
-            { x: 3, y: 6, color: 'green', highLighted: false },
-            { x: 4, y: 6, color: 'blue', highLighted: false },
-            { x: 5, y: 6, color: 'red', highLighted: false },
-            { x: 6, y: 6, color: 'blue', highLighted: false },
-            { x: 7, y: 6, color: 'purple', highLighted: false },
-            { x: 8, y: 6, color: 'purple', highLighted: false },
-            { x: 9, y: 6, color: 'red', highLighted: false },
-            { x: 0, y: 7, color: 'red', highLighted: false },
-            { x: 1, y: 7, color: 'purple', highLighted: false },
-            { x: 2, y: 7, color: 'purple', highLighted: false },
-            { x: 3, y: 7, color: 'red', highLighted: false },
-            { x: 4, y: 7, color: 'blue', highLighted: false },
-            { x: 5, y: 7, color: 'green', highLighted: false },
-            { x: 6, y: 7, color: 'red', highLighted: false },
-            { x: 7, y: 7, color: 'green', highLighted: false },
-            { x: 8, y: 7, color: 'blue', highLighted: false },
-            { x: 9, y: 7, color: 'blue', highLighted: false },
-            { x: 0, y: 8, color: 'red', highLighted: false },
-            { x: 1, y: 8, color: 'purple', highLighted: false },
-            { x: 2, y: 8, color: 'purple', highLighted: false },
-            { x: 3, y: 8, color: 'purple', highLighted: false },
-            { x: 4, y: 8, color: 'red', highLighted: false },
-            { x: 5, y: 8, color: 'red', highLighted: false },
-            { x: 6, y: 8, color: 'red', highLighted: false },
-            { x: 7, y: 8, color: 'red', highLighted: false },
-            { x: 8, y: 8, color: 'blue', highLighted: false },
-            { x: 9, y: 8, color: 'red', highLighted: false },
-            { x: 0, y: 9, color: 'purple', highLighted: false },
-            { x: 1, y: 9, color: 'purple', highLighted: false },
-            { x: 2, y: 9, color: 'red', highLighted: false },
-            { x: 3, y: 9, color: 'red', highLighted: false },
-            { x: 4, y: 9, color: 'blue', highLighted: false },
-            { x: 5, y: 9, color: 'blue', highLighted: false },
-            { x: 6, y: 9, color: 'green', highLighted: false },
-            { x: 7, y: 9, color: 'red', highLighted: false },
-            { x: 8, y: 9, color: 'red', highLighted: false },
-            { x: 9, y: 9, color: 'purple', highLighted: false }
-        ]
+        // Test board.
+        // must highlight the following:
+        // [
+        //     { x: 1, y: 0, color: '#AAEEFF', highLighted: true },
+        //     { x: 0, y: 1, color: '#AAEEFF', highLighted: true },
+        //     { x: 2, y: 1, color: '#AAEEFF', highLighted: true },
+        //     { x: 3, y: 1, color: '#AAEEFF', highLighted: true },
+        //     { x: 0, y: 2, color: '#AAEEFF', highLighted: true },
+        //     { x: 4, y: 2, color: '#AAEEFF', highLighted: true },
+        //     { x: 0, y: 3, color: '#AAEEFF', highLighted: true },
+        //     { x: 5, y: 3, color: '#AAEEFF', highLighted: true },
+        //     { x: 6, y: 3, color: '#AAEEFF', highLighted: true },
+        //     { x: 0, y: 4, color: '#AAEEFF', highLighted: true },
+        //     { x: 1, y: 4, color: '#AAEEFF', highLighted: true },
+        //     { x: 4, y: 4, color: '#AAEEFF', highLighted: true },
+        //     { x: 7, y: 4, color: '#AAEEFF', highLighted: true },
+        //     { x: 2, y: 5, color: '#AAEEFF', highLighted: true },
+        //     { x: 5, y: 5, color: '#AAEEFF', highLighted: true },
+        //     { x: 7, y: 5, color: '#AAEEFF', highLighted: true },
+        //     { x: 8, y: 5, color: '#AAEEFF', highLighted: true },
+        //     { x: 4, y: 6, color: '#AAEEFF', highLighted: true },
+        //     { x: 9, y: 6, color: '#AAEEFF', highLighted: true },
+        //     { x: 3, y: 0, color: '#AAEEFF', highLighted: true },
+        //     { x: 4, y: 0, color: '#AAEEFF', highLighted: true },
+        //     { x: 8, y: 0, color: '#AAEEFF', highLighted: true },
+        //     { x: 7, y: 1, color: '#AAEEFF', highLighted: true },
+        //     { x: 6, y: 2, color: '#AAEEFF', highLighted: true },
+        //     { x: 7, y: 2, color: '#AAEEFF', highLighted: true },
+        //     { x: 8, y: 3, color: '#AAEEFF', highLighted: true },
+        //     { x: 9, y: 4, color: '#AAEEFF', highLighted: true },
+        //     { x: 3, y: 4, color: '#AAEEFF', highLighted: true }
+        // ]
+        // return [
+        //     { x: 0, y: 0, color: '#666', highLighted: false },
+        //     { x: 1, y: 0, color: '#AAEEFF', highLighted: false },
+        //     { x: 2, y: 0, color: '#CCC', highLighted: false },
+        //     { x: 3, y: 0, color: '#AAEEFF', highLighted: false },
+        //     { x: 4, y: 0, color: '#AAEEFF', highLighted: false },
+        //     { x: 5, y: 0, color: '#666', highLighted: false },
+        //     { x: 6, y: 0, color: '#666', highLighted: false },
+        //     { x: 7, y: 0, color: '#666', highLighted: false },
+        //     { x: 8, y: 0, color: '#AAEEFF', highLighted: false },
+        //     { x: 9, y: 0, color: '#CCC', highLighted: false },
+        //     { x: 0, y: 1, color: '#AAEEFF', highLighted: false },
+        //     { x: 1, y: 1, color: '#CCC', highLighted: false },
+        //     { x: 2, y: 1, color: '#AAEEFF', highLighted: false },
+        //     { x: 3, y: 1, color: '#AAEEFF', highLighted: false },
+        //     { x: 4, y: 1, color: '#666', highLighted: false },
+        //     { x: 5, y: 1, color: '#666', highLighted: false },
+        //     { x: 6, y: 1, color: '#CCC', highLighted: false },
+        //     { x: 7, y: 1, color: '#AAEEFF', highLighted: false },
+        //     { x: 8, y: 1, color: '#666', highLighted: false },
+        //     { x: 9, y: 1, color: '#666', highLighted: false },
+        //     { x: 0, y: 2, color: '#AAEEFF', highLighted: false },
+        //     { x: 1, y: 2, color: '#666', highLighted: false },
+        //     { x: 2, y: 2, color: '#666', highLighted: false },
+        //     { x: 3, y: 2, color: '#CCC', highLighted: false },
+        //     { x: 4, y: 2, color: '#AAEEFF', highLighted: false },
+        //     { x: 5, y: 2, color: '#CCC', highLighted: false },
+        //     { x: 6, y: 2, color: '#AAEEFF', highLighted: false },
+        //     { x: 7, y: 2, color: '#AAEEFF', highLighted: false },
+        //     { x: 8, y: 2, color: '#666', highLighted: false },
+        //     { x: 9, y: 2, color: '#CCC', highLighted: false },
+        //     { x: 0, y: 3, color: '#AAEEFF', highLighted: false },
+        //     { x: 1, y: 3, color: '#CCC', highLighted: false },
+        //     { x: 2, y: 3, color: '#CCC', highLighted: false },
+        //     { x: 3, y: 3, color: '#CCC', highLighted: false },
+        //     { x: 4, y: 3, color: '#666', highLighted: false },
+        //     { x: 5, y: 3, color: '#AAEEFF', highLighted: false },
+        //     { x: 6, y: 3, color: '#AAEEFF', highLighted: false },
+        //     { x: 7, y: 3, color: '#CCC', highLighted: false },
+        //     { x: 8, y: 3, color: '#AAEEFF', highLighted: false },
+        //     { x: 9, y: 3, color: '#666', highLighted: false },
+        //     { x: 0, y: 4, color: '#AAEEFF', highLighted: false },
+        //     { x: 1, y: 4, color: '#AAEEFF', highLighted: false },
+        //     { x: 2, y: 4, color: '#666', highLighted: false },
+        //     { x: 3, y: 4, color: '#AAEEFF', highLighted: false },
+        //     { x: 4, y: 4, color: '#AAEEFF', highLighted: false },
+        //     { x: 5, y: 4, color: '#CCC', highLighted: false },
+        //     { x: 6, y: 4, color: '#666', highLighted: false },
+        //     { x: 7, y: 4, color: '#AAEEFF', highLighted: false },
+        //     { x: 8, y: 4, color: '#666', highLighted: false },
+        //     { x: 9, y: 4, color: '#AAEEFF', highLighted: false },
+        //     { x: 0, y: 5, color: '#666', highLighted: false },
+        //     { x: 1, y: 5, color: '#CCC', highLighted: false },
+        //     { x: 2, y: 5, color: '#AAEEFF', highLighted: false },
+        //     { x: 3, y: 5, color: '#CCC', highLighted: false },
+        //     { x: 4, y: 5, color: '#666', highLighted: false },
+        //     { x: 5, y: 5, color: '#AAEEFF', highLighted: false },
+        //     { x: 6, y: 5, color: '#666', highLighted: false },
+        //     { x: 7, y: 5, color: '#AAEEFF', highLighted: false },
+        //     { x: 8, y: 5, color: '#AAEEFF', highLighted: false },
+        //     { x: 9, y: 5, color: '#CCC', highLighted: false },
+        //     { x: 0, y: 6, color: '#AAEEFF', highLighted: false },
+        //     { x: 1, y: 6, color: '#CCC', highLighted: false },
+        //     { x: 2, y: 6, color: '#666', highLighted: false },
+        //     { x: 3, y: 6, color: '#666', highLighted: false },
+        //     { x: 4, y: 6, color: '#AAEEFF', highLighted: false },
+        //     { x: 5, y: 6, color: '#CCC', highLighted: false },
+        //     { x: 6, y: 6, color: '#CCC', highLighted: false },
+        //     { x: 7, y: 6, color: '#666', highLighted: false },
+        //     { x: 8, y: 6, color: '#666', highLighted: false },
+        //     { x: 9, y: 6, color: '#AAEEFF', highLighted: false },
+        //     { x: 0, y: 7, color: '#CCC', highLighted: false },
+        //     { x: 1, y: 7, color: '#AAEEFF', highLighted: false },
+        //     { x: 2, y: 7, color: '#AAEEFF', highLighted: false },
+        //     { x: 3, y: 7, color: '#666', highLighted: false },
+        //     { x: 4, y: 7, color: '#CCC', highLighted: false },
+        //     { x: 5, y: 7, color: '#666', highLighted: false },
+        //     { x: 6, y: 7, color: '#666', highLighted: false },
+        //     { x: 7, y: 7, color: '#CCC', highLighted: false },
+        //     { x: 8, y: 7, color: '#666', highLighted: false },
+        //     { x: 9, y: 7, color: '#CCC', highLighted: false },
+        //     { x: 0, y: 8, color: '#CCC', highLighted: false },
+        //     { x: 1, y: 8, color: '#AAEEFF', highLighted: false },
+        //     { x: 2, y: 8, color: '#AAEEFF', highLighted: false },
+        //     { x: 3, y: 8, color: '#CCC', highLighted: false },
+        //     { x: 4, y: 8, color: '#CCC', highLighted: false },
+        //     { x: 5, y: 8, color: '#AAEEFF', highLighted: false },
+        //     { x: 6, y: 8, color: '#CCC', highLighted: false },
+        //     { x: 7, y: 8, color: '#666', highLighted: false },
+        //     { x: 8, y: 8, color: '#AAEEFF', highLighted: false },
+        //     { x: 9, y: 8, color: '#AAEEFF', highLighted: false },
+        //     { x: 0, y: 9, color: '#666', highLighted: false },
+        //     { x: 1, y: 9, color: '#666', highLighted: false },
+        //     { x: 2, y: 9, color: '#AAEEFF', highLighted: false },
+        //     { x: 3, y: 9, color: '#CCC', highLighted: false },
+        //     { x: 4, y: 9, color: '#666', highLighted: false },
+        //     { x: 5, y: 9, color: '#AAEEFF', highLighted: false },
+        //     { x: 6, y: 9, color: '#AAEEFF', highLighted: false },
+        //     { x: 7, y: 9, color: '#CCC', highLighted: false },
+        //     { x: 8, y: 9, color: '#AAEEFF', highLighted: false },
+        //     { x: 9, y: 9, color: '#AAEEFF', highLighted: false }
+        // ]
     }
 
     componentWillMount() {
@@ -186,6 +322,19 @@ export default class Board extends React.Component {
 
     newBoard = () => {
         this.setState({ boardData: this.generateBoardData() })
+    }
+
+    highLighCells = (neighboursToHighlight) => {
+        const { boardData } = this.state
+
+        for (const cell of neighboursToHighlight) {
+            const cellToHighlight = boardData.find((c) => {
+                return c.x === cell.x && c.y === cell.y
+            })
+            cellToHighlight.highLighted = true
+        }
+
+        this.setState({ boardData: boardData })
     }
 
     // group neighbour groups by color
@@ -208,7 +357,7 @@ export default class Board extends React.Component {
                 (pointA.x === pointB.x + 1 && pointA.y === pointB.y + 1)
             )
         }
-        const groupColorsByNeighbours = (result, cell) => {
+        const groupNeighboursByColor = (result, cell) => {
             result[cell.color] = result[cell.color] || []
             result[cell.color].max = 0
             // console.log('RESULT:', result)
@@ -245,19 +394,9 @@ export default class Board extends React.Component {
             return result
         }
 
-        const colorsAndNeighbours = this.state.boardData.reduce(groupColorsByNeighbours, {})
-        console.log('NEIGHBOURHOODS_BY_COLOR:', colorsAndNeighbours)
-        const maxNeighbours = Object.entries(colorsAndNeighbours)
-            .sort((allColorsGroupsTuplesA, allColorsGroupsTuplesB) => {
-                if (allColorsGroupsTuplesB[1].max < allColorsGroupsTuplesA[1].max) {
-                    return -1
-                }
-                if (allColorsGroupsTuplesB[1].max > allColorsGroupsTuplesA[1].max) {
-                    return 1
-                }
-                return 0
-            })[0][1] // 0 is color name, // 1 is the neighbourhood arrays with the neighbour cells inside
-            .reduce((joined_neighbourhoods, color_neighbourhood) => {
+        const joinNeighbourhoodsThatTouchHeachOther = (result, color) => {
+            const neighbourhoodsOfColor = neighboursByColor[color]
+            const mergedNeighbourhoods = neighbourhoodsOfColor.reduce((joined_neighbourhoods, color_neighbourhood) => {
                 let foundTouchingNeighbours = false
 
                 // check if joined_neigh has any points that are neighbours of any points in color_neighbourhood
@@ -288,31 +427,73 @@ export default class Board extends React.Component {
                 }
                 return joined_neighbourhoods
             }, [])
-            .sort((colorGroupTupleA, colorGroupTupleB) => {
-                // sort the neighbour groups of a given color so that we can pick the first one
-                if (colorGroupTupleB.length < colorGroupTupleA.length) {
-                    return -1
-                }
-                if (colorGroupTupleB.length > colorGroupTupleA.length) {
-                    return 1
-                }
-                return 0
-            })
-
-        const neighboursToHighlight = maxNeighbours[0]
-        console.log('Max NEIGHBOURS:', maxNeighbours)
-        console.log('MaxToHighLight:', neighboursToHighlight)
-
-        const { boardData } = this.state
-
-        for (const cell of neighboursToHighlight) {
-            const cellToHighlight = boardData.find((c) => {
-                return c.x === cell.x && c.y === cell.y
-            })
-            cellToHighlight.highLighted = true
+            result[color] = mergedNeighbourhoods
+            return result
         }
 
-        this.setState({ boardData: boardData })
+        const sortColorTuplesByNeighbourhoodsWithMaxCells = (allColorsGroupsTuplesA, allColorsGroupsTuplesB) => {
+            // tuple[0] is color name
+            // tuple[1] array of neighbourhoods
+            // tuple[1][0]  is neighbourhood with max number of cells since I already ordered it
+            if (allColorsGroupsTuplesB[1][0].length < allColorsGroupsTuplesA[1][0].length) {
+                return -1
+            }
+            if (allColorsGroupsTuplesB[1][0].length > allColorsGroupsTuplesA[1][0].length) {
+                return 1
+            }
+            return 0
+        }
+
+        const sortNeighbourhoodsByLength = (colorGroupA, colorGroupB) => {
+            // sort the neighbour groups of a given color so that we can pick the first one
+            if (colorGroupB.length < colorGroupA.length) {
+                return -1
+            }
+            if (colorGroupB.length > colorGroupA.length) {
+                return 1
+            }
+            return 0
+        }
+
+        const orderColorNeighbourhoodsBySize = (result, color) => {
+            result[color] = joinedNeighbourhoodsByColor[color].sort(sortNeighbourhoodsByLength)
+            return result
+        }
+
+        const orderColorsByNumberOfNeighbours = (result, color) => {
+            result[color] = orderedJoinedNeighbourhoodsByColor[color].sort(sortNeighbourhoodsByLength)
+            return result
+        }
+
+        const neighboursByColor = this.state.boardData.reduce(groupNeighboursByColor, {})
+        console.log('NEIGHBOURHOODS_BY_COLOR:', neighboursByColor)
+
+        const joinedNeighbourhoodsByColor = Object.keys(neighboursByColor).reduce(
+            joinNeighbourhoodsThatTouchHeachOther,
+            {}
+        )
+        console.log('JOINED_NEIGHBOURHOODS_BY_COLOR:', joinedNeighbourhoodsByColor)
+
+        const orderedJoinedNeighbourhoodsByColor = Object.keys(joinedNeighbourhoodsByColor).reduce(
+            orderColorNeighbourhoodsBySize,
+            {}
+        )
+
+        console.log('ORDERED_JOINED_NEIGHBOURHOODS_BY_COLOR', orderedJoinedNeighbourhoodsByColor)
+
+        const orderedColorsByNumberOfNeighbours = Object.entries(orderedJoinedNeighbourhoodsByColor).sort(
+            sortColorTuplesByNeighbourhoodsWithMaxCells
+        )
+
+        console.log('ORDERED_COLORS_BY_NUMBER_OF_NEIGHBOURS', orderedColorsByNumberOfNeighbours)
+        // since everything os ordered now I have:
+        // ORDERED_COLORS_BY_NUMBER_OF_NEIGHBOURS[0] is the first color tuple
+        // ORDERED_COLORS_BY_NUMBER_OF_NEIGHBOURS[0][1] is all the neighbourhood groups of the first color
+        // ORDERED_COLORS_BY_NUMBER_OF_NEIGHBOURS[0][1][0] is the neighbourhood with most cells
+        const neighboursToHighlight = orderedColorsByNumberOfNeighbours[0][1][0]
+        console.log('neighboursToHighlight:', neighboursToHighlight)
+
+        this.highLighCells(neighboursToHighlight)
     }
 
     render() {
