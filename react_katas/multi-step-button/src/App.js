@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 
-import MultiStepButton from './MultiStepButton'
-import HelloButton from './HelloButton'
-import SpawnChildrenButton from './SpawnChildrenButton'
+import MultiStepButton from './Buttons/MultiStepButton'
+import HelloButton from './Buttons/HelloButton'
+import SpawnChildrenButton from './Buttons/SpawnChildrenButton'
 
 class App extends Component {
     render() {
