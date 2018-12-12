@@ -42,13 +42,16 @@ class RomanToArabic
   end
 
   def call(roman_number)
+    negative = false
+
     if(roman_number.start_with?('-'))
       roman_number = roman_number.sub('-', '')
-      result = execute(roman_number)
-      result * -1
-    else
-      execute(roman_number)
+      negative = true
     end
+
+    result = execute(roman_number)
+    result *= -1 if negative
+    result
   end
 
   def execute(roman_number)
