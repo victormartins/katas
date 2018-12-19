@@ -1,0 +1,36 @@
+:root {
+  --background-color: teal;
+  --app-background-color: cadetblue;
+  --strong-text-color: aqua;
+  --strong-text-shadow-color: teal;
+}
+
+body{
+  height: 100%;
+  background-color: var(--background-color);
+}
+
+.app{
+}
+
+.app-container{
+  width: 400px;
+  margin: 0 auto;
+  border: 1px solid cornflowerblue;
+  background-color: var(--app-background-color);
+  /* background-color: steelblue;
+  background-color: cadetblue; */
+}
+
+.app-container header{
+  /* border: 2px solid black; */
+}
+
+.app-container header h1{
+  color: var(--strong-text-color);
+  text-shadow: 2px 2px var(--strong-text-shadow-color);
+  width: 100%;
+  text-align: center;
+  /* border-bottom: 1px solid red; */
+  /* padding: 20px; */
+}
