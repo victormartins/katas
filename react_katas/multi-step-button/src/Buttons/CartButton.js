@@ -7,13 +7,33 @@ const CartBtn = styled.button`
   margin-bottom: 1em;
 `
 
+const CloseBtn = styled.div`
+  text-align: right;
+  padding-top: 0.5em;
+  padding-right: 0.5em;
+
+  span {
+    font-size: 1.3em;
+    cursor: pointer;
+    border: 1px solid black;
+    padding: 0 0.2em;
+  }
+
+  span:hover{
+    color: white;
+    background-color: black;
+  }
+`
+
 const Cart = styled.div`
   width: 200px;
   height: 100%;
   top: 0px;
   position: absolute;
   background-color: red;
-  display: ${props => props.open ? 'block' : 'none'};
+  transform: translateX(-100%);
+  ${props => props.open && 'transform: translateX(0%);'};
+  transition: all 0.3s;
 
   ul {
     list-style: none;
@@ -55,7 +75,7 @@ class CartButton extends React.Component {
         super(props)
 
         this.state = {
-            open: false
+            open: true
         }
     }
 
@@ -72,6 +92,7 @@ class CartButton extends React.Component {
             <div className='cart-button'>
                 <CartBtn onClick={this.handleClick}>Shopping Cart</CartBtn>
                 <Cart open={this.state.open}>
+                    <CloseBtn onClick={this.handleClick}><span>&times;</span></CloseBtn>
                     <ul>
                         <li>Some Item <span>£10.00</span></li>
                         <li>Another Item <span>£12.00</span></li>
