@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 
+import CartButton from './Buttons/CartButton'
 import MultiStepButton from './Buttons/MultiStepButton'
 import HelloButton from './Buttons/HelloButton'
 import SpawnChildrenButton from './Buttons/SpawnChildrenButton'
@@ -17,6 +18,8 @@ class App extends Component {
                     <h1 className="App-title">Welcome to React</h1>
                 </header> */}
                 <br />
+
+                <CartButton />
 
                 <MultiStepButton
                     messages={['Hello', 'Is it me?', 'You\'re looking for?', '!WOW!']}
