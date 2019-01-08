@@ -64,11 +64,9 @@ class RomanToArabic
   private
 
   def execute(roman)
-    result = 0
-
-    roman.chars.each.with_index do |char, index|
-      val = RomanNumerals::ROMAN_NUMERALS[char]
-      next_val = RomanNumerals::ROMAN_NUMERALS[roman[index + 1]]
+    roman.chars.each.with_index.reduce(0) do |result, char_index|
+      val = RomanNumerals::ROMAN_NUMERALS[char_index[0]]
+      next_val = RomanNumerals::ROMAN_NUMERALS[roman[char_index[1] + 1]]
 
       if(next_val && next_val > val)
         result -= val
@@ -76,8 +74,6 @@ class RomanToArabic
         result += val
       end
     end
-
-    result
   end
 end
 
