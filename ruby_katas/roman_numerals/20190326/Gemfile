@@ -12,3 +12,4 @@ gem 'rb-readline' # for guard
 
 gem 'contracts'
 gem 'yard-contracts'
+gem 'rubocop'
