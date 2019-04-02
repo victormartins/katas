@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org" do
+  gem 'ruby-prof'
+  gem 'pry-byebug'
+  gem 'benchmark-ips'
+  gem 'memory_profiler'
+  gem 'benchmark_driver'
+
+  gem 'rspec'
+  gem 'reek'
+  gem 'guard-rspec', require: false
+  gem 'rb-readline' # for guard
+end
+
