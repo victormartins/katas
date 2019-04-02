@@ -37,7 +37,7 @@ end
 min_percent = 1
 
 printer = RubyProf::FlatPrinter.new(result)
-fprinter.print(File.open("results/app_flat_profile.txt", "w+"), min_percent: min_percent)
+printer.print(File.open("results/app_flat_profile.txt", "w+"), min_percent: min_percent)
 
 printer = RubyProf::GraphHtmlPrinter.new(result)
 printer.print(File.open("results/app_graph_profile.html", "w+"), min_percent: min_percent)
