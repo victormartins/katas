@@ -18,7 +18,7 @@ end
 
 class RomanNumeralsConverter
   def convert(number)
-    return ArabicToRoman.new.call(number) if number.kind_of?(Numeric)
+    return ArabicToRoman.new.call(number) unless number.kind_of?(Numeric)
     RomanToArabic.new.call(number)
   end
 end
@@ -38,8 +38,7 @@ class ArabicToRoman
     remainder = number
 
     while(remainder > 0) do
-      roman_val = ROMAN_NUMERALS.detect do |r_v|
-        v = r_v[1]
+      roman_val = ROMAN_NUMERALS.detect do |_r,v|
         v <= remainder
       end
 
