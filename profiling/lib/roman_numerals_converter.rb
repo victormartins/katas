@@ -1,80 +1,168 @@
-module RomanNumerals
-  ROMAN_NUMERALS = {
-    'M'  => 1000,
-    'CM' => 900,
-    'D'  => 500,
-    'CD' => 400,
-    'C'  => 100,
-    'XC' => 90,
-    'L'  => 50,
-    'XL' => 40,
-    'X'  => 10,
-    'IX' => 9,
-    'V'  => 5,
-    'IV' => 4,
-    'I'  => 1
-  }
-end
 
-class RomanNumeralsConverter
-  def convert(number)
-    return ArabicToRoman.new.call(number) if number.kind_of?(Numeric)
-    RomanToArabic.new.call(number)
-  end
-end
 
-class ArabicToRoman
-  include RomanNumerals
-
-  def call(number)
-    return execute(number) if number >= 0
-    "-#{execute(-number)}"
+module Original
+  module RomanNumerals
+    ROMAN_NUMERALS = {
+      'M'  => 1000,
+      'CM' => 900,
+      'D'  => 500,
+      'CD' => 400,
+      'C'  => 100,
+      'XC' => 90,
+      'L'  => 50,
+      'XL' => 40,
+      'X'  => 10,
+      'IX' => 9,
+      'V'  => 5,
+      'IV' => 4,
+      'I'  => 1
+    }
   end
 
-  private
+  class RomanNumeralsConverter
+    def convert(number)
+      return ArabicToRoman.new.call(number) if number.kind_of?(Numeric)
+      RomanToArabic.new.call(number)
+    end
+  end
 
-  def execute(number)
-    result = ''
-    remainder = number
+  class ArabicToRoman
+    include RomanNumerals
 
-    while(remainder > 0) do
-      roman_val = ROMAN_NUMERALS.detect do |r_v|
-        v = r_v[1]
-        v <= remainder
-      end
-
-      roman = roman_val[0]
-      value = roman_val[1]
-
-      remainder -= value
-      result += roman
+    def call(number)
+      return execute(number) if number >= 0
+      "-#{execute(-number)}"
     end
 
-    result
+    private
+
+    def execute(number)
+      result = ''
+      remainder = number
+
+      while(remainder > 0) do
+        roman_val = ROMAN_NUMERALS.detect do |r_v|
+          v = r_v[1]
+          v <= remainder
+        end
+
+        roman = roman_val[0]
+        value = roman_val[1]
+
+        remainder -= value
+        result += roman
+      end
+
+      result
+    end
+  end
+
+  class RomanToArabic
+    include RomanNumerals
+
+    def call(roman)
+      return execute(roman) unless roman.start_with?('-')
+      -execute(roman.sub('-', ''))
+    end
+
+    private
+
+    def execute(roman)
+      roman.chars.each.with_index.inject(0) do |result, char_index|
+        char = char_index[0]
+        index = char_index[1]
+        value = ROMAN_NUMERALS[char]
+        next_value = ROMAN_NUMERALS[roman[index + 1]]
+
+        if(next_value && next_value > value)
+          result -= value
+        else
+          result += value
+        end
+      end
+    end
   end
 end
 
-class RomanToArabic
-  include RomanNumerals
-
-  def call(roman)
-    return execute(roman) unless roman.start_with?('-')
-    -execute(roman.sub('-', ''))
+module Optimized
+  module RomanNumerals
+    ROMAN_NUMERALS = {
+      'M'  => 1000,
+      'CM' => 900,
+      'D'  => 500,
+      'CD' => 400,
+      'C'  => 100,
+      'XC' => 90,
+      'L'  => 50,
+      'XL' => 40,
+      'X'  => 10,
+      'IX' => 9,
+      'V'  => 5,
+      'IV' => 4,
+      'I'  => 1
+    }
   end
 
-  private
+  class RomanNumeralsConverter
+    def convert(number)
+      return ArabicToRoman.new.call(number) if number.kind_of?(Numeric)
+      RomanToArabic.new.call(number)
+    end
+  end
 
-  def execute(roman)
-    roman.chars.each.with_index.inject(0) do |result, char_index|
-      char = char_index[0]
-      index = char_index[1]
-      value = ROMAN_NUMERALS[char]
-      next_value = ROMAN_NUMERALS[roman[index + 1]]
+  class ArabicToRoman
+    include RomanNumerals
 
-      if(next_value && next_value > value)
-        result -= value
-      else
-        result += value
+    def call(number)
+      return execute(number) if number >= 0
+      "-#{execute(-number)}"
+    end
+
+    private
+
+    def execute(number)
+      result = ''
+      remainder = number
+
+      while(remainder > 0) do
+        roman_val = ROMAN_NUMERALS.detect do |r_v|
+          v = r_v[1]
+          v <= remainder
+        end
+
+        roman = roman_val[0]
+        value = roman_val[1]
+
+        remainder -= value
+        result += roman
+      end
+
+      result
+    end
+  end
+
+  class RomanToArabic
+    include RomanNumerals
+
+    def call(roman)
+      return execute(roman) unless roman.start_with?('-')
+      -execute(roman.sub('-', ''))
+    end
+
+    private
+
+    def execute(roman)
+      roman.chars.each.with_index.inject(0) do |result, char_index|
+        char = char_index[0]
+        index = char_index[1]
+        value = ROMAN_NUMERALS[char]
+        next_value = ROMAN_NUMERALS[roman[index + 1]]
+
+        if(next_value && next_value > value)
+          result -= value
+        else
+          result += value
+        end
       end
     end
   end
@@ -87,12 +175,34 @@ GC.disable
 roman = "XVIIXXIXXIII"
 arabic = 765
 result = RubyProf.profile do
-  100000.times do
-    RomanNumeralsConverter.new.convert(roman)
+  original = Thread.new do
+    start = Time.now
+    puts "Start #{start.to_i}"
+    100000.times do
+      Original::RomanNumeralsConverter.new.convert(roman)
+    end
+    100000.times do
+      Original::RomanNumeralsConverter.new.convert(arabic)
+    end
+    puts "End #{Time.now.to_i}"
+    puts "Elapsed #{Time.now - start}"
   end
-  100000.times do
-    RomanNumeralsConverter.new.convert(arabic)
+
+  optimized = Thread.new do
+    start = Time.now
+    puts "Start #{start.to_i}"
+    100000.times do
+      Optimized::RomanNumeralsConverter.new.convert(roman)
+    end
+    100000.times do
+      Optimized::RomanNumeralsConverter.new.convert(arabic)
+    end
+    puts "End #{Time.now.to_i}"
+    puts "Elapsed #{Time.now - start}"
   end
+
+  original.join
+  optimized.join
 end
 
 min_percent = 1
