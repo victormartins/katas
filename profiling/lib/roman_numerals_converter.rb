@@ -223,4 +223,4 @@ printer = RubyProf::CallStackPrinter.new(result)
 printer.print(File.open("results/#{timestamp}_roman_call_stack_profile.html", 'w+'))
 
 printer = RubyProf::CallTreePrinter.new(result)
-printer.print(:path => "./results", :profile => "qcachegrind")
+printer.print(:path => "./results", :profile => "callgrind")

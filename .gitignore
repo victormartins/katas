@@ -3,3 +3,4 @@
 **/.yardoc
 **/results/*.txt
 **/results/*.html
+**/results/callgrind*.*
