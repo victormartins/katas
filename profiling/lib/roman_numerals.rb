@@ -96,12 +96,13 @@ result = RubyProf.profile do
 end
 
 min_percent = 1
+timestamp = Time.now.to_i
 
 printer = RubyProf::FlatPrinter.new(result)
-printer.print(File.open('results/roman_flat_profile.txt', 'w+'), min_percent: min_percent)
+printer.print(File.open("results/#{timestamp}_roman_flat_profile.txt", 'w+'), min_percent: min_percent)
 
 printer = RubyProf::GraphHtmlPrinter.new(result)
-printer.print(File.open('results/roman_graph_profile.html', 'w+'), min_percent: min_percent)
+printer.print(File.open("results/#{timestamp}_roman_graph_profile.html", 'w+'), min_percent: min_percent)
 
 printer = RubyProf::CallStackPrinter.new(result)
-printer.print(File.open('results/roman_call_stack_profile.html', 'w+'))
+printer.print(File.open("results/#{timestamp}_roman_call_stack_profile.html", 'w+'))
