@@ -177,28 +177,28 @@ arabic = 765
 result = RubyProf.profile do
   original = Thread.new do
     start = Time.now
-    puts "Start #{start.to_i}"
+    puts "Start Original #{start.to_i}"
     100000.times do
       Original::RomanNumeralsConverter.new.convert(roman)
     end
     100000.times do
       Original::RomanNumeralsConverter.new.convert(arabic)
     end
-    puts "End #{Time.now.to_i}"
-    puts "Elapsed #{Time.now - start}"
+    puts "End Original #{Time.now.to_i}"
+    puts "Elapsed Original #{Time.now - start}"
   end
 
   optimized = Thread.new do
     start = Time.now
-    puts "Start #{start.to_i}"
+    puts "Start Optimized #{start.to_i}"
     100000.times do
       Optimized::RomanNumeralsConverter.new.convert(roman)
     end
     100000.times do
       Optimized::RomanNumeralsConverter.new.convert(arabic)
     end
-    puts "End #{Time.now.to_i}"
-    puts "Elapsed #{Time.now - start}"
+    puts "End Optimized #{Time.now.to_i}"
+    puts "Elapsed Optimized #{Time.now - start}"
   end
 
   original.join
