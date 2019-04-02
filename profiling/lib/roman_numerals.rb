@@ -1,5 +1,3 @@
-require 'contracts'
-
 module RomanNumerals
   ROMAN_NUMERALS = {
     'M'  => 1000,
@@ -19,9 +17,6 @@ module RomanNumerals
 end
 
 class RomanNumeralsConverter
-  include Contracts::Core
-  include Contracts::Builtin
-
   def convert(number)
     return ArabicToRoman.new.call(number) if number.kind_of?(Numeric)
     RomanToArabic.new.call(number)
@@ -90,9 +85,14 @@ require 'ruby-prof'
 
 GC.disable
 roman = "XVIIXXIXXIII"
+arabic = 765
 result = RubyProf.profile do
-  result = RomanNumeralsConverter.new.convert(roman)
-  puts result
+  100000.times do
+    RomanNumeralsConverter.new.convert(roman)
+  end
+  100000.times do
+    RomanNumeralsConverter.new.convert(arabic)
+  end
 end
 
 min_percent = 1
