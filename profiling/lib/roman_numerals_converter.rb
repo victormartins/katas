@@ -171,6 +171,11 @@ end
 
 require 'ruby-prof'
 
+ruby_prof_opts = {
+  # https://github.com/ruby-prof/ruby-prof#measurements
+  measure_mode: RubyProf::WALL_TIME
+}
+
 GC.disable
 roman = "XVIIXXIXXIII"
 arabic = 765
@@ -216,3 +221,6 @@ printer.print(File.open("results/#{timestamp}_roman_graph_profile.html", 'w+'), 
 
 printer = RubyProf::CallStackPrinter.new(result)
 printer.print(File.open("results/#{timestamp}_roman_call_stack_profile.html", 'w+'))
+
+printer = RubyProf::CallTreePrinter.new(result)
+printer.print(:path => "./results", :profile => "qcachegrind")
