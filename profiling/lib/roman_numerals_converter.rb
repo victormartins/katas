@@ -180,34 +180,17 @@ GC.disable
 roman = "XVIIXXIXXIII"
 arabic = 765
 result = RubyProf.profile do
-  original = Thread.new do
-    start = Time.now
-    puts "Start Original #{start.to_i}"
-    100000.times do
-      Original::RomanNumeralsConverter.new.convert(roman)
-    end
-    100000.times do
-      Original::RomanNumeralsConverter.new.convert(arabic)
-    end
-    puts "End Original #{Time.now.to_i}"
-    puts "Elapsed Original #{Time.now - start}"
-  end
-
-  optimized = Thread.new do
     start = Time.now
     puts "Start Optimized #{start.to_i}"
+    converter = Optimized::RomanNumeralsConverter.new
     100000.times do
-      Optimized::RomanNumeralsConverter.new.convert(roman)
+      converter.convert(roman)
     end
     100000.times do
-      Optimized::RomanNumeralsConverter.new.convert(arabic)
+      converter.convert(arabic)
     end
     puts "End Optimized #{Time.now.to_i}"
     puts "Elapsed Optimized #{Time.now - start}"
-  end
-
-  original.join
-  optimized.join
 end
 
 min_percent = 1
