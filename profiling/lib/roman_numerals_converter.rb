@@ -1,5 +1,3 @@
-
-
 module Original
   module RomanNumerals
     ROMAN_NUMERALS = {
@@ -104,9 +102,14 @@ module Optimized
   end
 
   class RomanNumeralsConverter
+    def initialize
+      @arabic_to_roman = ArabicToRoman.new
+      @roman_to_arabic = RomanToArabic.new
+    end
+
     def convert(number)
-      return ArabicToRoman.new.call(number) if number.kind_of?(Numeric)
-      RomanToArabic.new.call(number)
+      return @arabic_to_roman.call(number) if number.kind_of?(Numeric)
+      @roman_to_arabic.call(number)
     end
   end
 
@@ -179,31 +182,63 @@ ruby_prof_opts = {
 GC.disable
 roman = "XVIIXXIXXIII"
 arabic = 765
-result = RubyProf.profile do
-    start = Time.now
-    puts "Start Optimized #{start.to_i}"
-    converter = Optimized::RomanNumeralsConverter.new
-    100000.times do
-      converter.convert(roman)
-    end
-    100000.times do
-      converter.convert(arabic)
-    end
-    puts "End Optimized #{Time.now.to_i}"
-    puts "Elapsed Optimized #{Time.now - start}"
+original_converter = Original::RomanNumeralsConverter.new
+optimized_converter = Optimized::RomanNumeralsConverter.new
+ENV['PROFILE'] ||= 'true'
+ENV['BENCHMARK'] ||= 'true'
+
+
+if(ENV['PROFILE'] == 'true')
+  result = RubyProf.profile do
+      start = Time.now
+      puts "Start Optimized #{start.to_i}"
+      100000.times do
+        optimized_converter.convert(roman)
+      end
+      100000.times do
+        optimized_converter.convert(arabic)
+      end
+      puts "End Optimized #{Time.now.to_i}"
+      puts "Elapsed Optimized #{Time.now - start}"
+  end
+
+  min_percent = 1
+  timestamp = Time.now.to_i
+
+  printer = RubyProf::FlatPrinter.new(result)
+  printer.print(File.open("results/#{timestamp}_roman_flat_profile.txt", 'w+'), min_percent: min_percent)
+
+  printer = RubyProf::GraphHtmlPrinter.new(result)
+  printer.print(File.open("results/#{timestamp}_roman_graph_profile.html", 'w+'), min_percent: min_percent)
+
+  printer = RubyProf::CallStackPrinter.new(result)
+  printer.print(File.open("results/#{timestamp}_roman_call_stack_profile.html", 'w+'))
+
+  printer = RubyProf::CallTreePrinter.new(result)
+  printer.print(:path => "./results", :profile => "callgrind")
 end
 
-min_percent = 1
-timestamp = Time.now.to_i
+if ENV['BENCHMARK'] == 'true'
+  puts ''
+  puts '-' * 50
+  puts 'BENCHMARKING'.center(50)
+  require 'benchmark/ips'
 
-printer = RubyProf::FlatPrinter.new(result)
-printer.print(File.open("results/#{timestamp}_roman_flat_profile.txt", 'w+'), min_percent: min_percent)
+  Benchmark.ips do |x|
 
-printer = RubyProf::GraphHtmlPrinter.new(result)
-printer.print(File.open("results/#{timestamp}_roman_graph_profile.html", 'w+'), min_percent: min_percent)
+    x.config(time: 1, warmup: 2)
 
-printer = RubyProf::CallStackPrinter.new(result)
-printer.print(File.open("results/#{timestamp}_roman_call_stack_profile.html", 'w+'))
+    x.report("Original Implementation") do
+      original_converter.convert(roman)
+    end
 
-printer = RubyProf::CallTreePrinter.new(result)
-printer.print(:path => "./results", :profile => "callgrind")
+    x.report("Optimized Implementation") do
+      optimized_converter.convert(roman)
+    end
+
+    x.compare!
+  end
+
+  puts '-' * 50
+  puts ''
+end
