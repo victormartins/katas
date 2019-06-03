@@ -1,0 +1,16 @@
+{
+  "name": "roman_converter",
+  "version": "1.0.0",
+  "description": "Roman Numerals Conversion",
+  "main": "roman_converter.js",
+  "scripts": {
+    "test": "jest",
+    "jest_watch": "npx jest --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^24.8.0"
+  }
+}
