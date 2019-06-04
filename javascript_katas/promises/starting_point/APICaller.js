@@ -7,12 +7,8 @@ class APICaller {
   }
 
   callSync() {
-    let result = {}
     try{
-      result = this.callEndpointSync().catch(err => {
-        return({error: true, msg: err})
-      })
-      return(result)
+      return(this.callEndpointSync())
     }
     catch { err => {
         console.log('Upper Level Catch: ', err);
