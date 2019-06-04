@@ -1,0 +1,15 @@
+{
+  "name": "promises",
+  "version": "1.0.0",
+  "description": "Playing with Promises",
+  "main": "APICaller.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^24.8.0",
+    "node-fetch": "^2.6.0"
+  }
+}
