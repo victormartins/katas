@@ -15,7 +15,7 @@ describe('APICaller', () => {
     });
 
     describe('When there is errors', () => {
-      it('Reject errors are sent as an object', async () => {
+      xit('Reject errors are sent as an object', async () => {
         const invalidEndpoint = 'invalid';
         const brokeApiCaller = new APICaller(invalidEndpoint);
 
@@ -24,7 +24,7 @@ describe('APICaller', () => {
         expect(response.msg).toEqual('Reject Error Message!')
       });
 
-      xit('Thrown errors are captured', async () => {
+      fit('Thrown errors are captured', async () => {
         const invalidEndpoint = 'raise_exception';
         const brokeApiCaller = new APICaller(invalidEndpoint);
 
