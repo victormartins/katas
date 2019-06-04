@@ -15,14 +15,23 @@ describe('APICaller', () => {
     });
 
     describe('When there is errors', () => {
-      it('They are catched and we receive an error object.', async () => {
+      it('Reject errors are sent as an object', async () => {
         const invalidEndpoint = 'invalid';
         const brokeApiCaller = new APICaller(invalidEndpoint);
 
         const response = await brokeApiCaller.callSync();
         expect(response.error).toEqual(true)
         expect(response.msg).toEqual('Reject Error Message!')
-      })
+      });
+
+      xit('Thrown errors are captured', async () => {
+        const invalidEndpoint = 'raise_exception';
+        const brokeApiCaller = new APICaller(invalidEndpoint);
+
+        const response = await brokeApiCaller.callSync();
+        expect(response.error).toEqual(true)
+        expect(response.msg).toEqual('Exception Inside Promise!')
+      });
     });
   });
 
