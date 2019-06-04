@@ -21,7 +21,7 @@ describe('APICaller', () => {
 
         const response = await brokeApiCaller.callSync();
         expect(response.error).toEqual(true)
-        expect(response.msg).toEqual('Reject Error Message!')
+        expect(response.msg).toEqual('From callSync Reject Error Message!')
       });
 
       xit('Thrown errors are captured', async () => {

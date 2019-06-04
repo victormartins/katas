@@ -7,8 +7,9 @@ class APICaller {
   }
 
   callSync() {
-    return(this.callEndpointSync().catch(err => {
-      return({error: true, msg: err})
+    return(this.callEndpointSync()
+    .catch(err => {
+      return({error: true, msg: `From callSync ${err}`})
     }))
   }
 
@@ -20,12 +21,16 @@ class APICaller {
   // await for for the promise to complete and
   // convert the result into json
   async callEndpointSync() {
-    console.log('Calling Sync...');
-    let result = await this.callEndpoint();
-    console.log('Result: ', result);
-    const jsonResult = await result.json()
-    console.log('jsonResult: ', jsonResult);
-    return(jsonResult)
+    try {
+      console.log('Calling Sync...');
+      let result = await this.callEndpoint();
+      console.log('Result: ', result);
+      const jsonResult = await result.json()
+      console.log('jsonResult: ', jsonResult);
+      return(jsonResult)
+    } catch (err) {
+      return Promise.reject(err)
+    }
   }
 
   // Returns a Promise
