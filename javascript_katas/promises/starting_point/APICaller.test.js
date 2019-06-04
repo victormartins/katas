@@ -2,24 +2,44 @@ const APICaller = require('./APICaller')
 
 describe('APICaller', () => {
 
-  describe('When there is no errors', () => {
-    const endpoint = 'https://jsonplaceholder.typicode.com/todos/1';
-    const apiCaller = new APICaller(endpoint);
 
-    describe('Calling in a Synchronous fashion', () => {
+  describe('Calling in a Synchronous fashion', () => {
+    describe('Happy Path', () => {
       it('returns a json payload', async () => {
+        const endpoint = 'https://jsonplaceholder.typicode.com/todos/1';
+        const apiCaller = new APICaller(endpoint);
+
         const response = await apiCaller.callSync();
-       expect(response.userId).toEqual(1)
+        expect(response.userId).toEqual(1)
       });
     });
 
-    describe('Calling in a Asynchronous fashion', () => {
+    describe('When there is errors', () => {
+      it('They are catched and we receive an error object.', async () => {
+        const invalidEndpoint = 'invalid';
+        const brokeApiCaller = new APICaller(invalidEndpoint);
+
+        const response = await brokeApiCaller.callSync();
+        expect(response.error).toEqual(true)
+        expect(response.msg).toEqual('Reject Error Message!')
+      })
+    });
+  });
+
+  describe('Calling in a Asynchronous fashion', () => {
+    describe('Happy Path', () => {
       it('returns a Promise object', () => {
+        const endpoint = 'https://jsonplaceholder.typicode.com/todos/1';
+        const apiCaller = new APICaller(endpoint);
+
         const call = apiCaller.call();
         expect(call.toString()).toEqual('[object Promise]')
       });
 
       it('returns a Promise', () => {
+        const endpoint = 'https://jsonplaceholder.typicode.com/todos/1';
+        const apiCaller = new APICaller(endpoint);
+
         expect.assertions(1); // expect the async assertion
 
         const call = apiCaller.call();
@@ -29,6 +49,6 @@ describe('APICaller', () => {
           expect(response.userId).toEqual(1)
         })
       });
-    })
+    });
   });
 });
