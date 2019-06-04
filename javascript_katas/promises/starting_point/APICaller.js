@@ -23,16 +23,21 @@ class APICaller {
   // await for for the promise to complete and
   // convert the result into json
   async callEndpointSync() {
-    console.log('Calling Sync...');
-    let result = await this.callEndpoint().catch(err => {
-      console.log('callEndoint Exception: ', err);
-      throw(err)
-    });
+    try{
+      console.log('Calling Sync...');
+      let result = await this.callEndpoint().catch(err => {
+        console.log('callEndointSync Exception: ', err);
+        throw(`Manually throw error inside callEndpointSync: ${err}`);
+      });
 
-    console.log('Result: ', result);
-    const jsonResult = await result.json()
-    console.log('jsonResult: ', jsonResult);
-    return(jsonResult)
+      console.log('Result: ', result);
+      const jsonResult = await result.json()
+      console.log('jsonResult: ', jsonResult);
+      return(jsonResult)
+    } catch (err) {
+      console.log('Catch in callEndpointSync');
+      throw(`Error catched inside callEndpointSync: ${err}`);
+    }
   }
 
   // Returns a Promise
