@@ -20,11 +20,8 @@ class RomanConverter {
     const arabicToRoman = new ArabicToRoman()
     const romanToArabic = new RomanToArabic()
 
-    if(typeof(value) === 'string') {
-      return romanToArabic.call(value)
-    } else {
-      return arabicToRoman.call(value)
-    }
+    if(typeof(value) === 'string') return romanToArabic.call(value)
+    else return arabicToRoman.call(value)
   }
 }
 
@@ -67,15 +64,11 @@ class RomanToArabic {
         const value = ROMAN_NUMERALS[char]
         const next_value = ROMAN_NUMERALS[roman[index + 1]]
 
-        if(next_value && next_value > value) {
-          result -= value
-        } else {
-          result += value
-        }
+        if(next_value && next_value > value) result -= value;
+        else result += value
 
         return result
       }, 0)
-
   }
 }
 
