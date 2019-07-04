@@ -1,5 +1,5 @@
 class RomanConverter {
-  ROMAN_NUMERALS = {
+  static ROMAN_NUMERALS = {
     'M' : 1000,
     'CM': 900,
     'D' : 500,
