@@ -1,3 +1,4 @@
+class RomanConverter {
   ROMAN_NUMERALS = {
     'M' : 1000,
     'CM': 900,
@@ -14,7 +15,6 @@
     'I' : 1
   }
 
-class RomanConverter {
   static convert(value) {
     throw('Not Implemented');
   }
