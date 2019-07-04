@@ -1,0 +1,24 @@
+{
+  "name": "roman_converter",
+  "version": "1.0.0",
+  "description": "Roman Numerals Conversion",
+  "main": "roman_converter.js",
+  "scripts": {
+    "test": "jest",
+    "jest_watch": "npx jest --watch"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "babel": "^6.23.0",
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0"
+  }
+}
