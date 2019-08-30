@@ -89,7 +89,7 @@ describe('RomanNumeralsConverter', () => {
   });
 
   describe('converting roman to arabic', () => {
-    it('conversion', () => {
+   it('conversion', () => {
       expect(RomanConverter.convert('I')).toEqual(1);
     });
 
