@@ -21,4 +21,7 @@ const LayoutContainer = styled.div`
   background-color: white;
 `;
 
-export {StyledPage, Header, HeaderInfo, LayoutContainer};
+const LayoutHolderContainer = styled.article`
+`;
+
+export {StyledPage, Header, HeaderInfo, LayoutContainer, LayoutHolderContainer};
