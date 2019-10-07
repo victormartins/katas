@@ -2,7 +2,7 @@ const RomanConverter = require('./roman_converter')
 
 describe('RomanNumeralsConverter', () => {
   describe('converting arabic to roman', () => {
-    it('conversion', () => {
+   it('conversion', () => {
       expect(RomanConverter.convert(1)).toEqual('I')
     });
 
