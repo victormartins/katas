@@ -1,5 +1,5 @@
 import React from 'react';
-import {TopBar, MainContainer, Sponsors, SponsorContainer, Shout, Headline, GrayBox, MainContent} from './Waitrose_00.style';
+import {TopBar, MainContainer, Sponsors, SponsorContainer, Shout, Headline, GrayBox, MainContent, MainContentBackground, MainContentText, HeadLight} from './Waitrose_00.style';
 import LayoutHolder from '../../Components/LayoutHolder';
 import Sponsor1 from './imgs/by_appointment.png'
 import Sponsor2 from './imgs/royal-warrant.png'
@@ -34,8 +34,29 @@ const Waitrose_00 = (props) => {
         </Headline>
       </MainContainer>
       <MainContent>
-        <GrayBox />
-        <GrayBox />
+        <MainContentText>
+          <HeadLight>
+            <h1>
+              N°l
+            </h1>
+            <span>––––</span>
+            <h1>
+              WAITROSE
+            </h1>
+            <h2>
+              & PARTNERS
+            </h2>
+          </HeadLight>
+          <h3>
+            The Very Best of
+            <br/>
+            Waitrose & Partners
+          </h3>
+        </MainContentText>
+        <MainContentBackground>
+          <GrayBox />
+          <GrayBox />
+        </MainContentBackground>
       </MainContent>
     </LayoutHolder>
   )

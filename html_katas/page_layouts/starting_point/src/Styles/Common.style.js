@@ -11,6 +11,8 @@ const Header = styled.div`
   justify-content:space-between;
   background-color: white;
   padding: 2em;
+  width: 90%;
+  margin: 0 auto;
 `
 
 const HeaderInfo = styled.div`
@@ -22,6 +24,7 @@ const LayoutContainer = styled.div`
 `;
 
 const LayoutHolderContainer = styled.article`
+  background-color: white;
 `;
 
 export {StyledPage, Header, HeaderInfo, LayoutContainer, LayoutHolderContainer};

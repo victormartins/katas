@@ -86,12 +86,67 @@ const Headline = styled.h1`
 `
 
 const MainContent = styled.div`
+  position: relative;
   width: 90%;
-  margin: 0 auto;
   height: 1000px;
+  padding-top: 1.5em;
+  margin: 0 auto;
+`
+
+const MainContentText = styled.div`
+  position: relative;
+  z-index: 100;
+  text-align: center;
+
+
+  h1, h2, span {
+  }
+
+  h1, h2{
+    margin: 0;
+    padding: 0;
+
+    background-clip: text;
+  }
+
+  h2 {
+    margin-top: -0.3em;
+    font-size: 50%;
+  }
+
+  span {
+    display: block;
+    font-size: 1em;
+    margin-top: -0.6em;
+    margin-bottom: -0.5em;
+    padding: 0;
+  }
+
+  h3 {
+    margin-top: 5em;
+    font-size: 250%;
+    font-family: 'Baskerville', serif;
+  }
+`
+const HeadLight = styled.div`
+  margin-top: 2em;
+  font-size: 550%;
+  font-family: 'Montserrat', san-serif;
+  font-weight: lighter;
+  background: linear-gradient(to right, #664d00 , #ffd24d, orange, yellow);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+`
+
+const MainContentBackground = styled.div`
+  position: absolute;
+  top: 2em;
+  left: 0;
+  width: 100%;
+  height: 95%;
   display: flex;
   justify-content: space-between;
-  padding-top: 1.5em;
 `
 
 const GrayBox = styled.div`
@@ -103,11 +158,14 @@ const GrayBox = styled.div`
 
 export {
   MainContainer,
+  MainContentText,
+  MainContentBackground,
+  HeadLight,
   TopBar,
   Sponsors,
   SponsorContainer,
   Shout,
   Headline,
   MainContent,
-  GrayBox
+  GrayBox,
 };
