@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          Hello
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          Hello World
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          Hello World
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          The End
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <main>
+    <h1>Title</h1>
+    <p>
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quam labore saepe impedit cum ut, vitae blanditiis
+      facilis accusantium est. Quae, culpa perferendis magni placeat laboriosam iure ducimus beatae distinctio vel!
+    </p>
+    <div class="images">
+      <div class="image"></div>
+      <div class="image"></div>
+      <div class="image"></div>
+    </div>
+
+    <form class="form" action="index" method="get">
+      <!-- <div class="form-group">
+        <label for="weight">Value</label>
+        <input type="text" name="weight" id="weight">
+      </div> -->
+      <div class="form-group">
+        <label for="timestamp">Date</label>
+        <input pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" type="datetime-local" name="timestamp"
+          id="timestamp" required>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" name="date" id="date" required>
+      </div>
+      <div class="form-group">
+        <label for="time">Time</label>
+        <input type="time" name="time" id="time" required>
+      </div>
+      <div class="buttons">
+        <button type="submit">Send</button>
+      </div>
+    </form>
+  </main>
+</body>
+
+</html>
