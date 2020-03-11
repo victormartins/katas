@@ -1,0 +1,147 @@
+:root{
+  --navbar-v-min-width: 5rem;
+  --navbar-v-max-width: 15rem;
+  --navbar-h-height: 4rem;
+  --nav-item-height: 3rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+body::-webkit-scrollbar-track {
+  background: darkslategray;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: darkcyan;
+}
+
+
+p{
+  margin-bottom: 1rem;
+}
+
+.navbar {
+  position: fixed;
+  background-color: darkslategray;
+  transition: width ease 200ms;
+}
+
+.navbar-nav{
+  list-style: none;
+  display: flex;
+  height: 100%;
+}
+
+.nav-item{
+  width: 100%;
+}
+
+.nav-item:hover{
+  background-color: darkslateblue;
+}
+
+.nav-link{
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  height: var(--nav-item-height);
+}
+
+.nav-link i{
+  color: teal;
+}
+
+.nav-item:hover .nav-link i{
+  color: aquamarine;
+}
+
+.nav-item:hover .nav-link-text {
+  border-bottom: 2px solid aquamarine;
+}
+
+
+.nav-link-text{
+  display: none;
+  color: white;
+  white-space: nowrap;
+}
+
+
+/* small screens */
+@media only screen and (max-width: 600px) {
+  main{
+    padding: 1rem;
+  }
+
+  .navbar {
+    bottom: 0;
+    height: var(--navbar-h-height);
+    width: 100vw;
+  }
+
+  .navbar-nav{
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .nav-link{
+    justify-content: center;
+  }
+
+  .nav-item{
+    /* height 100% so that the background fills the bar */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+}
+
+/* large screens */
+@media only screen and (min-width: 600px) {
+  main {
+    margin-left: var(--navbar-v-min-width);
+    padding-left: 1rem;
+  }
+
+  .navbar{
+    top: 0;
+    height: 100vh;
+    width: var(--navbar-v-min-width);
+    padding: 0.3rem 0 1.5rem 0;
+  }
+
+  .navbar:hover {
+    width: var(--navbar-v-max-width)
+  }
+
+  .navbar-nav{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar:hover .nav-link-text{
+    display: inline;
+  }
+
+  /* Push last nav-item to the bottom */
+  .nav-item:last-child{
+    margin-top: auto;
+  }
+
+
+  .nav-link i{
+    margin-left: 1.5rem;
+    margin-right: 1rem;
+  }
+}
