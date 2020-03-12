@@ -1,0 +1,154 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root{
+  --navbar-v-min-height: 5rem;
+  --navbar-v-min-width: 5rem;
+  --navbar-v-max-width: 15rem;
+
+  --color-black: #101010;
+  --color-white: #EDEDED;
+
+  --color-dark01: #4056A1;
+  --color-dark00: #C5CBE3;
+  --color-neutral: #EFE2BA;
+  --color-bright00: #D79922;
+  --color-bright01: #F13C20;
+}
+
+body {
+  font-size: 16px;
+  background-color: var(--color-white);
+  max-width: 1500px;
+}
+
+main{
+  padding: 1rem;
+}
+
+h1{
+  margin-bottom: 1.5rem;
+}
+
+p{
+  margin-bottom: 1rem;
+}
+
+.navbar{
+  background-color: var(--color-dark00);
+  padding: 0.5rem 0;
+}
+
+.nav-link i{
+  color: var(--color-dark01);
+}
+
+.nav-item.active .nav-link i,
+.nav-item:hover .nav-link i {
+  color: var(--color-bright00);
+}
+
+.nav-list{
+  list-style: none;
+}
+
+.nav-link{
+  text-decoration: none;
+}
+
+.images {
+  display: grid;
+  margin: 2rem 0;
+  grid-gap: 0.5rem;
+}
+
+.images img{
+  width: 100%;
+}
+
+/* small screens */
+@media only screen and (max-width: 600px) {
+  .navbar{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  .nav-list{
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .nav-text{
+    display: none;
+  }
+
+  .images {
+    grid-template-columns: repeat(2, auto);
+  }
+}
+
+/* large screens */
+@media only screen and (min-width: 600px) {
+  main {
+    margin-left: var(--navbar-v-min-height);
+  }
+
+  .navbar{
+    position: fixed;
+    width: var(--navbar-v-min-width);
+    height: 100vh;
+    padding: 1rem 0;
+    transition: ease-in-out 100ms;
+  }
+
+  .navbar:hover{
+    width: var(--navbar-v-max-width);
+
+  }
+  .navbar:hover .nav-item:hover {
+    background-color: var(--color-dark01);
+  }
+  .navbar:hover .nav-item:hover .nav-text {
+    color: var(--color-white);
+  }
+  .navbar:hover .nav-text {
+    display: inline;
+  }
+
+  .nav-list{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .nav-link{
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-text{
+    white-space: nowrap;
+    display: none;
+  }
+
+  .nav-item{
+    margin-bottom: 1rem;
+    padding: 0.3rem 0;
+  }
+
+  .nav-item:last-child{
+    margin-top: auto;
+    margin-bottom: 0;
+  }
+
+  .nav-item i {
+    padding: 0 1.5rem;
+  }
+
+  .images {
+    grid-template-columns: repeat(3, auto);
+  }
+}
