@@ -1,11 +1,40 @@
 :root{
   --navbar-h-height: 3rem;
-  --color-dark02: #271204;
+  --color-black: #101010;
+
   --color-dark01: #6D6875;
   --color-dark00: #B5838D;
   --color-neutral: #E5989B;
   --color-bright00: #FFB4A2;
   --color-bright01: #FFCDB2;
+
+
+  --color-dark01: #1A1A1D;
+  --color-dark00: #4E4E50;
+  --color-neutral: #6F2232;
+  --color-bright00: #950740;
+  --color-bright01: #C3073F;
+
+
+  --color-dark01: #0B0C10;
+  --color-dark00: #424c58;
+  --color-neutral: #C5C6C7;
+  --color-bright00: #45A29E;
+  --color-bright01: #66FCF1;
+
+
+  --color-dark01: #4056A1;
+  --color-dark00: #C5CBE3;
+  --color-neutral: #EFE2BA;
+  --color-bright00: #D79922;
+  --color-bright01: #F13C20;
+
+
+  --color-dark01: #123C69;
+  --color-dark00: #BAB2B5;
+  --color-neutral: #EEE2DC;
+  --color-bright00: #EDC7B7;
+  --color-bright01: #AC3B61;
 }
 
 *{
@@ -17,7 +46,7 @@
 body {
   background-color: var(--color-neutral);
   font-family: Helvetica;
-  color: var(--color-dark02)
+  color: var(--color-black)
 }
 
 main {
@@ -25,7 +54,7 @@ main {
 }
 
 .navbar {
-  background-color: var(--color-dark02);
+  background-color: var(--color-dark01);
   height: var(--navbar-h-height);
   height: 3rem;
 }
@@ -54,7 +83,7 @@ main {
 
 .nav-link{
   text-decoration: none;
-  color: var(--color-dark02);
+  color: var(--color-black);
 }
 
 .nav-item:hover .nav-link{
@@ -96,6 +125,7 @@ main {
   flex: 1;
   padding-right: 0.5rem;
   text-align: right;
+  color: var(--color-black) ;
 }
 
 .form-group input {
