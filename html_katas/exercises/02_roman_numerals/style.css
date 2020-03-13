@@ -1,0 +1,60 @@
+:root{
+  --color-black: #101010;
+  --color-white: #EEE;
+
+  --color-dark01: #1A1A1D;
+  --color-dark00: #4E4E50;
+  --color-neutral: #6F2232;
+  --color-bright00: #950740;
+  --color-bright01: #C3073F;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-size: 36px;
+}
+
+main{
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--color-dark01);
+
+}
+
+.roman_numerals{
+  padding: 2rem;
+  background-color: var(--color-dark00);
+  box-shadow: var(--color-black) 5px 5px 5px 5px;
+}
+
+.roman_numerals .field-group{
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.roman_numerals .field-group:first-child{
+  margin-bottom: 1rem;
+}
+
+.roman_numerals label {
+  flex: 1;
+  padding-right: 1rem;
+  color: var(--color-black);
+}
+
+.roman_numerals input{
+  font-size: 2rem;
+  flex: 1;
+  padding: 0.2rem;
+  color: var(--color-black);
+}
