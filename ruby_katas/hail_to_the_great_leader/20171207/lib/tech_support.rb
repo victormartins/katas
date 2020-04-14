@@ -1,4 +1,6 @@
-class EmergecyTechSupport
+# frozen_string_literal: true
+
+class TechSupport
   def self.call(error)
     puts ''
     puts '-' * 50

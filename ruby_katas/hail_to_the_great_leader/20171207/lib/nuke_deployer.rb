@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LowKillCountError < StandardError; end
 
 class NukeDeployer
@@ -7,7 +9,7 @@ class NukeDeployer
   include Contracts::Core
   include Contracts::Builtin
 
-  Contract({location: Hash, enemy_of_the_state: Bool} => Any)
+  Contract({ location: Hash, enemy_of_the_state: Bool } => Any)
   def initialize(data)
     @location           = data[:location]
     @enemy_of_the_state = data[:enemy_of_the_state]
@@ -35,16 +37,17 @@ class NukeDeployer
   def handle_low_kill_count
     response = yield
     raise LowKillCountError if response.casualties < MIN_CASUALTIES
+
     response
-  rescue LowKillCountError => error
+  rescue LowKillCountError => e
     if @current_retry <= TargetingSatellite::MAX_CALIBRATION_RETRIES
       warn "RETRY: = #{@current_retry}"
       @current_retry += 1
       TargetingSatellite.calibrate
       retry
     else
-      EmergecyTechSupport.call(error)
-      raise error
+      EmergecyTechSupport.call(e)
+      raise e
     end
   end
 

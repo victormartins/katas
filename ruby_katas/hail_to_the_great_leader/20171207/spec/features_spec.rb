@@ -1,46 +1,42 @@
-require_relative './../lib/main.rb'
+# frozen_string_literal: true
+
+require_relative './../lib/printer.rb'
 require 'spec_helper'
 
-RSpec.describe Main do
-  let(:nuke_response) { double(deployed: deployed, casualties: casualties, photos: photos, location: location) }
-  let(:happy_leader) { 'The Leader is Happy!' }
-  let(:enemy_location) { { x: 1, y: 1 } }
-  let(:friend_location) { { x: 2, y: 1 } }
-  let(:data) do
+RSpec.describe Printer do
+  let(:content) { "Hello\nWorld" }
+  let(:printer_api) do
     {
-      enemy_of_the_state: enemy_of_the_state,
-      location: location
+      content: content,
+      options: {
+        paper_format: PaperFormat::A3
+      }
     }
   end
 
   describe 'Happy Path: ' do
-    describe 'When enemy' do
-      before { allow_any_instance_of(Nuke).to receive(:call).and_return(nuke_response) }
+    describe 'Printed with success' do
+      it 'adds a A4 printed page into the paper tray' do
+        expect(PaperTray.instance.queue).to be_empty
 
-      let(:deployed) { true }
-      let(:casualties) { 100_000 }
-      let(:photos) { ['photo_1', 'photo_2'] }
-      let(:location) { enemy_location }
-      let(:enemy_of_the_state) { true }
+        expect(Printer.new.call(printer_api)).to be(true)
 
-      it 'fires a nuke to a given location' do
-        expect_any_instance_of(Nuke).to receive(:call)
-        expect(Main.new.call(data)).to eq(happy_leader)
+        expect(PaperTray.instance.queue.size).to be(1)
+        page = PaperTray.instance.queue.pop
+        expect(page.format).to eql(PaperFormat::A3)
+        expect(page.content).to eql(printer_api.fetch(:content))
       end
-    end
 
-    describe 'When friend' do
-      let(:location) { friend_location }
-      let(:enemy_of_the_state) { false }
-
-      it 'does not fire any nukes!' do
-        expect_any_instance_of(Nuke).to_not receive(:call)
-        expect(Main.new.call(data)).to eq(happy_leader)
+      it 'prints to Paper Format A4 by default ' do
+        printer_api.delete(:options)
+        Printer.new.call(printer_api)
+        page = PaperTray.instance.queue.pop
+        expect(page.format).to eql(PaperFormat::A3)
       end
     end
   end
 
-  describe 'what if...' do
+  xdescribe 'what if...' do
     describe 'Contract Problems' do
       context 'when enemy_of_the_state is a string' do
         let(:location) { friend_location }
@@ -50,7 +46,7 @@ RSpec.describe Main do
 
         it 'should call tech support to fix the error before great leader finds out!' do
           expect(EmergecyTechSupport).to receive(:call).and_call_original
-          Main.new.call(data)
+          Printer.new.call(printer_api)
         end
       end
 
@@ -58,11 +54,10 @@ RSpec.describe Main do
         let(:location) { enemy_location }
         let(:casualties) { 0 }
         let(:photos) { [] }
-        let(:enemy_of_the_state) { nil }
 
         it 'should call tech support and fix the error before great leader finds out!' do
           expect(EmergecyTechSupport).to receive(:call).and_call_original
-          Main.new.call(data)
+          Printer.new.call(printer_api)
         end
       end
 
@@ -71,11 +66,10 @@ RSpec.describe Main do
 
         let(:nuke_response) { :broken_report_response }
         let(:location) { enemy_location }
-        let(:enemy_of_the_state) { true }
 
         it 'should call tech support and fix the error before great leader finds out!' do
           expect(EmergecyTechSupport).to receive(:call).and_call_original
-          Main.new.call(data)
+          Printer.new.call(printer_api)
         end
       end
     end
@@ -85,10 +79,9 @@ RSpec.describe Main do
 
       context 'fewer casualties' do
         let(:deployed) { true }
-        let(:enemy_of_the_state) {true }
         let(:location) { enemy_location }
         let(:casualties) { MIN_CASUALTIES - 1 }
-        let(:photos) { ['photo_1', 'photo_2'] }
+        let(:photos) { %w[photo_1 photo_2] }
 
         it 'retries to calibrate the satelite a few times and then calls tech support and raises error!' do
           expect(TargetingSatellite).to receive(:calibrate)
@@ -97,7 +90,7 @@ RSpec.describe Main do
             .and_call_original
           expect(EmergecyTechSupport).to receive(:call).and_call_original
 
-          expect { Main.new.call(data) }.to raise_error(LowKillCountError)
+          expect { Printer.new.call(printer_api) }.to raise_error(LowKillCountError)
         end
       end
     end
