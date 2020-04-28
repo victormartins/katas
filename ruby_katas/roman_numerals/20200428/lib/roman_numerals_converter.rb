@@ -22,22 +22,80 @@ class RomanNumeralsConverter
     'I' => 1
   }.freeze
 
-  def convert(_number)
-    {
-      foo: :bar,
-      baz: 1
-    }
-
-    has_many: foo bar:asd
-
-    File.exist?
-
-    File.exist?
-
-    {
-      foo: 1
-    }
+  def initialize
+    @roman_to_arabic = RomanToArabic.new(ROMAN_NUMERALS)
+    @arabic_to_roman = ArabicToRoman.new(ROMAN_NUMERALS)
   end
 
-  def foo; end
+  def convert(number)
+    return roman_to_arabic.call(number) if number.is_a?(String)
+
+    arabic_to_roman.call(number)
+  end
+
+  private
+
+  attr_reader :roman_to_arabic, :arabic_to_roman
+end
+
+class ArabicToRoman
+  def initialize(roman_numerals)
+    @roman_numerals = roman_numerals
+  end
+
+  def call(arabic)
+    return execute(arabic) if arabic >= 0
+
+    "-#{execute(-arabic)}"
+  end
+
+  private
+
+  def execute(arabic)
+    result = ''
+    remainder = arabic
+
+    while remainder > 0
+      roman_value = @roman_numerals.find { |r_v| r_v[1] <= remainder }
+      roman = roman_value[0]
+      value = roman_value[1]
+
+      remainder -= value
+      result += roman
+    end
+
+    result
+  end
+end
+
+class RomanToArabic
+  def initialize(roman_numerals)
+    @roman_numerals = roman_numerals
+  end
+
+  def call(roman)
+    return execute(roman) unless roman.start_with?('-')
+
+    -execute(roman.sub('-', ''))
+  end
+
+  private
+
+  def execute(roman)
+    roman.chars.each.with_index.reduce(0) do |result, char_index|
+      char = char_index[0]
+      index = char_index[1]
+
+      value = @roman_numerals[char]
+      next_value = @roman_numerals[roman[index + 1]]
+
+      if next_value && next_value > value
+        result -= value
+      else
+        result += value
+      end
+
+      result
+    end
+  end
 end
