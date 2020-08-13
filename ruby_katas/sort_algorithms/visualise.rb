@@ -22,17 +22,22 @@ COLORS = [
 
 @pastel = Pastel.new
 
+STRATEGIES = [
+  Sorter::Strategies::BubbleSort,
+  Sorter::Strategies::SelectionSort,
+]
+
+BAR_CHAR = '🁢'
 NUMBER_OF_ELEMENTS_TO_SORT = 60
 SCALE_FACTOR = 14
-WAITING_PERIOD = 0.15
+WAITING_PERIOD_FOR_TICK = 0.2
+WAITING_PERIOD_BEFORE_NEXT_SORT = 2
 MAX_DIGIT = COLORS.length * SCALE_FACTOR
 
 input = []
 NUMBER_OF_ELEMENTS_TO_SORT.times do
   input << Random.new.rand((1..MAX_DIGIT))
 end
-
-sorter = Sorter.new(input, strategy: Sorter::Strategies::BubbleSort)
 
 
 def color_index_for(digit)
@@ -42,7 +47,7 @@ end
 def print_row(digit)
   color_index = color_index_for(digit)
   color = COLORS[color_index]
-  text = ('X' * digit) # + "| #{color_index_for(digit)} (#{color})"
+  text = (BAR_CHAR * digit) # + "| #{color_index_for(digit)} (#{color})"
   puts @pastel.public_send(color.to_s, text)
 rescue Pastel::InvalidAttributeNameError
   puts "Invalid color sent! Color: #{color} for digit #{digit} and index #{color_index}"
@@ -54,13 +59,19 @@ def print_rows(rows)
   end
 end
 
-system('clear')
-print_rows(sorter.result)
-sleep(WAITING_PERIOD)
+STRATEGIES.each do |strategy|
+  sorter = Sorter.new(input, strategy: strategy)
 
-until sorter.completed? do
   system('clear')
   print_rows(sorter.result)
-  sorter.tick
-  sleep(WAITING_PERIOD)
+  sleep(WAITING_PERIOD_FOR_TICK)
+
+  until sorter.completed? do
+    system('clear')
+    print_rows(sorter.result)
+    sorter.tick
+    sleep(WAITING_PERIOD_FOR_TICK)
+  end
+
+  sleep(WAITING_PERIOD_BEFORE_NEXT_SORT)
 end
