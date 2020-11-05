@@ -6,6 +6,12 @@ class GradeComparer
   def call(grade_letter, other)
     puts "Comparing: #{grade_letter} with #{other}"
 
-    # Continue...
+    grade = Grade.new(grade_letter)
+
+    return 1  if grade.greater_than?(other)
+    return 0  if grade == other
+    return -1 if grade.lesser_than?(other)
+
+    raise 'Unexpected Condition!'
   end
 end
