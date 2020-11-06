@@ -4,8 +4,6 @@
 # so we need to give some behaviour to the string to make it a grade
 class GradeComparer
   def call(grade_letter, other)
-    puts "Comparing: #{grade_letter} with #{other}"
-
     grade = Grade.new(grade_letter)
 
     return 1  if grade.greater_than?(other)

@@ -1,7 +1,7 @@
 # More info at https://github.com/guard/guard#readme
 
 guard_options = {
-  cmd:            'clear && bundle exec rspec spec/ --order defined --fail-fast  -f p',
+  cmd:            'clear && bundle exec rspec spec/ --order defined --fail-fast  --format documentation',
   all_after_pass: false,
   failed_mode:    :focus
 }
