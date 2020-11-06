@@ -10,7 +10,7 @@ RSpec.describe GradeComparer do
 
     next unless next_grade_letter
 
-    describe "Comparing #{grade_letter} with #{next_grade_letter}" do
+    xdescribe "Comparing #{grade_letter} with #{next_grade_letter}" do
       it "returns  1 if #{grade_letter} is greater than #{next_grade_letter}" do
         expect(subject.call(grade_letter, next_grade_letter)).to eql(1)
       end

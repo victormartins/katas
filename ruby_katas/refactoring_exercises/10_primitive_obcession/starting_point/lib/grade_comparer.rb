@@ -4,11 +4,9 @@
 # so we need to give some behaviour to the string to make it a grade
 class GradeComparer
   def call(grade_letter, other)
-    grade = Grade.new(grade_letter)
-
-    return 1  if grade.greater_than?(other)
-    return 0  if grade == other
-    return -1 if grade.lesser_than?(other)
+    # return 1  if grade_letter > other
+    # return 0  if grade == other
+    # return -1 if grade < other
 
     raise 'Unexpected Condition!'
   end
