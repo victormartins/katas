@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  hello_world:
+    build: ./src
+    container_name: "hello_world_container"
+    volumes:
+      - ./src:/usr/src/app
+
