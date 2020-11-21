@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  web:
+    build: ./src
+    container_name: temp_app
+    volumes:
+      - ./src:/usr/src/app
+    ports:
+      - 9001:8080
+    # To allow debugging using pry
+    tty: true
+    stdin_open: true
+
+
