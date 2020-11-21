@@ -54,3 +54,9 @@ https://github.com/rails/rails/blob/371b4800266cbf1c659a9068f58412cb7a88e244/act
 Sets the response X-Request-Id here:
 https://github.com/rails/rails/blob/fe76a95b0d252a2d7c25e69498b720c96b243ea2/actionpack/lib/action_dispatch/middleware/request_id.rb#L27
 
+
+# Usefull Resources:
+http://railscasts.com/episodes/319-rails-middleware-walkthrough
+
+RailsConf 2019 - Inside Rails... by Yehuda Katz, Vaidehi Joshi, Godfrey Chan, & Krystan HuffMenne
+https://www.youtube.com/watch?v=eK_JVdWOssI
