@@ -7,9 +7,9 @@ module MyApp
     # Adds headers to the request to help tracing.
     class RequestTracer
       # Header in is normal format
-      X_REQUEST_ID = 'X-Request-Id'
+      RESPONSE_X_REQUEST_ID = 'X-Request-Id'
       # Header in the env format
-      HTTP_X_REQUEST_ID = 'HTTP_X_REQUEST_ID'
+      REQUEST_HTTP_X_REQUEST_ID = 'HTTP_X_REQUEST_ID'
       # Header to be used internally by the web application
       INTERNAL_REQUEST_ID = "request.tracer.request_id"
 
@@ -57,20 +57,20 @@ module MyApp
       attr_reader :logger
 
       def insert_request_id_to_response(headers, request_id)
-        headers[X_REQUEST_ID] = request_id
+        headers[RESPONSE_X_REQUEST_ID] = request_id
       end
 
       def fetch_or_generate_request_id(env)
         request = Rack::Request.new(env)
 
-        request_id = request.get_header(HTTP_X_REQUEST_ID)
+        request_id = request.get_header(REQUEST_HTTP_X_REQUEST_ID)
 
         if(request_id)
-          logger.debug { "[#{self.class}] - #{X_REQUEST_ID} found: [#{request_id}]" }
+          logger.debug { "[#{self.class}] - #{RESPONSE_X_REQUEST_ID} found: [#{request_id}]" }
           request_id
         else
           request_id = SecureRandom.uuid
-          logger.debug { "[#{self.class}] - #{X_REQUEST_ID} not found. Generated: #{request_id} " }
+          logger.debug { "[#{self.class}] - #{RESPONSE_X_REQUEST_ID} not found. Generated: #{request_id} " }
           request_id
         end
       end
