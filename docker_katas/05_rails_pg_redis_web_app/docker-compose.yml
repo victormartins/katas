@@ -1,0 +1,10 @@
+version: "3.7"
+
+services:
+  web:
+    build: ./src
+    container_name: 'pet_store'
+    ports:
+      - 3000:9292
+    volumes:
+      - ./src:/usr/src/app
