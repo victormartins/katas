@@ -1,2 +1,0 @@
-docker build -t kata_nginx_img .
-docker run --name kata_nginx_container -d -p 80:80 kata_nginx_img

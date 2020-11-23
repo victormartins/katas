@@ -1,0 +1,10 @@
+version: "3.7"
+
+services:
+  web:
+    build: ./src
+    container_name: 'pet_shop_rails_app'
+    volumes:
+      - ./src:/usr/src/app
+    ports:
+      - 3000:3000
