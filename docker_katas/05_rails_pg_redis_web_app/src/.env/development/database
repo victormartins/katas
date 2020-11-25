@@ -1,0 +1,3 @@
+POSTGRES_USER=postgres_user
+POSTGRES_PASSWORD=postgres_pass
+POSTGRES_DB=myapp_development

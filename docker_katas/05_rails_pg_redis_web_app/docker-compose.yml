@@ -4,7 +4,25 @@ services:
   web:
     build: ./src
     container_name: 'pet_store'
+    env_file:
+      - ./src/.env/development/database
+      - ./src/.env/development/web
     ports:
       - 3000:9292
     volumes:
       - ./src:/usr/src/app
+
+  redis:
+    image: redis:6.0.9
+    container_name: 'pet_store_redis'
+
+  database:
+    image: postgres:13.1
+    container_name: 'pet_store_db'
+    env_file:
+      - ./src/.env/development/database
+    volumes:
+      - db_data:/var/lib/postgres/data
+
+volumes:
+  db_data:
