@@ -73,6 +73,7 @@ GEM
 
 PLATFORMS
   ruby
+  x86_64-linux
 
 DEPENDENCIES
   contracts
@@ -84,4 +85,4 @@ DEPENDENCIES
   yard-contracts
 
 BUNDLED WITH
-   1.17.2
+   2.2.0
