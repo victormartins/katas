@@ -12,4 +12,4 @@ gem 'rb-readline' # for guard
 gem 'contracts'
 gem 'yard-contracts'
 
-gem "solargraph", "~> 0.40.1"
+gem "solargraph"
