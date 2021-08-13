@@ -55,6 +55,9 @@ GEM
     pry-byebug (3.9.0)
       byebug (~> 11.0)
       pry (~> 0.13.0)
+    pry-doc (1.1.0)
+      pry (~> 0.11)
+      yard (~> 0.9.11)
     psych (3.1.0)
     racc (1.5.2)
     rainbow (3.0.0)
@@ -127,6 +130,7 @@ DEPENDENCIES
   contracts
   guard-rspec
   pry-byebug
+  pry-doc (~> 1.1)
   rb-readline
   reek
   rspec
@@ -134,4 +138,4 @@ DEPENDENCIES
   yard-contracts
 
 BUNDLED WITH
-   2.2.0
+   2.2.12

@@ -13,3 +13,5 @@ gem 'contracts'
 gem 'yard-contracts'
 
 gem "solargraph", "~> 0.40.1"
+
+gem "pry-doc", "~> 1.1"
