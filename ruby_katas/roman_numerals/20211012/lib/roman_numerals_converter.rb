@@ -24,11 +24,15 @@ class RomanNumeralsConverter
   private
 
   def arabic_to_roman(number)
-    if(number.negative?)
-      negative = true
-      number *= -1
-    end
+    return convert_arabic_to_roman(number) unless number.negative?
 
+    number *= -1
+    result = convert_arabic_to_roman(number)
+
+    "-#{result}"
+  end
+
+  def convert_arabic_to_roman(number)
     result = ''
     remainder = number
 
@@ -37,25 +41,22 @@ class RomanNumeralsConverter
       roman = roman_value[0]
       value = roman_value[1]
 
-      puts "roman #{roman}, value #{value}"
-
       remainder -= value
       result << roman
     end
 
-    if(negative)
-      "-#{result}"
-    else
-      result
-    end
+    result
   end
 
   def roman_to_arabic(number)
-    if(number.start_with?('-'))
-      number.sub!('-', '')
-      negative = true
-    end
+    return convert_roman_to_arabic(number) unless number.start_with?('-')
 
+    number.sub!('-', '')
+    result = convert_roman_to_arabic(number)
+    -result
+  end
+
+  def convert_roman_to_arabic(number)
     number.chars.each.with_index.reduce(0) do |total, char_index|
       char = char_index[0]
       index = char_index[1]
@@ -64,18 +65,10 @@ class RomanNumeralsConverter
       value = ROMAN_NUMERALS[char]
       next_value = ROMAN_NUMERALS[next_char]
 
-      puts "value: #{value}, next_char #{next_char}, next_value #{next_value}"
-
       if(next_value && next_value > value)
         total -= value
       else
         total += value
-      end
-
-      if(negative)
-        -total
-      else
-        total
       end
     end
   end
