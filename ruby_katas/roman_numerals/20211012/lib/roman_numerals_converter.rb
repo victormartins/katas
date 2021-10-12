@@ -16,6 +16,62 @@ class RomanNumeralsConverter
   }
 
   def convert(number)
-    raise NotImplementedError, 'Please start here.'
+    if(number.is_a?(Numeric))
+      if(number.negative?)
+        negative = true
+        number *= -1
+      end
+
+      result = ''
+      remainder = number
+
+
+      while(remainder.positive?)
+        roman_value = ROMAN_NUMERALS.find { |r_v| r_v[1] <= remainder }
+        roman = roman_value[0]
+        value = roman_value[1]
+
+        puts "roman #{roman}, value #{value}"
+
+        remainder -= value
+        result << roman
+      end
+
+      if(negative)
+        "-#{result}"
+      else
+        result
+      end
+    else
+      puts "number: #{number}"
+
+      if(number.start_with?('-'))
+        number.sub!('-', '')
+        negative = true
+      end
+
+      number.chars.each.with_index.reduce(0) do |total, char_index|
+        char = char_index[0]
+        index = char_index[1]
+        next_char = number[index + 1]
+
+        value = ROMAN_NUMERALS[char]
+        next_value = ROMAN_NUMERALS[next_char]
+
+        puts "value: #{value}, next_char #{next_char}, next_value #{next_value}"
+
+        if(next_value && next_value > value)
+          total -= value
+        else
+          total += value
+        end
+
+        if(negative)
+          -total
+        else
+          total
+        end
+      end
+    end
   end
 end

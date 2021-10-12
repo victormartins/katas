@@ -16,7 +16,7 @@ Result = -1 + 10 = 9
 
 Arabic to Roman:
 ---------------------------------------------------------------------
-Giving a number, keep reducing to known roman figures and add them
+Giving a number, keep reducing it to roman figures and add them
 to a string variable until the number is zero.
 
 eg: result = ''
