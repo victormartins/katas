@@ -1,9 +1,4 @@
-require 'contracts'
-
 class RomanNumeralsConverter
-  include Contracts::Core
-  include Contracts::Builtin
-
   ROMAN_NUMERALS = {
     'M'  => 1000,
     'CM' => 900,
@@ -21,5 +16,6 @@ class RomanNumeralsConverter
   }
 
   def convert(number)
+    raise NotImplementedError, 'Please start here.'
   end
 end
