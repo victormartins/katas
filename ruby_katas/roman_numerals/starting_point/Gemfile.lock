@@ -131,6 +131,3 @@ DEPENDENCIES
   rspec
   solargraph
   yard-contracts
-
-BUNDLED WITH
-   2.2.12
