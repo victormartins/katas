@@ -16,61 +16,66 @@ class RomanNumeralsConverter
   }
 
   def convert(number)
-    if(number.is_a?(Numeric))
-      if(number.negative?)
-        negative = true
-        number *= -1
-      end
+    return arabic_to_roman(number) if (number.is_a?(Numeric))
 
-      result = ''
-      remainder = number
+    roman_to_arabic(number)
+  end
 
+  private
 
-      while(remainder.positive?)
-        roman_value = ROMAN_NUMERALS.find { |r_v| r_v[1] <= remainder }
-        roman = roman_value[0]
-        value = roman_value[1]
+  def arabic_to_roman(number)
+    if(number.negative?)
+      negative = true
+      number *= -1
+    end
 
-        puts "roman #{roman}, value #{value}"
+    result = ''
+    remainder = number
 
-        remainder -= value
-        result << roman
+    while remainder.positive?
+      roman_value = ROMAN_NUMERALS.find { |r_v| r_v[1] <= remainder }
+      roman = roman_value[0]
+      value = roman_value[1]
+
+      puts "roman #{roman}, value #{value}"
+
+      remainder -= value
+      result << roman
+    end
+
+    if(negative)
+      "-#{result}"
+    else
+      result
+    end
+  end
+
+  def roman_to_arabic(number)
+    if(number.start_with?('-'))
+      number.sub!('-', '')
+      negative = true
+    end
+
+    number.chars.each.with_index.reduce(0) do |total, char_index|
+      char = char_index[0]
+      index = char_index[1]
+      next_char = number[index + 1]
+
+      value = ROMAN_NUMERALS[char]
+      next_value = ROMAN_NUMERALS[next_char]
+
+      puts "value: #{value}, next_char #{next_char}, next_value #{next_value}"
+
+      if(next_value && next_value > value)
+        total -= value
+      else
+        total += value
       end
 
       if(negative)
-        "-#{result}"
+        -total
       else
-        result
-      end
-    else
-      puts "number: #{number}"
-
-      if(number.start_with?('-'))
-        number.sub!('-', '')
-        negative = true
-      end
-
-      number.chars.each.with_index.reduce(0) do |total, char_index|
-        char = char_index[0]
-        index = char_index[1]
-        next_char = number[index + 1]
-
-        value = ROMAN_NUMERALS[char]
-        next_value = ROMAN_NUMERALS[next_char]
-
-        puts "value: #{value}, next_char #{next_char}, next_value #{next_value}"
-
-        if(next_value && next_value > value)
-          total -= value
-        else
-          total += value
-        end
-
-        if(negative)
-          -total
-        else
-          total
-        end
+        total
       end
     end
   end
