@@ -19,6 +19,70 @@ class RomanNumeralsConverter
 
     class Arabic < SimpleDelegator; end
   end
+
+  class ArabicToRoman
+    def call(arabic)
+      return '' if arabic.zero?
+      return convert_positive_arabic_to_roman(arabic) if arabic.positive?
+
+      convert_negative_arabic_to_roman(arabic)
+    end
+
+    def convert_negative_arabic_to_roman(arabic)
+      result = convert_positive_arabic_to_roman(arabic.abs)
+
+      "-#{result}"
+    end
+
+    def convert_positive_arabic_to_roman(arabic)
+      result = ''
+      remainder = arabic
+
+      while remainder.positive?
+        roman_value = ROMAN_NUMERALS.find { |r_v| r_v[1] <= remainder }
+        roman = roman_value[0]
+        value = roman_value[1]
+
+        remainder -= value
+        result << roman
+      end
+
+      result
+    end
+  end
+
+  class RomanToArabic
+    def call(roman)
+      return convert_positive_roman_to_arabic(roman) if roman.positive?
+
+      convert_negative_roman_to_arabic(roman)
+    end
+
+    def convert_negative_roman_to_arabic(roman)
+      result = convert_positive_roman_to_arabic(roman.positive)
+
+      -result
+    end
+
+    def convert_positive_roman_to_arabic(roman)
+      roman.chars.each.with_index.reduce(0) do |total, char_index|
+        char = char_index[0]
+        index = char_index[1]
+        next_char = roman[index + 1]
+
+        value = ROMAN_NUMERALS[char]
+        next_value = ROMAN_NUMERALS[next_char]
+
+        if next_value && next_value > value
+          total -= value
+        else
+          total += value
+        end
+
+        total
+      end
+    end
+  end
 end
 
 class RomanNumeralsConverter
@@ -42,75 +106,13 @@ class RomanNumeralsConverter
     result = Array(number).map do |n|
       input = Input.new.call(n)
 
-      next arabic_to_roman(input) if input.is_a?(Input::Arabic)
+      next ArabicToRoman.new.call(input) if input.is_a?(Input::Arabic)
 
-      roman_to_arabic(input)
+      RomanToArabic.new.call(input)
     end
 
     return result.first if result.count == 1
 
     result
-  end
-
-  private
-
-  def arabic_to_roman(arabic)
-    return '' if arabic.zero?
-    return convert_positive_arabic_to_roman(arabic) if arabic.positive?
-
-    convert_negative_arabic_to_roman(arabic)
-  end
-
-  def convert_negative_arabic_to_roman(arabic)
-    result = convert_positive_arabic_to_roman(arabic.abs)
-
-    "-#{result}"
-  end
-
-  def convert_positive_arabic_to_roman(arabic)
-    result = ''
-    remainder = arabic
-
-    while remainder.positive?
-      roman_value = ROMAN_NUMERALS.find { |r_v| r_v[1] <= remainder }
-      roman = roman_value[0]
-      value = roman_value[1]
-
-      remainder -= value
-      result << roman
-    end
-
-    result
-  end
-
-  def roman_to_arabic(roman)
-    return convert_positive_roman_to_arabic(roman) if roman.positive?
-
-    convert_negative_roman_to_arabic(roman)
-  end
-
-  def convert_negative_roman_to_arabic(roman)
-    result = convert_positive_roman_to_arabic(roman.positive)
-
-    -result
-  end
-
-  def convert_positive_roman_to_arabic(roman)
-    roman.chars.each.with_index.reduce(0) do |total, char_index|
-      char = char_index[0]
-      index = char_index[1]
-      next_char = roman[index + 1]
-
-      value = ROMAN_NUMERALS[char]
-      next_value = ROMAN_NUMERALS[next_char]
-
-      if next_value && next_value > value
-        total -= value
-      else
-        total += value
-      end
-
-      total
-    end
   end
 end
