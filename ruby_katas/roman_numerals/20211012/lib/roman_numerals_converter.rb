@@ -1,3 +1,13 @@
+class String
+  def positive?
+    !start_with?('-')
+  end
+
+  def positive
+    sub('-', '')
+  end
+end
+
 class RomanNumeralsConverter
   ROMAN_NUMERALS = {
     'M'  => 1000,
@@ -16,25 +26,29 @@ class RomanNumeralsConverter
   }
 
   def convert(number)
-    return arabic_to_roman(number) if (number.is_a?(Numeric))
+    return arabic_to_roman(number) if number.is_a?(Numeric)
 
     roman_to_arabic(number)
   end
 
   private
 
-  def arabic_to_roman(number)
-    return convert_arabic_to_roman(number) unless number.negative?
+  def arabic_to_roman(arabic)
+    return '' if arabic.zero?
+    return convert_positive_arabic_to_roman(arabic) if arabic.positive?
 
-    number *= -1
-    result = convert_arabic_to_roman(number)
+    convert_negative_arabic_to_roman(arabic)
+  end
+
+  def convert_negative_arabic_to_roman(arabic)
+    result = convert_positive_arabic_to_roman(arabic.abs)
 
     "-#{result}"
   end
 
-  def convert_arabic_to_roman(number)
+  def convert_positive_arabic_to_roman(arabic)
     result = ''
-    remainder = number
+    remainder = arabic
 
     while remainder.positive?
       roman_value = ROMAN_NUMERALS.find { |r_v| r_v[1] <= remainder }
@@ -48,28 +62,34 @@ class RomanNumeralsConverter
     result
   end
 
-  def roman_to_arabic(number)
-    return convert_roman_to_arabic(number) unless number.start_with?('-')
+  def roman_to_arabic(roman)
+    return convert_positive_roman_to_arabic(roman) if roman.positive?
 
-    number.sub!('-', '')
-    result = convert_roman_to_arabic(number)
+    convert_negative_roman_to_arabic(roman)
+  end
+
+  def convert_negative_roman_to_arabic(roman)
+    result = convert_positive_roman_to_arabic(roman.positive)
+
     -result
   end
 
-  def convert_roman_to_arabic(number)
-    number.chars.each.with_index.reduce(0) do |total, char_index|
+  def convert_positive_roman_to_arabic(roman)
+    roman.chars.each.with_index.reduce(0) do |total, char_index|
       char = char_index[0]
       index = char_index[1]
-      next_char = number[index + 1]
+      next_char = roman[index + 1]
 
       value = ROMAN_NUMERALS[char]
       next_value = ROMAN_NUMERALS[next_char]
 
-      if(next_value && next_value > value)
+      if next_value && next_value > value
         total -= value
       else
         total += value
       end
+
+      total
     end
   end
 end
