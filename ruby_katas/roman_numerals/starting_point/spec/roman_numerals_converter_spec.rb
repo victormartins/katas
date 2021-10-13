@@ -1,6 +1,30 @@
 require_relative './../lib/roman_numerals_converter'
 
 RSpec.describe RomanNumeralsConverter do
+  context 'converting roman to arabic' do
+    it { expect(subject.convert('I')).to eq(1) }
+    it { expect(subject.convert('III')).to eq(3) }
+    it { expect(subject.convert('IV')).to eq(4) }
+    it { expect(subject.convert('V')).to eq(5) }
+    it { expect(subject.convert('VI')).to eq(6) }
+    it { expect(subject.convert('VIII')).to eq(8) }
+    it { expect(subject.convert('IX')).to eq(9) }
+    it { expect(subject.convert('X')).to eq(10) }
+    it { expect(subject.convert('XX')).to eq(20) }
+    it { expect(subject.convert('XL')).to eq(40) }
+    it { expect(subject.convert('L')).to eq(50) }
+    it { expect(subject.convert('XC')).to eq(90) }
+    it { expect(subject.convert('C')).to eq(100) }
+    it { expect(subject.convert('CD')).to eq(400) }
+    it { expect(subject.convert('D')).to eq(500) }
+    it { expect(subject.convert('CM')).to eq(900) }
+    it { expect(subject.convert('M')).to eq(1000) }
+    it { expect(subject.convert('MMXIII')).to eq(2013) }
+    it { expect(subject.convert('MMMCMXCIX')).to eq(3999) }
+    it { expect(subject.convert('')).to eq(0) }
+    it { expect(subject.convert('-I')).to eq(-1) }
+  end
+
   context 'converting arabic to roman' do
     it { expect(subject.convert(1)).to eq('I') }
     it { expect(subject.convert(3)).to eq('III') }
@@ -25,27 +49,14 @@ RSpec.describe RomanNumeralsConverter do
     it { expect(subject.convert(-1)).to eq('-I') }
   end
 
-  context 'converting roman to arabic' do
-    it { expect(subject.convert('I')).to eq(1) }
-    it { expect(subject.convert('III')).to eq(3) }
-    it { expect(subject.convert('IV')).to eq(4) }
-    it { expect(subject.convert('V')).to eq(5) }
-    it { expect(subject.convert('VI')).to eq(6) }
-    it { expect(subject.convert('VIII')).to eq(8) }
-    it { expect(subject.convert('IX')).to eq(9) }
-    it { expect(subject.convert('X')).to eq(10) }
-    it { expect(subject.convert('XX')).to eq(20) }
-    it { expect(subject.convert('XL')).to eq(40) }
-    it { expect(subject.convert('L')).to eq(50) }
-    it { expect(subject.convert('XC')).to eq(90) }
-    it { expect(subject.convert('C')).to eq(100) }
-    it { expect(subject.convert('CD')).to eq(400) }
-    it { expect(subject.convert('D')).to eq(500) }
-    it { expect(subject.convert('CM')).to eq(900) }
-    it { expect(subject.convert('M')).to eq(1000) }
-    it { expect(subject.convert('MMXIII')).to eq(2013) }
-    it { expect(subject.convert('MMMCMXCIX')).to eq(3999) }
-    it { expect(subject.convert('')).to eq(0) }
-    it { expect(subject.convert('-I')).to eq(-1) }
+  context 'validating input' do
+    it 'raises an error if it receives a Symbol' do
+      expect { subject.convert(:III) }.to raise_error('Invalid Input!')
+    end
+  end
+
+  context 'dealing with collections' do
+    it { expect(subject.convert(['XX', 'IV'])).to eq([20, 4]) }
+    it { expect(subject.convert([20, 4])).to eq(['XX', 'IV']) }
   end
 end
