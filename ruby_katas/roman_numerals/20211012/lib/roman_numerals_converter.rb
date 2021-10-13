@@ -1,10 +1,23 @@
-class String
-  def positive?
-    !start_with?('-')
-  end
+class RomanNumeralsConverter
+  class Input
+    def call(number)
+      return Roman.new(number) if number.is_a?(String)
+      return Arabic.new(number) if number.is_a?(Integer)
 
-  def positive
-    sub('-', '')
+      raise 'Invalid Input!'
+    end
+
+    class Roman < SimpleDelegator
+      def positive?
+        !start_with?('-')
+      end
+
+      def positive
+        sub('-', '')
+      end
+    end
+
+    class Arabic < SimpleDelegator; end
   end
 end
 
@@ -26,9 +39,11 @@ class RomanNumeralsConverter
   }
 
   def convert(number)
-    return arabic_to_roman(number) if number.is_a?(Numeric)
+    input = Input.new.call(number)
 
-    roman_to_arabic(number)
+    return arabic_to_roman(input) if input.is_a?(Input::Arabic)
+
+    roman_to_arabic(input)
   end
 
   private

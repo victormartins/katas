@@ -48,4 +48,10 @@ RSpec.describe RomanNumeralsConverter do
     it { expect(subject.convert('')).to eq(0) }
     it { expect(subject.convert('-I')).to eq(-1) }
   end
+
+  context 'validating input' do
+    it 'raises an error if it receives a Symbol' do
+      expect { subject.convert(:III) }.to raise_error('Invalid Input!')
+    end
+  end
 end
