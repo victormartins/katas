@@ -39,11 +39,17 @@ class RomanNumeralsConverter
   }
 
   def convert(number)
-    input = Input.new.call(number)
+    result = Array(number).map do |n|
+      input = Input.new.call(n)
 
-    return arabic_to_roman(input) if input.is_a?(Input::Arabic)
+      next arabic_to_roman(input) if input.is_a?(Input::Arabic)
 
-    roman_to_arabic(input)
+      roman_to_arabic(input)
+    end
+
+    return result.first if result.count == 1
+
+    result
   end
 
   private

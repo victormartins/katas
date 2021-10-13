@@ -54,4 +54,9 @@ RSpec.describe RomanNumeralsConverter do
       expect { subject.convert(:III) }.to raise_error('Invalid Input!')
     end
   end
+
+  context 'dealing with collections' do
+    it { expect(subject.convert(['XX', 'IV'])).to eq([20, 4]) }
+    it { expect(subject.convert([20, 4])).to eq(['XX', 'IV']) }
+  end
 end
