@@ -51,7 +51,7 @@ RSpec.describe RomanNumeralsConverter do
 
   context 'validating input' do
     it 'raises an error if it receives a Symbol' do
-      expect { subject.convert(:III) }.to raise_error('Invalid Input!')
+      expect { subject.convert(:III) }.to raise_error(/Invalid Input!/)
     end
   end
 
