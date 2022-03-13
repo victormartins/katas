@@ -56,7 +56,7 @@ RSpec.describe RomanNumeralsConverter do
   end
 
   context 'dealing with collections' do
-    it { expect(subject.convert(['XX', 'IV'])).to eq([20, 4]) }
-    it { expect(subject.convert([20, 4])).to eq(['XX', 'IV']) }
+    it { expect(subject.convert(%w[XX IV])).to eq([20, 4]) }
+    it { expect(subject.convert([20, 4])).to eq(%w[XX IV]) }
   end
 end

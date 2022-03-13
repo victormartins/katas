@@ -1,4 +1,4 @@
-AallCops:
+AllCops:
   NewCops: enable
 
 Layout/HashAlignment:
@@ -17,10 +17,6 @@ Style/StringLiterals:
 
 Style/Documentation:
   Enabled: false
-
-Style/EmptyMethod:
-  Exclude:
-    - 'lib/underground_system.rb'
 
 Style/FrozenStringLiteralComment:
   Exclude:

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RomanNumeralsConverter
   ROMAN_NUMERALS = {
     'M'  => 1000,
@@ -13,9 +15,9 @@ class RomanNumeralsConverter
     'V'  => 5,
     'IV' => 4,
     'I'  => 1
-  }
+  }.freeze
 
-  def convert(number)
+  def convert(_number)
     raise NotImplementedError, 'Please start here.'
   end
 end
