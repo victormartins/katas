@@ -1,0 +1,29 @@
+AllCops:
+  NewCops: enable
+
+Layout/HashAlignment:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 50
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Style/StringLiterals:
+  Exclude:
+    - 'Gemfile'
+
+Style/Documentation:
+  Enabled: false
+
+Style/EmptyMethod:
+  Exclude:
+    - 'lib/underground_system.rb'
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'Gemfile'
+    - 'Guardfile'
+    - 'spec/**/*.rb'

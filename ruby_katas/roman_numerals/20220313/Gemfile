@@ -9,3 +9,5 @@ gem 'pry-byebug'
 gem 'reek'
 gem 'guard-rspec', require: false
 gem 'rb-readline' # for guard
+
+gem "rubocop", "~> 1.24"
