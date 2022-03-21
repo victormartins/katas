@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'pry'
+
 class RomanNumeralsConverter
   ROMAN_NUMERALS = {
     'M'  => 1000,
@@ -17,7 +19,88 @@ class RomanNumeralsConverter
     'I'  => 1
   }.freeze
 
-  def convert(_number)
-    raise NotImplementedError, 'Please start here.'
+  def initialize
+    @roman_to_arabic = RomanToArabic.new(ROMAN_NUMERALS)
+    @arabic_to_roman = ArabicToRoman.new(ROMAN_NUMERALS)
+  end
+
+  def convert(input)
+    puts "Converting: #{input}"
+
+    return input.map { |i| do_conversion(i) } if input.is_a?(Array)
+    do_conversion(input)
+  end
+
+  private
+
+  attr_reader :roman_to_arabic, :arabic_to_roman
+
+  def do_conversion(input)
+    raise("Invalid Input! #{input}") unless input.is_a?(String) || input.is_a?(Integer)
+
+    return roman_to_arabic.call(input) if input.is_a?(String)
+
+    arabic_to_roman.call(input)
+  end
+end
+
+class RomanToArabic
+  def initialize(roman_numerals)
+    @roman_numerals = roman_numerals
+  end
+
+  def call(roman)
+    return convert_positive_roman(roman) unless roman.start_with?('-')
+
+    -convert_positive_roman(roman.sub('-', ''))
+  end
+
+  private
+
+  def convert_positive_roman(roman)
+    roman.chars.each.with_index.reduce(0) do |result, char_index|
+      char = char_index.first
+      index = char_index.last
+      value = @roman_numerals[char]
+      next_value = @roman_numerals[roman[index + 1]]
+
+      if(next_value && next_value > value)
+        result -= value
+      else
+        result += value
+      end
+
+      result
+    end
+  end
+end
+
+class ArabicToRoman
+  def initialize(roman_numerals)
+    @roman_numerals = roman_numerals
+  end
+
+  def call(arabic)
+    return convert_positive_arabic(arabic) unless arabic.negative?
+
+    "-#{convert_positive_arabic(-arabic)}"
+  end
+
+  private
+
+  def convert_positive_arabic(arabic)
+    remainder = arabic
+    result = ''
+
+    while(remainder.positive?)
+      roman_value = @roman_numerals.find { |_roman, value| value <= remainder }
+      roman = roman_value.first
+      value = roman_value.last
+
+      result += roman
+      remainder -= value
+    end
+
+    result
   end
 end
