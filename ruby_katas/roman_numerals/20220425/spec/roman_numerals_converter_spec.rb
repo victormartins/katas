@@ -35,6 +35,7 @@ RSpec.describe RomanNumeralsConverter do
     it('converting 9')    { expect(subject.convert(9)).to eq('IX') }
     it('converting 10')   { expect(subject.convert(10)).to eq('X') }
     it('converting 20')   { expect(subject.convert(20)).to eq('XX') }
+    it('converting 23')   { expect(subject.convert(23)).to eq('XXIII') }
     it('converting 40')   { expect(subject.convert(40)).to eq('XL') }
     it('converting 50')   { expect(subject.convert(50)).to eq('L') }
     it('converting 90')   { expect(subject.convert(90)).to eq('XC') }
